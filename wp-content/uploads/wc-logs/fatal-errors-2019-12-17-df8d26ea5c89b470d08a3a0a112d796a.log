@@ -1,0 +1,24 @@
+2019-12-17T02:19:38+00:00 CRITICAL syntax error, unexpected '<', expecting end of file у /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/footer.php доступно 79
+
+2019-12-17T02:19:39+00:00 CRITICAL syntax error, unexpected '<', expecting end of file у /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/footer.php доступно 79
+
+2019-12-17T02:34:21+00:00 CRITICAL syntax error, unexpected '<', expecting end of file у /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/footer.php доступно 59
+
+2019-12-17T02:34:22+00:00 CRITICAL syntax error, unexpected '<', expecting end of file у /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/footer.php доступно 59
+
+2019-12-17T02:34:51+00:00 CRITICAL syntax error, unexpected '<', expecting end of file у /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/footer.php доступно 59
+
+2019-12-17T02:51:12+00:00 CRITICAL syntax error, unexpected 'endif' (T_ENDIF) у /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/single.php доступно 90
+
+2019-12-17T03:07:46+00:00 CRITICAL syntax error, unexpected 'pll_e' (T_STRING), expecting ')' у /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/single.php доступно 25
+
+2019-12-17T03:08:01+00:00 CRITICAL syntax error, unexpected 'echo' (T_ECHO) у /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/single.php доступно 25
+
+2019-12-17T03:37:25+00:00 CRITICAL Uncaught Error: Call to undefined function get_prev_post() in /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/single.php:70
+Stack trace:
+#0 /home/rollo/rollo.lviv.ua/dev/wp-includes/template-loader.php(98): include()
+#1 /home/rollo/rollo.lviv.ua/dev/wp-blog-header.php(19): require_once('/home/rollo/rol...')
+#2 /home/rollo/rollo.lviv.ua/dev/index.php(17): require('/home/rollo/rol...')
+#3 {main}
+  thrown у /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/single.php доступно 70
+
