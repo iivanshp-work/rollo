@@ -113,7 +113,7 @@ function rollo_widgets_init() {
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
     ) );
-    
+
     register_sidebar( array(
         'name' => __( 'Сортування', '' ),
         'id' => 'prod-sort',
@@ -123,7 +123,7 @@ function rollo_widgets_init() {
         'before_title' => '',
         'after_title' => '',
     ) );
-   
+
     register_sidebar( array(
         'name' => __( 'Фільтр ТИП', '' ),
         'id' => 'prod-filtr-1',
@@ -133,7 +133,7 @@ function rollo_widgets_init() {
 		'before_title'  => '',
 		'after_title'   => '',
     ) );
-	
+
 	register_sidebar( array(
         'name' => __( 'Фільтр Колір', '' ),
         'id' => 'prod-filtr-color',
@@ -143,8 +143,8 @@ function rollo_widgets_init() {
 		'before_title'  => '',
 		'after_title'   => '',
     ) );
-	
-	
+
+
 	register_sidebar( array(
         'name' => __( 'Фільтр затемнення', '' ),
         'id' => 'prod-filtr-temno',
@@ -154,7 +154,7 @@ function rollo_widgets_init() {
 		'before_title'  => '',
 		'after_title'   => '',
     ) );
-	
+
 	register_sidebar( array(
         'name' => __( 'Фільтр фактура', '' ),
         'id' => 'prod-filtr-faktura',
@@ -164,7 +164,7 @@ function rollo_widgets_init() {
 		'before_title'  => '',
 		'after_title'   => '',
     ) );
-	
+
 	register_sidebar( array(
         'name' => __( 'Фільтр малюнок', '' ),
         'id' => 'prod-filtr-mal',
@@ -174,7 +174,7 @@ function rollo_widgets_init() {
 		'before_title'  => '',
 		'after_title'   => '',
     ) );
-	
+
 	register_sidebar( array(
         'name' => __( 'Фільтр виробник', '' ),
         'id' => 'prod-filtr-vyr',
@@ -196,11 +196,12 @@ function rollo_scripts() {
     wp_enqueue_style('rollo-style-bootstrap-grid.min', get_template_directory_uri() . '/assets/css/bootstrap-grid.min.css');
     wp_enqueue_style('rollo-style-jquery.formstyler', get_template_directory_uri() . '/assets/css/jquery.formstyler.css');
     wp_enqueue_style('rollo-style-jquery.formstyler.theme', get_template_directory_uri() . '/assets/css/jquery.formstyler.theme.css');
+    wp_enqueue_style('rollo-style-rangeslider', get_template_directory_uri() . '/assets/css/rangeslider.css');
     wp_enqueue_style('rollo-style-common', get_template_directory_uri() . '/assets/css/common.css');
     wp_enqueue_style('rollo-style-responsive', get_template_directory_uri() . '/assets/css/responsive.css');
     wp_enqueue_style('rollo-style-font', "https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&display=swap&subset=cyrillic");
 
-	
+
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
@@ -336,13 +337,13 @@ class Kama_Breadcrumbs {
                 'sep_after'  => '</span>', // закрываем span после разделителя!
             );
             // schema.org
-            elseif( $mark === 'schema.org' ) 
+            elseif( $mark === 'schema.org' )
 				{$mark = array(
                 'wrappatt'   => '%s',
                 'linkpatt'   => '<li><a href="%s" itemprop="item"><span itemprop="name">%s</span><meta itemprop="position" content="$d"></a></li>',
                 'sep_after'  => '',
             );
-				
+
 				 }
 
             elseif( ! is_array($mark) )
@@ -571,14 +572,14 @@ class Kama_Breadcrumbs {
         $out = sprintf( $wrappatt, $before_out . $out );
 
 		 $count_link = count(explode('$d',$out));
-            
+
             $iii= 1;
             foreach (explode('$d',$out) as $value) {
               $replace_out .= $value.$iii++;
-              
+
             }
              $out =  substr($replace_out, 0, -1);
-		
+
         return apply_filters('kama_breadcrumbs', $out, $sep, $loc, $arg );
     }
 
@@ -658,71 +659,159 @@ function test($var = null, $exit = 1)
     return true;
 }
 
+function custom_find_matching_product_variation( $product, $match_attributes = array() ) {
+    global $wpdb;
+
+    $meta_attribute_names = array();
+
+    // Get attributes to match in meta.
+    foreach ( $product->get_attributes() as $attribute ) {
+        if ( ! $attribute->get_variation() ) {
+            continue;
+        }
+        $meta_attribute_names[] = 'attribute_' . sanitize_title( $attribute->get_name() );
+    }
+    // Get the attributes of the variations.
+    $query = $wpdb->prepare(
+        "
+			SELECT postmeta.post_id, postmeta.meta_key, postmeta.meta_value, posts.menu_order FROM {$wpdb->postmeta} as postmeta
+			LEFT JOIN {$wpdb->posts} as posts ON postmeta.post_id=posts.ID
+			WHERE postmeta.post_id IN (
+				SELECT ID FROM {$wpdb->posts}
+				WHERE {$wpdb->posts}.post_parent = %d
+				AND {$wpdb->posts}.post_status = 'publish'
+				AND {$wpdb->posts}.post_type = 'product_variation'
+			)
+			",
+        $product->get_id()
+    );
+
+
+    $query .= ' AND postmeta.meta_key IN ( "' . implode( '","', array_map( 'esc_sql', $meta_attribute_names ) ) . '" )';
+
+    $query.=' ORDER BY posts.menu_order ASC, postmeta.post_id ASC;';
+
+    $attributes = $wpdb->get_results( $query ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+    if ( ! $attributes ) {
+        return 0;
+    }
+
+    $sorted_meta = array();
+
+    foreach ( $attributes as $m ) {
+        $sorted_meta[ $m->post_id ][ $m->meta_key ] = $m->meta_value; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+    }
+
+
+    /**
+     * Check each variation to find the one that matches the $match_attributes.
+     *
+     * Note: Not all meta fields will be set which is why we check existance.
+     */
+    foreach ( $sorted_meta as $variation_id => $variation ) {
+        $match = false;
+
+        // Loop over the variation meta keys and values i.e. what is saved to the products. Note: $attribute_value is empty when 'any' is in use.
+        foreach ( $variation as $attribute_key => $attribute_value ) {
+            if ( array_key_exists( $attribute_key, $match_attributes ) && $match_attributes[ $attribute_key ] == $attribute_value ) {
+                $match = true; // match
+            }
+        }
+
+        if ( true === $match ) {
+            return $variation_id;
+        }
+    }
+
+    return 0;
+}
+
 function recalculate_product_price() {
-    test($_REQUEST);
-    $product_id = $_POST['product_id'];
+    $hasError = false;
+    $errorMessage = '';
+    $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : 0;
+    $product_attributes = isset($_POST['product_attribute']) ? $_POST['product_attribute'] : [];
     $attributes = [];
 
-    foreach($_POST['data'] as $key => $d) {
-        $attributes['attribute_'.$key] = $d;
-    }
+    if ($product_id) {
+        if (isset($product_attributes['pa_kolory-modeli'])) {
+            $attributes['attribute_pa_kolory-modeli'] = $product_attributes['pa_kolory-modeli'];
+        }
+        /*$var =  (new \WC_Product_Data_Store_CPT())->find_matching_product_variation( new \WC_Product($product_id), $attributes);*/
+        $var = custom_find_matching_product_variation(new \WC_Product($product_id), $attributes);
 
-    /*$var =  (new \WC_Product_Data_Store_CPT())->find_matching_product_variation(
-        new \WC_Product($product_id),
-        $attributes
-    );*/
-    $var = custom_find_matching_product_variation(new \WC_Product($product_id), $attributes);
-
-    if ($var) {
-        //if exist variant used it
-        $variant = wc_get_product($var);
-    }else {
-        //if not exist variant then used original troduct
-        $variant = wc_get_product($product_id);
-    }
-    $attrInfo = '';
-    $title = $variant->get_name();
-    $attributes = $variant->get_attributes();
-    if (!empty($attributes)) {
         if ($var) {
-            $parentProduct = wc_get_product($product_id);
-            $parentAttributes = $parentProduct->get_attributes();
-            if (!empty($parentAttributes)) {
-                foreach($parentAttributes as $parentKey => $parentAttribute) {
-                    if (!array_key_exists($parentKey, $attributes)) {
-                        unset($parentAttributes[$parentKey]);
-                        continue;
-                    }
-                    $term_obj = get_term_by( 'slug', $attributes[$parentKey], $parentKey);
-                    if ($term_obj) {
-                        $parentAttributes[$parentKey]->set_options([$term_obj->term_id]);
-                    }
+            //if exist variant used it
+            $variant = wc_get_product($var);
+            $product = wc_get_product($product_id);
+        } else {
+            //if not exist variant then used original troduct
+            $variant = wc_get_product($product_id);
+            $product = wc_get_product($product_id);
+        }
+        $title = $variant->get_name();
+        $basePrice = $variant->get_price();
+        $sizesData = [
+            'not_standard_sizes' => get_field('not_standard_sizes', $product->get_id()),
+        ];
+        $price = calculatePrice($basePrice, $product_attributes);
 
-                }
-            }
-            $attributes = $parentAttributes;
-        }
-        foreach($attributes as $attrKey => $att) {
-            if($att['name'] != 'pa_height') {
-                $attrInfo .= '<p class="diameter">';
-                $attrInfo .= '<span>' . getAtttibuteImage($att) . '</span>';
-                $attrInfo .= wc_attribute_label($att['name']) . ': ' . $variant->get_attribute($att['name']);
-                $attrInfo .= '</p>';
-            }
-        }
-        /*$title .= '<span class="height_put">' . $variant->get_attribute('pa_height') . '</span>';*/
+    } else {
+        echo json_encode([
+            'has_error' => $hasError,
+            'error_message' => $errorMessage
+        ]);
+        wp_die();
     }
     echo json_encode([
-        'price' => $variant->get_price() . ' ' . get_woocommerce_currency(),
+        'price' => wc_price($price),
         'product_id' => $variant->get_id(),
-        'attr_info' => $attrInfo,
         'title' => $title
     ]);
-
     wp_die();
 }
 
 add_action('wp_ajax_recalculate_price', 'recalculate_product_price');
 add_action('wp_ajax_nopriv_recalculate_price', 'recalculate_product_price');
+
+
+function calculatePrice($basePrice = 0, $attributes = []) {
+    $price = $basePrice;
+    $additinalPriceAttributes = ['pa_kolory-systemy'];
+    foreach($additinalPriceAttributes as $additinalPriceAttribute) {
+        if (isset($attributes[$additinalPriceAttribute])) {
+            $term_obj = get_term_by('slug', $attributes[$additinalPriceAttribute], $additinalPriceAttribute);
+            $additinalPrice = get_field('additinal_price', $term_obj);
+            $additinalPrice = $additinalPrice ? $additinalPrice : 0;
+            $price += $additinalPrice;
+        }
+    }
+    $width = isset($attributes['width']) ? $attributes['width'] : 0;
+    $height = isset($attributes['height']) ? $attributes['height'] : 0;
+    if ($width && $height) {
+        $price = calculatePriceFunction($price, $width, $height);
+    }
+    return $price;
+}
+
+function calculatePriceFunction($price, $width, $height) {
+    if ($height > 2500) {
+        $price = $price + (0.8 * $price);
+    } else if ($height > 2300  && $height <= 2500) {
+        $price = $price + (0.6 * $price);
+    } else if ($height > 1750  && $height <= 2300) {
+        $price = $price + (0.4 * $price);
+    }
+
+    if ($width > 1800) {
+        $price += 250;
+    } else if ($width > 1300  && $height <= 1800) {
+        $price += 150;
+    } else {
+        $price += 75;
+    }
+    return $price;
+}
 
 /* CHANGES RELATED TO WC PRODUCTS END */

@@ -52,7 +52,7 @@ get_header( '' ); ?>
 						</div>
 					</div>
 					<div class="col-lg-6 offset-lg-1">
-                        <form id="product_form">
+                        <form id="product_form" class="post-<?php echo $product->get_id(); ?>">
                             <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
                             <div class="product-topsect__descr">
                                 <p class="page-linetitle"><?php echo $product->get_name(); ?></p>
@@ -77,7 +77,7 @@ get_header( '' ); ?>
                                         <div class="colors-slider">
                                             <?php foreach($availableColors as $availableColor): ?>
                                                 <div>
-                                                    <div class="colorbox" data-pa-type="pa_kolory-modeli" data-id="<?php echo $availableColor->term_id; ?>" title="<?php echo $availableColor->name; ?>">
+                                                    <div class="colorbox" data-pa-type="pa_kolory-modeli" data-id="<?php echo $availableColor->slug; ?>" title="<?php echo $availableColor->name; ?>">
                                                         <span style="background-color: <?php echo $availableColor->color ? $availableColor->color : '#fff'; ?>;"></span>
                                                     </div>
                                                 </div>
@@ -129,7 +129,7 @@ get_header( '' ); ?>
                                         </div>
                                     </div>
                                     <?php
-                                        $standardSizes = get_field('standard_sizes', $product->ID);
+                                        $standardSizes = get_field('standard_sizes', $product->get_id());
                                     ?>
                                     <?php if (!empty($standardSizes)): ?>
                                         <div class="settblock">
@@ -141,7 +141,7 @@ get_header( '' ); ?>
                                                 <div class="sizelist__box">
                                                     <?php foreach ($standardSizes as $standardSize): ?>
                                                         <?php if (isset($standardSize['width']) && isset($standardSize['height']) && $standardSize['width'] && $standardSize['height']): ?>
-                                                            <div class="sizelist__row">
+                                                            <div class="sizelist__row" data-product-standard-sizes="" data-width="<?php echo $standardSize['width']; ?>" data-height="<?php echo $standardSize['height']; ?>">
                                                                 <span><?php echo $standardSize['width']; ?> мм</span>
                                                                 <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/x.svg" alt="x">
                                                                 <span><?php echo $standardSize['height']; ?> мм</span>
@@ -183,7 +183,7 @@ get_header( '' ); ?>
                                             <div class="left-right">
                                                 <input class="" data-product_attribute="pa_storona-upravlinnya" type="hidden" name="product_attribute[pa_storona-upravlinnya]" value="">
                                                 <?php foreach($availableManSides as $availableManSide): ?>
-                                                    <span data-pa-type="pa_storona-upravlinnya" data-id="<?php echo $availableManSide->term_id; ?>" title="<?php echo $availableManSide->name; ?>" <?php if(!isset($manSideActive)): $manSideActive= 1?>class="active"<?php endif;?>><?php echo $availableManSide->name; ?></span>
+                                                    <span data-pa-type="pa_storona-upravlinnya" data-id="<?php echo $availableManSide->slug; ?>" title="<?php echo $availableManSide->name; ?>" <?php if(!isset($manSideActive)): $manSideActive= 1?>class="active"<?php endif;?>><?php echo $availableManSide->name; ?></span>
                                                 <?php endforeach; ?>
                                             </div>
                                         </div>
@@ -194,7 +194,7 @@ get_header( '' ); ?>
                                             <div class="systems-color">
                                                 <input class="recalculate_price" data-product_attribute="pa_kolory-systemy" type="hidden" name="product_attribute[pa_kolory-systemy]" value="">
                                                 <?php foreach($availableSysColors as $availableSysColor): ?>
-                                                    <div data-pa-type="pa_kolory-systemy" data-id="<?php echo $availableSysColor->term_id; ?>" title="<?php echo $availableSysColor->name; ?>" <?php if(!isset($sysColorActive)): $sysColorActive= 1?>class="active"<?php endif;?>>
+                                                    <div data-pa-type="pa_kolory-systemy" data-id="<?php echo $availableSysColor->slug; ?>" title="<?php echo $availableSysColor->name; ?>" <?php if(!isset($sysColorActive)): $sysColorActive= 1?>class="active"<?php endif;?>>
                                                         <span style="background-color: <?php echo $availableSysColor->color ? $availableSysColor->color : '#fff'; ?>;"></span>
                                                     </div>
                                                 <?php endforeach; ?>
@@ -205,9 +205,10 @@ get_header( '' ); ?>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
 
                                     <span class="prwhitebtn">
-                                        <span><img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shape-size-interface-symbol.svg" alt="icon">Інший
-                                            розмір
-                                            вікон</span>
+                                        <span>
+                                          <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shape-size-interface-symbol.svg" alt="icon">
+                                          Інший розмір вікон
+                                        </span>
                                     </span>
 
                                 </div>

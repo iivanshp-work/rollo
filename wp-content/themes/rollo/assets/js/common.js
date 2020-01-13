@@ -284,6 +284,11 @@ $(document).ready(function () {
         $('.newswidth text').html(widthrange);
         $('.newsheight text').html(heighthrange);
 
+        if ($('[data-product_attribute="width"]').length) {
+            $('[data-product_attribute="width"]').val(widthrange);
+            $('[data-product_attribute="height"]').val(heighthrange);
+        }
+
         $('.sizelist').addClass('littheight');
         $(".settblock.new-size, .sizelist__boxnew .sizelist__row").show();
     });
