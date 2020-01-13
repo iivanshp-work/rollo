@@ -94,6 +94,7 @@
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/rangeslider.min.js"></script>
 
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/common.js"></script>
+<script src="<? echo get_template_directory_uri() . '/assets/' ?>js/custom.js"></script>
 
 <script>
 	$('li.woocommerce-MyAccount-navigation-link.is-active').addClass('active');

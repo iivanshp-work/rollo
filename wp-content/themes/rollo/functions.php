@@ -642,3 +642,87 @@ add_action('admin_enqueue_scripts', 'my_admin_css', 99);
 function my_admin_css(){
 	wp_enqueue_style('my-wp-admin', get_template_directory_uri() .'/wp-admin.css' );
 }
+
+
+
+/* CHANGES RELATED TO WC PRODUCTS START */
+
+function test($var = null, $exit = 1)
+{
+    echo "<pre>";
+    print_r($var);
+    echo "</pre>";
+    if ($exit) {
+        exit;
+    }
+    return true;
+}
+
+function recalculate_product_price() {
+    test($_REQUEST);
+    $product_id = $_POST['product_id'];
+    $attributes = [];
+
+    foreach($_POST['data'] as $key => $d) {
+        $attributes['attribute_'.$key] = $d;
+    }
+
+    /*$var =  (new \WC_Product_Data_Store_CPT())->find_matching_product_variation(
+        new \WC_Product($product_id),
+        $attributes
+    );*/
+    $var = custom_find_matching_product_variation(new \WC_Product($product_id), $attributes);
+
+    if ($var) {
+        //if exist variant used it
+        $variant = wc_get_product($var);
+    }else {
+        //if not exist variant then used original troduct
+        $variant = wc_get_product($product_id);
+    }
+    $attrInfo = '';
+    $title = $variant->get_name();
+    $attributes = $variant->get_attributes();
+    if (!empty($attributes)) {
+        if ($var) {
+            $parentProduct = wc_get_product($product_id);
+            $parentAttributes = $parentProduct->get_attributes();
+            if (!empty($parentAttributes)) {
+                foreach($parentAttributes as $parentKey => $parentAttribute) {
+                    if (!array_key_exists($parentKey, $attributes)) {
+                        unset($parentAttributes[$parentKey]);
+                        continue;
+                    }
+                    $term_obj = get_term_by( 'slug', $attributes[$parentKey], $parentKey);
+                    if ($term_obj) {
+                        $parentAttributes[$parentKey]->set_options([$term_obj->term_id]);
+                    }
+
+                }
+            }
+            $attributes = $parentAttributes;
+        }
+        foreach($attributes as $attrKey => $att) {
+            if($att['name'] != 'pa_height') {
+                $attrInfo .= '<p class="diameter">';
+                $attrInfo .= '<span>' . getAtttibuteImage($att) . '</span>';
+                $attrInfo .= wc_attribute_label($att['name']) . ': ' . $variant->get_attribute($att['name']);
+                $attrInfo .= '</p>';
+            }
+        }
+        /*$title .= '<span class="height_put">' . $variant->get_attribute('pa_height') . '</span>';*/
+    }
+    echo json_encode([
+        'price' => $variant->get_price() . ' ' . get_woocommerce_currency(),
+        'product_id' => $variant->get_id(),
+        'attr_info' => $attrInfo,
+        'title' => $title
+    ]);
+
+    wp_die();
+}
+
+add_action('wp_ajax_recalculate_price', 'recalculate_product_price');
+add_action('wp_ajax_nopriv_recalculate_price', 'recalculate_product_price');
+
+/* CHANGES RELATED TO WC PRODUCTS END */

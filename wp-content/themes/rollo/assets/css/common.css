@@ -3372,7 +3372,8 @@ footer.footer .footfig {
     -o-transition: .3s;
 }
 
-.colors-slider .colorbox:hover {
+.colors-slider .colorbox:hover,
+.colors-slider .colorbox.active {
     border: 1px solid #ACBBB6;
 }
 
