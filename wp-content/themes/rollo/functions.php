@@ -758,12 +758,13 @@ function recalculate_product_price() {
 
     } else {
         echo json_encode([
-            'has_error' => $hasError,
-            'error_message' => $errorMessage
+            'has_error' => true,
+            'error_message' => 'Сталась помилка. Продукт не знайдено.'
         ]);
         wp_die();
     }
     echo json_encode([
+        'has_error' => false,
         'price' => wc_price($price),
         'product_id' => $variant->get_id(),
         'title' => $title
@@ -812,5 +813,165 @@ function calculatePriceFunction($price, $width, $height) {
     }
     return $price;
 }
+
+function product_review() {
+    $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : 0;
+    $name = isset($_POST['name']) ? trim($_POST['name']) : '';
+    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+    $comment = isset($_POST['comment']) ? trim($_POST['comment']) : '';
+    $hasError = false;
+    $errorMessage = '';
+
+    if ($product_id) {
+        if (!$name) {
+            $hasError = true;
+            $errorMessage .= 'Ім\'я не задано.<br>';
+        }
+        if (!$email) {
+            $hasError = true;
+            $errorMessage .= 'Email не задано.<br>';
+        }
+        if (!$comment) {
+            $hasError = true;
+            $errorMessage .= 'Відгук не задано.<br>';
+        }
+        if (!$hasError) {
+            //save comment
+            $comment_id = wp_insert_comment( array(
+                'comment_post_ID'      => $product_id, // <=== The product ID where the review will show up
+                'comment_author'       => $name,
+                'comment_author_email' => $email, // <== Important
+                'comment_author_url'   => '',
+                'comment_content'      => $comment,
+                'comment_type'         => '',
+                'comment_parent'       => 0,
+                'user_id'              => 0, // <== Important
+                'comment_author_IP'    => $_SERVER["REMOTE_ADDR"],
+                'comment_agent'        => '',
+                'comment_date'         => date('Y-m-d H:i:s'),
+                'comment_approved'     => 0,
+            ) );
+            if ($comment_id) {
+                $errorMessage = 'Дякуємо за Ваш відгук.';
+                update_comment_meta( $comment_id, 'rating', 5 );
+            } else {
+                $hasError = true;
+                $errorMessage = 'Сталась помилка, спробуйте пізніше.';
+            }
+        }
+    } else {
+        $hasError = true;
+        $errorMessage .= 'Сталась помилка. Продукт не знайдено.<br>';
+    }
+
+    echo json_encode([
+        'has_error' => $hasError,
+        'message' => $errorMessage,
+    ]);
+    wp_die();
+}
+
+add_action('wp_ajax_product_review', 'product_review');
+add_action('wp_ajax_nopriv_product_review', 'product_review');
+
+
+function ajax_add_to_cart() {
+    $hasError = false;
+    $errorMessage = '';
+    $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : 0;
+    $product_attributes = isset($_POST['product_attribute']) ? $_POST['product_attribute'] : [];
+    $attributes = [];
+    if ($product_id) {
+        if (isset($product_attributes['pa_kolory-modeli'])) {
+            $attributes['attribute_pa_kolory-modeli'] = $product_attributes['pa_kolory-modeli'];
+        }
+        /*$var =  (new \WC_Product_Data_Store_CPT())->find_matching_product_variation( new \WC_Product($product_id), $attributes);*/
+        $variation_id = custom_find_matching_product_variation(new \WC_Product($product_id), $attributes);
+        if ($variation_id) {
+            //if exist variant used it
+            $variant = wc_get_product($variation_id);
+            $product = wc_get_product($product_id);
+        } else {
+            //if not exist variant then used original troduct
+            $variant = wc_get_product($product_id);
+            $product = wc_get_product($product_id);
+        }
+        $basePrice = $variant->get_price();
+        $price = calculatePrice($basePrice, $product_attributes);
+
+    } else {
+        echo json_encode([
+            'has_error' => true,
+            'error_message' => 'Сталась помилка. Продукт не знайдено.'
+        ]);
+        wp_die();
+    }
+    /*echo json_encode([
+        'has_error' => false,
+        'price' => wc_price($price),
+        'product_id' => $variant->get_id(),
+    ]);
+    wp_die();*/
+
+
+    //$product_id = apply_filters('woocommerce_add_to_cart_product_id', absint($_POST['product_id']));
+    //$variation_id = absint($_POST['variation_id']);
+
+    $quantity = empty($_POST['quantity']) ? 1 : wc_stock_amount($_POST['quantity']);
+    $passed_validation = apply_filters('woocommerce_add_to_cart_validation', true, $product_id, $quantity);
+    $product_status = get_post_status($product_id);
+    //test([$product_id, $variation_id, $quantity, $passed_validation, $product_status]);
+
+    //there will be attributes
+    $cart_item_data = [
+        'test_data' => 'asdasdasd',
+        'test_data2' => 'asdasdasd2',
+    ];
+
+    //test(wc_get_checkout_url());
+    //wp_safe_redirect( wc_get_checkout_url() );
+    //exit();
+
+    $variation = wc_get_product_variation_attributes( $variation_id );
+    if ($passed_validation && WC()->cart->add_to_cart($product_id, $quantity, $variation_id, $variation, $cart_item_data) && 'publish' === $product_status) {
+        test(WC()->cart->get_cart());
+        do_action('woocommerce_ajax_added_to_cart', $product_id);
+
+        if ('yes' === get_option('woocommerce_cart_redirect_after_add')) {
+            wc_add_to_cart_message(array($product_id => $quantity), true);
+        }
+
+        WC_AJAX::get_refreshed_fragments();
+    } else {
+
+        $data = array(
+            'error' => true,
+            'product_url' => apply_filters('woocommerce_cart_redirect_after_error', get_permalink($product_id), $product_id));
+
+        echo wp_send_json($data);
+    }
+
+    wp_die();
+
+
+
+
+}
+
+add_action('wp_ajax_ajax_add_to_cart', 'ajax_add_to_cart');
+add_action('wp_ajax_nopriv_ajax_add_to_cart', 'ajax_add_to_cart');
+
+function cfwc_add_custom_field_item_data( $cart_item_data, $product_id, $variation_id, $quantity ) {
+    /*test([$cart_item_data, $product_id, $variation_id, $quantity]);
+    if( ! empty( $_POST['cfwc-title-field'] ) ) {
+        // Add the item data
+        $cart_item_data['title_field'] = $_POST['cfwc-title-field'];
+        $product = wc_get_product( $product_id ); // Expanded function
+        $price = $product->get_price(); // Expanded function
+        $cart_item_data['total_price'] = $price + 100; // Expanded function
+    }*/
+    return $cart_item_data;
+}
+add_filter( 'woocommerce_add_cart_item_data', 'cfwc_add_custom_field_item_data', 10, 4 );
 
 /* CHANGES RELATED TO WC PRODUCTS END */

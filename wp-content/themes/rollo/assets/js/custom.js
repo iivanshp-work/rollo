@@ -7,8 +7,6 @@ $(document).ready(function () {
         $('[data-product_attribute="' + type + '"]').val(id).trigger('change');
     });
 
-
-
     $(document).on('change', '[data-product-color-popup]', function(e){
         $('[data-product_attribute="pa_kolory-modeli"]').val($(this).val()).trigger('change');
     });
@@ -34,12 +32,13 @@ $(document).ready(function () {
     });
 
     $(document).on('submit', '#product-review-form', function(e){
-        let frm = $('#product_form');
+        e.preventDefault();
+        let frm = $('#product-review-form');
         let wrapper = frm;
 
         //if (wrapper.data("busy")) return;
         wrapper.data("busy", true);
-        //https://stackoverflow.com/questions/52122275/add-a-product-review-with-ratings-programmatically-in-woocommerce
+        //
         let data = frm.serialize();
         data = data ? data + '&action=product_review' : 'action=product_review';
         $.ajax({
@@ -56,15 +55,51 @@ $(document).ready(function () {
                     frm.find('.fieldset').prepend('<div class="error">' + data.message + '</div>');
                 } else {
                     frm.find('.fieldset').hide();
-                    frm.find('.title').text(data.message);
+                    frm.find('.title').css('margin-bottom', 0).text(data.message);
                 }
             },
             complete: function(){
                 wrapper.data("busy", false);
-                $(wrapper).find('.loader').remove();
+                frm.find('input[type="submit"]').removeAttr('disabled');
             }
         });
 
+    });
+
+    $(document).on('click', '#product_form [data-add-to-cart]', function(e) {
+        e.preventDefault();
+        let btn = $(this);
+        let frm = $('#product_form');
+        let product_id = frm.find('[name="product_id"]').val();
+        let wrapper = frm;
+
+        //if (wrapper.data("busy")) return;
+        wrapper.data("busy", true);
+
+        let data = frm.serialize();
+        data = data ? data + '&action=ajax_add_to_cart' : 'action=ajax_add_to_cart';
+        $.ajax({
+            url: "/wp-admin/admin-ajax.php",
+            type: "post",
+            dataType: "json",
+            data: data,
+            beforeSend: function() {
+                btn.attr('disabled', 'disabled');
+            },
+            success: function(data) {
+                wrapper.find('.error').remove();
+                if (data.has_error) {
+                    $(titleClass).after('<div class="error">' + data.error_message + '</div>');
+                } else {
+                    //redirect to checkout;
+                }
+            },
+            complete: function(){
+                wrapper.data("busy", false);
+                btn.removeAttr('disabled');
+                $(wrapper).find('.loader').remove();
+            }
+        });
     });
 });
 
@@ -100,9 +135,16 @@ function recalculatePrice() {
         },
         success: function(data) {
             //frm.find('[name="product_id"]').val(data.product_id);
-            $(priceClass).html(data.price);
-            $(priceClass2).html(data.price);
-            $(titleClass).html(data.title);
+            wrapper.find('.error').remove();
+            if (data.has_error) {
+                $(titleClass).after('<div class="error">' + data.error_message + '</div>');
+                frm.find('[data-add-to-cart]').hide();
+            } else {
+                frm.find('[data-add-to-cart]').show();
+                $(priceClass).html(data.price);
+                $(priceClass2).html(data.price);
+                $(titleClass).html(data.title);
+            }
         },
         complete: function(){
             wrapper.data("busy", false);

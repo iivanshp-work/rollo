@@ -3372,6 +3372,8 @@ footer.footer .footfig {
     -o-transition: .3s;
 }
 
+
+/* CHANGES RELATED TO WC PRODUCTS added .active selector */
 .colors-slider .colorbox:hover,
 .colors-slider .colorbox.active {
     border: 1px solid #ACBBB6;
@@ -4105,3 +4107,20 @@ header.woocommerce-Address-title.title h3 {
 .woocommerce-address-fields .user-form__field label {
     width: 100%;
 }
+
+/* CHANGES RELATED TO WC PRODUCTS added new styles start*/
+#product-review-form .error {
+    margin-bottom: 20px;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 140%;
+    color: #DD4B39;
+}
+#product_form .error {
+    margin-bottom: 20px;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 140%;
+    color: #DD4B39;
+}
+/* CHANGES RELATED TO WC PRODUCTS added new styles end*/

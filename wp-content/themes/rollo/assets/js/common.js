@@ -284,6 +284,7 @@ $(document).ready(function () {
         $('.newswidth text').html(widthrange);
         $('.newsheight text').html(heighthrange);
 
+        /* CHANGES RELATED TO WC PRODUCTS added if below */
         if ($('[data-product_attribute="width"]').length) {
             $('[data-product_attribute="width"]').val(widthrange).trigger('change');
             $('[data-product_attribute="height"]').val(heighthrange).trigger('change');
@@ -395,9 +396,9 @@ if ($('*').is('.modal-sizeset')) {
 
             // Callback function
             onSlideEnd: function (position, value) {
+                /* CHANGES RELATED TO WC PRODUCTS */
                 var widthrange = $('.widthrange').html();
                 var heighthrange = $('.heighthrange').html();
-
                 if ($('[data-product_attribute="width"]').length) {
                     $('[data-product_attribute="width"]').val(widthrange).trigger('change');
                     $('[data-product_attribute="height"]').val(heighthrange).trigger('change');
