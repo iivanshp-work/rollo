@@ -285,8 +285,8 @@ $(document).ready(function () {
         $('.newsheight text').html(heighthrange);
 
         if ($('[data-product_attribute="width"]').length) {
-            $('[data-product_attribute="width"]').val(widthrange);
-            $('[data-product_attribute="height"]').val(heighthrange);
+            $('[data-product_attribute="width"]').val(widthrange).trigger('change');
+            $('[data-product_attribute="height"]').val(heighthrange).trigger('change');
         }
 
         $('.sizelist').addClass('littheight');
@@ -395,7 +395,13 @@ if ($('*').is('.modal-sizeset')) {
 
             // Callback function
             onSlideEnd: function (position, value) {
-                // console.log('onSlideEnd');
+                var widthrange = $('.widthrange').html();
+                var heighthrange = $('.heighthrange').html();
+
+                if ($('[data-product_attribute="width"]').length) {
+                    $('[data-product_attribute="width"]').val(widthrange).trigger('change');
+                    $('[data-product_attribute="height"]').val(heighthrange).trigger('change');
+                }
                 // console.log('position: ' + position, 'value: ' + value);
             }
         });

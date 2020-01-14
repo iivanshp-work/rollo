@@ -703,7 +703,6 @@ function custom_find_matching_product_variation( $product, $match_attributes = a
         $sorted_meta[ $m->post_id ][ $m->meta_key ] = $m->meta_value; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
     }
 
-
     /**
      * Check each variation to find the one that matches the $match_attributes.
      *

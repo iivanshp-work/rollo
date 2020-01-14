@@ -119,9 +119,9 @@ get_header( '' ); ?>
                                         <p class="title">Обраний розмір</p>
                                         <div class="sizelist__boxnew">
                                             <div class="sizelist__row active">
-                                                <span class="newswidth"><text>420</text> мм</span><img
+                                                <span class="newswidth"><text>00</text> мм</span><img
                                                     src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/x.svg" alt="x"><span
-                                                    class="newsheight"><text>1650</text>
+                                                    class="newsheight"><text>00</text>
                                                     мм</span>
                                                 <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/cancel.svg" alt="delete" class="delete-size">
                                             </div>
@@ -203,14 +203,17 @@ get_header( '' ); ?>
                                     <?php endif; ?>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
-
-                                    <span class="prwhitebtn">
-                                        <span>
-                                          <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shape-size-interface-symbol.svg" alt="icon">
-                                          Інший розмір вікон
+                                    <?php
+                                        $notStandardSizes = get_field('not_standard_sizes', $product->get_id());
+                                    ?>
+                                    <?php if (!empty($standardSizes) && !empty($notStandardSizes)): ?>
+                                        <span class="prwhitebtn">
+                                            <span>
+                                              <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shape-size-interface-symbol.svg" alt="icon">
+                                              Інший розмір вікон
+                                            </span>
                                         </span>
-                                    </span>
-
+                                    <?php endif; ?>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <?php if ($product->is_in_stock()): ?>
@@ -230,235 +233,176 @@ get_header( '' ); ?>
 				</div>
 			</div>
 		</section>
-
-		<section class=" product__slider product-block">
-			<div class="container">
-				<h3>Можливо вас зацікавлять</h3>
-				<div class="prodslider row">
-					<div>
-						<div class="catalog-productbox">
-							<a href="#">
-								<div class="catalog-productbox__pic">
-									<img src="<? echo get_template_directory_uri() . '/assets/' ?>image/products/category-product1.png" alt="product image">
-								</div>
-							</a>
-							<div class="catalog-productbox__text">
-								<a href="#" class="title">Ролети Тканинні Льон Білий</a>
-								<p class="price">280 грн</p>
-							</div>
-						</div>
-					</div>
-					<div>
-						<div class="catalog-productbox">
-							<a href="#">
-								<div class="catalog-productbox__pic">
-									<img src="<? echo get_template_directory_uri() . '/assets/' ?>image/products/category-product2.png" alt="product image">
-								</div>
-							</a>
-							<div class="catalog-productbox__text">
-								<a href="#" class="title">Ролети Тканинні Льон Білий</a>
-								<p class="price">280 грн</p>
-							</div>
-						</div>
-					</div>
-					<div>
-						<div class="catalog-productbox">
-							<a href="#">
-								<div class="catalog-productbox__pic">
-									<img src="<? echo get_template_directory_uri() . '/assets/' ?>image/products/category-product3.png" alt="product image">
-								</div>
-							</a>
-							<div class="catalog-productbox__text">
-								<a href="#" class="title">Ролети Тканинні Льон Білий</a>
-								<p class="price">280 грн</p>
-							</div>
-						</div>
-					</div>
-					<div>
-						<div class="catalog-productbox">
-							<a href="#">
-								<div class="catalog-productbox__pic">
-									<img src="<? echo get_template_directory_uri() . '/assets/' ?>image/products/category-product4.png" alt="product image">
-								</div>
-							</a>
-							<div class="catalog-productbox__text">
-								<a href="#" class="title">Ролети Тканинні Льон Білий</a>
-								<p class="price">280 грн</p>
-							</div>
-						</div>
-					</div>
-					<div>
-						<div class="catalog-productbox">
-							<a href="#">
-								<div class="catalog-productbox__pic">
-									<img src="<? echo get_template_directory_uri() . '/assets/' ?>image/products/category-product5.png" alt="product image">
-								</div>
-							</a>
-							<div class="catalog-productbox__text">
-								<a href="#" class="title">Ролети Тканинні Льон Білий</a>
-								<p class="price">280 грн</p>
-							</div>
-						</div>
-					</div>
-					<div>
-						<div class="catalog-productbox">
-							<a href="#">
-								<div class="catalog-productbox__pic">
-									<img src="<? echo get_template_directory_uri() . '/assets/' ?>image/products/category-product2.png" alt="product image">
-								</div>
-							</a>
-							<div class="catalog-productbox__text">
-								<a href="#" class="title">Ролети Тканинні Льон Білий</a>
-								<p class="price">280 грн</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
+        <?php
+        $relatedProducts = wc_get_related_products($product->get_id(), 6);
+        $relatedProducts = wc_get_products(['include' => $relatedProducts]);
+        ?>
+        <?php if (!empty($relatedProducts)): ?>
+            <section class=" product__slider product-block">
+                <div class="container">
+                    <h3>Можливо вас зацікавлять</h3>
+                    <div class="prodslider row">
+                        <?php foreach($relatedProducts as $relatedProduct): ?>
+                            <div>
+                                <div class="catalog-productbox">
+                                    <a href="<?php echo $relatedProduct->get_slug(); ?>">
+                                        <div class="catalog-productbox__pic">
+                                            <?php
+                                            $image = '';
+                                            if ( $relatedProduct->get_image_id() ) {
+                                                $image = wp_get_attachment_image($relatedProduct->get_image_id(), 'woocommerce_thumbnail');
+                                            }
+                                            if ($image):
+                                                echo $image;
+                                            endif;
+                                            ?>
+                                        </div>
+                                    </a>
+                                    <div class="catalog-productbox__text">
+                                        <a href="<?php echo $relatedProduct->get_slug(); ?>" class="title"><?php echo $relatedProduct->get_name(); ?></a>
+                                        <p class="price"><?php echo $relatedProduct->get_price_html(); ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </section>
+        <?php endif; ?>
+        <?php
+            $descImage = get_field('description_image', $product->get_id());
+            $desc = $product->get_description();
+        ?>
 		<section class="product-block product-text">
 			<div class="container">
 				<div class="row">
+                    <?php if($desc && $descImage): ?>
 					<div class="col-lg-6 col-md-6">
 						<h3>Опис</h3>
-						<p>
-							Тканинні ролети - надзвичайно просте, але дуже ефективне і популярне рішення для оформлення
-							вікон.
-							Вони поєднують в собі комфорт cучасних жалюзі і затишок традиційних штор. Ролети захищають
-							від
-							зайвого сонячного світла, не дають приміщенню нагріватися, а також створюють
-							затишок в темний час доби.
-						</p>
-						<p>Термін відправлення товару до 4 робочих днів.</p>
-						<p>Рекомендуємо купити комплект нижньої фіксації для відкривної створки, який запобігає
-							провисанню
-							тканини при провітрюванні.</p>
-						<p>Зверніть увагу що розміри вказані "по тканині", конструкція на 4см ширша (по 2см на сторону).
-						</p>
-						<a href="#" class="black-btn">Як правино поміряти вікно? </a>
+						<p><?php echo wpautop($desc); ?></p>
 					</div>
 					<div class="col-lg-5 offset-lg-1  col-md-6">
-						<img src="<? echo get_template_directory_uri() . '/assets/' ?>image/tkaninni_na_sait 1.png" alt="image">
+						<img src="<? echo $descImage; ?>" alt="image">
 					</div>
+                    <?php elseif($desc): ?>
+                        <div class="col-lg-12 col-md-12">
+                            <h3>Опис</h3>
+                            <p><?php echo wpautop($desc); ?></p>
+                        </div>
+                    <?php elseif($descImage): ?>
+                        <div class="col-lg-5 col-md-6">
+                            <img src="<? echo $descImage; ?>" alt="image">
+                        </div>
+                        <div class="col-lg-7 col-md-6"></div>
+                    <?php endif; ?>
 				</div>
 			</div>
 		</section>
 
-		<section class="product-block reviews">
+        <?php if ($product->get_reviews_allowed()): ?>
+		    <section class="product-block reviews">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-5">
 						<h3>Відгуки</h3>
-						<div class="review">
-							<p class="review__title">Настя <span>21.10.2019</span></p>
-							<p class="review__descr">
-								Купляла для кухні. Я зодоволена своїм вибором. Якісні ролетти, гарно виглядають і не
-								дорогі.
-							</p>
-						</div>
-						<div class="review">
-							<p class="review__title">Олег <span>16.09.2019</span></p>
-							<p class="review__descr">
-								Сподобались не тільки ролети, а й персонал. Привітні та ввчіливі працівники, які не
-								тільки відповідять на всі питання, але і підскажуть як обрати “правильні ролети”.
-								Рекомендую.
-							</p>
-						</div>
-						<div class="review">
-							<p class="review__title">Таня <span>03.09.2019</span></p>
-							<p class="review__descr">
-								Ролетами задоволена. Довго вагалася з кольором, але рада що обрала саме ці, кімната з
-								ними виглядає світлою та просторнішою.
-							</p>
-						</div>
-						<div class="more-reviewssect">
-							<div class="review">
-								<p class="review__title">Таня <span>03.09.2019</span></p>
-								<p class="review__descr">
-									Ролетами задоволена. Довго вагалася з кольором, але рада що обрала саме ці, кімната
-									з
-									ними виглядає світлою та просторнішою.
-								</p>
-							</div>
-							<div class="review">
-								<p class="review__title">Таня <span>03.09.2019</span></p>
-								<p class="review__descr">
-									Ролетами задоволена. Довго вагалася з кольором, але рада що обрала саме ці, кімната
-									з
-									ними виглядає світлою та просторнішою.
-								</p>
-							</div>
-							<div class="review">
-								<p class="review__title">Таня <span>03.09.2019</span></p>
-								<p class="review__descr">
-									Ролетами задоволена. Довго вагалася з кольором, але рада що обрала саме ці, кімната
-									з
-									ними виглядає світлою та просторнішою.
-								</p>
-							</div>
-						</div>
-						<span class="review-more">Всі</span>
+                        <?php if ($product->get_review_count()): ?>
+                            <?php
+                            $args = array ('post_id' => $product->get_id(), 'status'=>'approve');
+                            $reviews = get_comments( $args );
+                            ?>
+                        <?php endif; ?>
+                        <?php if ($reviews): ?>
+                            <?php $iter = 0;?>
+                            <?php foreach ($reviews as $review):?>
+                                <?php $iter++;?>
+                                <div class="review">
+                                    <p class="review__title"><?php echo $review->comment_author;?> <span><?php echo date("m.d.Y", strtotime($review->comment_date));?></span></p>
+                                    <p class="review__descr">
+                                        <?php echo $review->comment_content;?>
+                                    </p>
+                                </div>
+                                <?php if ($iter ==4): ?>
+                                    <div class="more-reviewssect">
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                            <?php if (count($reviews) > 3): ?>
+                                </div>
+                                <span class="review-more">Всі</span>
+                            <?php endif; ?>
+                        <?php else: ?>
+                            <p class="review__title">Ще немає відгуків.</p>
+                        <?php endif; ?>
 					</div>
 					<div class="col-lg-5 offset-lg-2">
-						<form action="" class="review-form form-section">
+						<form action="" id="product-review-form" class="review-form form-section">
 							<p class="title">Залишити відгук</p>
-							<label for="name">Ім’я</label>
-							<input type="text" id="name">
-							<label for="email">Email</label>
-							<input type="text" id="email" class="email-input">
-							<label for="text">Відгук</label>
-							<textarea id="text"></textarea>
-							<input type="submit" value="Надіслати" class="black-btn">
+							<div class="fieldset">
+                                <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
+                                <label for="name">Ім’я</label>
+                                <input type="text" id="name" name="name">
+                                <label for="email">Email</label>
+                                <input type="text" id="email" class="email-input" name="email">
+                                <label for="text">Відгук</label>
+                                <textarea id="text" name="comment"></textarea>
+                                <input type="submit" value="Надіслати" class="black-btn">
+                            </div>
 						</form>
 					</div>
 				</div>
 			</div>
 		</section>
-
+        <?php endif; ?>
 	</main>
 
-    <div class="modal-section">
-        <div class="align-block">
-            <div class="modal-sizeset">
-                <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/cancel.svg" alt="cancel" class="modal-cancel">
-                <select name="" id="">
-                    <option value="0">Ролети Тканинні Льон Білий</option>
-                    <option value="1">Ролети Тканинні Льон Синій</option>
-                    <option value="2">Ролети Тканинні Льон Зелений</option>
-                    <option value="3">Ролети Тканинні Льон Жовтий</option>
-                    <option value="4">Ролети Тканинні Льон Червоний</option>
-                </select>
+    <?php
+        if (!isset($notStandardSizes)) {
+            $notStandardSizes = get_field('not_standard_sizes', $product->get_id());
+        }
+    ?>
+    <?php if (!empty($standardSizes) && !empty($notStandardSizes)): ?>
+        <div class="modal-section">
+            <div class="align-block">
+                <div class="modal-sizeset">
+                    <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/cancel.svg" alt="cancel" class="modal-cancel">
 
-                <div class="rangeslider-sect">
-                    <div>
-                        <div class="rangebox">
-                            <p class="range__title">Ширина</p>
-                            <input type="range" min="0" max="5000" value="1640" step="1" data-rangeslider>
-                            <output class="widthrange"></output>
-                        </div>
-                        <div class="rangebox">
-                            <p class="range__title">Висота</p>
-                            <input type="range" min="0" max="5000" value="2740" step="1" data-rangeslider>
-                            <output class="heighthrange"></output>
+                    <?php if(!empty($availableColors)): ?>
+                    <select data-product-color-popup="">
+                        <?php foreach($availableColors as $availableColor): ?>
+                            <option value="<?php echo $availableColor->slug; ?>"><?php echo $product->get_name() . ' - ' . $availableColor->name; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php endif; ?>
+
+                    <div class="rangeslider-sect">
+                        <div>
+                            <div class="rangebox">
+                                <p class="range__title">Ширина</p>
+                                <input type="range" min="<?php echo isset($notStandardSizes['width']['min_width']) ? $notStandardSizes['width']['min_width'] : 150;?>" max="<?php echo isset($notStandardSizes['width']['max_width']) ? $notStandardSizes['width']['max_width'] : 2800;?>" value="700" step="1" data-rangeslider>
+                                <output class="widthrange"></output>
+                            </div>
+                            <div class="rangebox">
+                                <p class="range__title">Висота</p>
+                                <input type="range" min="<?php echo isset($notStandardSizes['height']['min_height']) ? $notStandardSizes['height']['min_height'] : 1000;?>" max="<?php echo isset($notStandardSizes['height']['max_height']) ? $notStandardSizes['height']['max_height'] : 2800;?>" value="1200" step="1" data-rangeslider>
+                                <output class="heighthrange"></output>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="modalrange__bottsect">
-                    <div class="row">
-                        <div class="col-sm-6 col-6">
-                            <p class="lefttext">Вартість / шт.</p>
+                    <div class="modalrange__bottsect">
+                        <div class="row">
+                            <div class="col-sm-6 col-6">
+                                <p class="lefttext">Вартість / шт.</p>
+                            </div>
+                            <div class="col-sm-6 col-6">
+                                <p class="righttext popup-price"><?php echo $product->get_price_html(); ?></p>
+                            </div>
                         </div>
-                        <div class="col-sm-6 col-6">
-                            <p class="righttext">1220 грн</p>
-                        </div>
+                        <a href="#" class="black-btn modalbtn">Додати розмір</a>
                     </div>
-                    <a href="#" class="black-btn modalbtn">Додати розмір</a>
                 </div>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
 
 <?php
 /**
