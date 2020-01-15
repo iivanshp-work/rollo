@@ -53,10 +53,12 @@ defined( 'ABSPATH' ) || exit;
                     </div>
                     <div class="incard__num">
                         <div class="input-group">
-                            <input type="button" value="" class="button-minus" data-field="quantity">
+                          <?php if($cart_item['quantity'] > 1): ?>
+                            <input type="button" value="" class="button-minus" data-field="quantity" data-quantity-cart-item="<?php echo $cart_item['quantity']-1; ?>" data-cart-item-key="<?php echo $cart_item_key; ?>">
+                          <?php endif;?>
                             <input type="text" step="1" max="" value="<?php echo $cart_item['quantity']; ?>" name="quantity"
                                    class="quantity-field">
-                            <input type="button" value="" class="button-plus" data-field="quantity">
+                            <input type="button" value="" class="button-plus" data-field="quantity" data-quantity-cart-item="<?php echo $cart_item['quantity']+1; ?>" data-cart-item-key="<?php echo $cart_item_key; ?>">
                         </div>
                     </div>
                     <div class="incard__price"><?php echo wc_price($_product->get_price()); ?></div>
@@ -73,12 +75,6 @@ defined( 'ABSPATH' ) || exit;
         </div>
     <?php endforeach; ?>
 
-    <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
-        <div class="incard__bottsect">
-            <span class="lefttext"><?php echo __('Доставка');?></span>
-            <span class="allprice"><?php wc_cart_totals_shipping_html(); ?></span>
-        </div>
-    <?php endif; ?>
     <div class="incard__bottsect">
         <span class="lefttext"><?php echo __('До оплати');?></span>
         <span class="allprice"><?php wc_cart_totals_order_total_html(); ?></span>

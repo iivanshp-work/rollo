@@ -71,7 +71,7 @@ get_header( '' ); ?>
                                         }
                                     ?>
                                     <?php if(!empty($availableColors)): ?>
-                                        <p class="title">Кольори моделі</p>
+                                        <p class="title"><?php echo __('Кольори моделі'); ?> </p>
                                         <input class="recalculate_price" data-product_attribute="pa_kolory-modeli" type="hidden" name="product_attribute[pa_kolory-modeli]" value="">
 
                                         <div class="colors-slider">
@@ -91,7 +91,7 @@ get_header( '' ); ?>
                                         <span class="price" id="price"><?php echo $product->get_price_html(); ?></span>
                                         <?php if ($product->is_in_stock()): ?>
                                             <div class="kst">
-                                                <span>Кількість</span>
+                                                <span><?php echo __('Кількість');?></span>
                                                 <div class="incard__num">
                                                     <div class="input-group">
                                                         <input type="button" value="" class="button-minus"
@@ -116,7 +116,7 @@ get_header( '' ); ?>
                                     <input class="recalculate_price" data-product_attribute="height" type="hidden" name="product_attribute[height]" value="">
 
                                     <div class="settblock new-size">
-                                        <p class="title">Обраний розмір</p>
+                                        <p class="title"><?php echo __('Обраний розмір');?></p>
                                         <div class="sizelist__boxnew">
                                             <div class="sizelist__row active">
                                                 <span class="newswidth"><text>00</text> мм</span><img
@@ -133,10 +133,10 @@ get_header( '' ); ?>
                                     ?>
                                     <?php if (!empty($standardSizes)): ?>
                                         <div class="settblock">
-                                            <p class="title">Стандартні розміри</p>
+                                            <p class="title"><?php echo __('Стандартні розміри');?></p>
                                             <div class="sizelist">
                                                 <div class="sizelist__title">
-                                                    <span>Ширина</span><span>Висота</span>
+                                                    <span><?php echo __('Ширина');?></span><span><?php echo __('Висота');?></span>
                                                 </div>
                                                 <div class="sizelist__box">
                                                     <?php foreach ($standardSizes as $standardSize): ?>
@@ -179,22 +179,22 @@ get_header( '' ); ?>
                                     ?>
                                     <?php if(!empty($availableManSides)): ?>
                                         <div class="settblock">
-                                            <p class="title">Сторона управління</p>
+                                            <p class="title"><?php echo __('Сторона управління');?></p>
                                             <div class="left-right">
                                                 <input class="" data-product_attribute="pa_storona-upravlinnya" type="hidden" name="product_attribute[pa_storona-upravlinnya]" value="">
                                                 <?php foreach($availableManSides as $availableManSide): ?>
-                                                    <span data-pa-type="pa_storona-upravlinnya" data-id="<?php echo $availableManSide->slug; ?>" title="<?php echo $availableManSide->name; ?>" <?php if(!isset($manSideActive)): $manSideActive= 1?>class="active"<?php endif;?>><?php echo $availableManSide->name; ?></span>
+                                                    <span data-pa-type="pa_storona-upravlinnya" data-id="<?php echo $availableManSide->slug; ?>" title="<?php echo __($availableManSide->name); ?>" <?php if(!isset($manSideActive)): $manSideActive= 1?>class="active"<?php endif;?>><?php echo $availableManSide->name; ?></span>
                                                 <?php endforeach; ?>
                                             </div>
                                         </div>
                                     <?php endif; ?>
                                     <?php if(!empty($availableSysColors)): ?>
                                         <div class="settblock">
-                                            <p class="title">Кольори системи</p>
+                                            <p class="title"><?php echo __('Кольори системи');?></p>
                                             <div class="systems-color">
                                                 <input class="recalculate_price" data-product_attribute="pa_kolory-systemy" type="hidden" name="product_attribute[pa_kolory-systemy]" value="">
                                                 <?php foreach($availableSysColors as $availableSysColor): ?>
-                                                    <div data-pa-type="pa_kolory-systemy" data-id="<?php echo $availableSysColor->slug; ?>" title="<?php echo $availableSysColor->name; ?>" <?php if(!isset($sysColorActive)): $sysColorActive= 1?>class="active"<?php endif;?>>
+                                                    <div data-pa-type="pa_kolory-systemy" data-id="<?php echo $availableSysColor->slug; ?>" title="<?php echo __($availableSysColor->name); ?>" <?php if(!isset($sysColorActive)): $sysColorActive= 1?>class="active"<?php endif;?>>
                                                         <span style="background-color: <?php echo $availableSysColor->color ? $availableSysColor->color : '#fff'; ?>;"></span>
                                                     </div>
                                                 <?php endforeach; ?>
@@ -210,7 +210,7 @@ get_header( '' ); ?>
                                         <span class="prwhitebtn">
                                             <span>
                                               <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shape-size-interface-symbol.svg" alt="icon">
-                                              Інший розмір вікон
+                                              <?php echo __('Інший розмір вікон');?>
                                             </span>
                                         </span>
                                     <?php endif; ?>
@@ -218,11 +218,11 @@ get_header( '' ); ?>
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <?php if ($product->is_in_stock()): ?>
                                         <a href="#" class="prblackbtn" data-add-to-cart="" >
-                                            <span>Додати до корзини<img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shopping-basketpr.svg" alt="icon"></span>
+                                            <span><?php echo __('Додати до корзини');?><img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shopping-basketpr.svg" alt="icon"></span>
                                         </a>
                                     <?php else: ?>
                                         <a href="javascript:void(0);" class="prblackbtn">
-                                            <span>Немає в наявності<img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shopping-basketpr.svg" alt="icon"></span>
+                                            <span><?php echo __('Немає в наявності');?><img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shopping-basketpr.svg" alt="icon"></span>
                                         </a>
                                     <?php endif; ?>
                                 </div>
@@ -240,7 +240,7 @@ get_header( '' ); ?>
         <?php if (!empty($relatedProducts)): ?>
             <section class=" product__slider product-block">
                 <div class="container">
-                    <h3>Можливо вас зацікавлять</h3>
+                    <h3><?php echo __('Можливо вас зацікавлять');?></h3>
                     <div class="prodslider row">
                         <?php foreach($relatedProducts as $relatedProduct): ?>
                             <div>
@@ -286,7 +286,7 @@ get_header( '' ); ?>
 					</div>
                     <?php elseif($desc): ?>
                         <div class="col-lg-12 col-md-12">
-                            <h3>Опис</h3>
+                            <h3><?php echo __('Опис');?></h3>
                             <p><?php echo wpautop($desc); ?></p>
                         </div>
                     <?php elseif($descImage): ?>
@@ -327,24 +327,24 @@ get_header( '' ); ?>
                             <?php endforeach; ?>
                             <?php if (count($reviews) > 3): ?>
                                 </div>
-                                <span class="review-more">Всі</span>
+                                <span class="review-more"><?php echo __('Всі');?></span>
                             <?php endif; ?>
                         <?php else: ?>
-                            <p class="review__title">Ще немає відгуків.</p>
+                            <p class="review__title"><?php echo __('Ще немає відгуків.');?></p>
                         <?php endif; ?>
 					</div>
 					<div class="col-lg-5 offset-lg-2">
 						<form action="" id="product-review-form" class="review-form form-section">
-							<p class="title">Залишити відгук</p>
+							<p class="title"><?php echo __('Залишити відгук');?></p>
 							<div class="fieldset">
                                 <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
-                                <label for="name">Ім’я</label>
+                                <label for="name"><?php echo __('Ім’я');?></label>
                                 <input type="text" id="name" name="name">
-                                <label for="email">Email</label>
+                                <label for="email"><?php echo __('Email');?></label>
                                 <input type="text" id="email" class="email-input" name="email">
-                                <label for="text">Відгук</label>
+                                <label for="text"><?php echo __('Відгук');?></label>
                                 <textarea id="text" name="comment"></textarea>
-                                <input type="submit" value="Надіслати" class="black-btn">
+                                <input type="submit" value="<?php echo __('Надіслати');?>" class="black-btn">
                             </div>
 						</form>
 					</div>

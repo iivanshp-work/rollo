@@ -759,7 +759,7 @@ function recalculate_product_price() {
     } else {
         echo json_encode([
             'has_error' => true,
-            'error_message' => 'Сталась помилка. Продукт не знайдено.'
+            'error_message' => __('Сталась помилка. Продукт не знайдено.')
         ]);
         wp_die();
     }
@@ -771,7 +771,6 @@ function recalculate_product_price() {
     ]);
     wp_die();
 }
-
 add_action('wp_ajax_recalculate_price', 'recalculate_product_price');
 add_action('wp_ajax_nopriv_recalculate_price', 'recalculate_product_price');
 
@@ -825,15 +824,15 @@ function product_review() {
     if ($product_id) {
         if (!$name) {
             $hasError = true;
-            $errorMessage .= 'Ім\'я не задано.<br>';
+            $errorMessage .= __('Ім\'я не задано.') . '<br>';
         }
         if (!$email) {
             $hasError = true;
-            $errorMessage .= 'Email не задано.<br>';
+            $errorMessage .= __('Email не задано.') . '<br>';
         }
         if (!$comment) {
             $hasError = true;
-            $errorMessage .= 'Відгук не задано.<br>';
+            $errorMessage .= __('Відгук не задано.') . '<br>';
         }
         if (!$hasError) {
             //save comment
@@ -852,16 +851,16 @@ function product_review() {
                 'comment_approved'     => 0,
             ) );
             if ($comment_id) {
-                $errorMessage = 'Дякуємо за Ваш відгук.';
+                $errorMessage = __('Дякуємо за Ваш відгук.');
                 update_comment_meta( $comment_id, 'rating', 5 );
             } else {
                 $hasError = true;
-                $errorMessage = 'Сталась помилка, спробуйте пізніше.';
+                $errorMessage = __('Сталась помилка, спробуйте пізніше.');
             }
         }
     } else {
         $hasError = true;
-        $errorMessage .= 'Сталась помилка. Продукт не знайдено.<br>';
+        $errorMessage .= __('Сталась помилка. Продукт не знайдено.') . '<br>';
     }
 
     echo json_encode([
@@ -870,7 +869,6 @@ function product_review() {
     ]);
     wp_die();
 }
-
 add_action('wp_ajax_product_review', 'product_review');
 add_action('wp_ajax_nopriv_product_review', 'product_review');
 
@@ -903,7 +901,7 @@ function ajax_add_to_cart() {
     } else {
         echo json_encode([
             'has_error' => true,
-            'error_message' => 'Сталась помилка. Продукт не знайдено.'
+            'error_message' => __('Сталась помилка. Продукт не знайдено.')
         ]);
         wp_die();
     }
@@ -934,7 +932,7 @@ function ajax_add_to_cart() {
     } else {
         echo json_encode([
             'has_error' => true,
-            'error_message' => 'Сталась помилка. Продукт не може бути доданий в корзину.'
+            'error_message' => __('Сталась помилка. Продукт не може бути доданий в корзину.')
         ]);
         wp_die();
     }
@@ -944,7 +942,6 @@ function ajax_add_to_cart() {
     ]);
     wp_die();
 }
-
 add_action('wp_ajax_ajax_add_to_cart', 'ajax_add_to_cart');
 add_action('wp_ajax_nopriv_ajax_add_to_cart', 'ajax_add_to_cart');
 
@@ -979,50 +976,150 @@ function ajax_product_remove()
 {
     // Get mini cart
     ob_start();
-
-    $delete = WC()->cart->remove_cart_item($_POST['cart_item_key']);
+    $cart_item_key = isset($_POST['cart_item_key']) ? trim($_POST['cart_item_key']) : '';
+    if (!$cart_item_key) {
+        echo json_encode([
+            'has_error' => true,
+            'error_message' => __('Сталась помилка. Продукт не може бути видалений.')
+        ]);
+        wp_die();
+    }
+    $delete = WC()->cart->remove_cart_item($cart_item_key);
 
     WC()->cart->calculate_totals();
     WC()->cart->maybe_set_cart_cookies();
-
+    // Get order review fragment.
+    ob_start();
+    woocommerce_order_review();
+    $woocommerce_order_review = ob_get_clean();
+    // Get checkout payment fragment.
+    ob_start();
+    woocommerce_checkout_payment();
+    $woocommerce_checkout_payment = ob_get_clean();
     woocommerce_mini_cart();
-
     $mini_cart = ob_get_clean();
-
     // Fragments and mini cart are returned
     $data = array(
-        'fragments' => apply_filters( 'woocommerce_add_to_cart_fragments', array(
-                'div.widget_shopping_cart_content' => '<div class="widget_shopping_cart_content">' . $mini_cart . '</div>'
+        'fragments' => apply_filters(
+            'woocommerce_update_order_review_fragments',
+            array(
+                '.woocommerce-checkout-review-order-table' => $woocommerce_order_review,
+                '.woocommerce-checkout-payment' => $woocommerce_checkout_payment,
             )
         ),
         'cart_hash' => apply_filters( 'woocommerce_add_to_cart_hash', WC()->cart->get_cart_for_session() ? md5( json_encode( WC()->cart->get_cart_for_session() ) ) : '', WC()->cart->get_cart_for_session() ),
         'total_products' => WC()->cart->get_cart_contents_count(),
-        'total' => WC()->cart->total . ' ' . get_woocommerce_currency()
+        'total' => WC()->cart->get_total()
     );
-
     wp_send_json( $data );
-
     die();
 }
-
 add_action( 'wp_ajax_product_remove', 'ajax_product_remove' );
 add_action( 'wp_ajax_nopriv_product_remove', 'ajax_product_remove' );
 
 function set_quantity() {
-    global $woocommerce;
-    $woocommerce->cart->set_quantity($_POST['card_key'], $_POST['quantity']);
+    $cart_item_key = isset($_POST['cart_item_key']) ? trim($_POST['cart_item_key']) : '';
+    $quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1;
 
-    $product = wc_get_product($_POST['product_id']);
-    $price = $product->get_price() * $_POST['quantity'] . ' ' . get_woocommerce_currency();
+    if (!$cart_item_key) {
+        echo json_encode([
+            'has_error' => true,
+            'error_message' => __('Сталась помилка. Продукт не може бути видалений.')
+        ]);
+        wp_die();
+    }
 
-    $total = WC()->cart->total . ' ' . get_woocommerce_currency();
-    $total_products = WC()->cart->get_cart_contents_count();
-    echo json_encode(['price' => $price, 'total' => $total, 'total_products' => $total_products]);
-    wp_die();
+    WC()->cart->set_quantity($cart_item_key, $quantity);
 
+    WC()->cart->calculate_totals();
+    WC()->cart->maybe_set_cart_cookies();
+    // Get order review fragment.
+    ob_start();
+    woocommerce_order_review();
+    $woocommerce_order_review = ob_get_clean();
+    // Get checkout payment fragment.
+    ob_start();
+    woocommerce_checkout_payment();
+    $woocommerce_checkout_payment = ob_get_clean();
+    woocommerce_mini_cart();
+    $mini_cart = ob_get_clean();
+    // Fragments and mini cart are returned
+    $data = array(
+        'fragments' => apply_filters(
+            'woocommerce_update_order_review_fragments',
+            array(
+                '.woocommerce-checkout-review-order-table' => $woocommerce_order_review,
+                '.woocommerce-checkout-payment' => $woocommerce_checkout_payment,
+            )
+        ),
+        'cart_hash' => apply_filters( 'woocommerce_add_to_cart_hash', WC()->cart->get_cart_for_session() ? md5( json_encode( WC()->cart->get_cart_for_session() ) ) : '', WC()->cart->get_cart_for_session() ),
+        'total_products' => WC()->cart->get_cart_contents_count(),
+        'total' => WC()->cart->get_total()
+    );
+    wp_send_json( $data );
+    die();
 }
-
 add_action('wp_ajax_set_quantity', 'set_quantity');
 add_action('wp_ajax_nopriv_set_quantity', 'set_quantity');
 
+
+function redirect_cart_page() {
+    if (is_cart()) {
+        $totalCartItems = WC()->cart->get_cart_contents_count();
+        if ($totalCartItems) {
+            wp_redirect(wc_get_checkout_url());
+        } else {
+            wp_redirect(get_home_url());
+        }
+    }
+}
+add_action('template_redirect', 'redirect_cart_page');
+
+
+function add_order_item_custom_meta($item, $cart_item_key, $cart_item, $order) {
+    if (isset($cart_item['price'])) {
+        $item->update_meta_data( '_product_price', $cart_item['price'] );
+    }
+    if (isset($cart_item['attributes'])) {
+        $item->update_meta_data( '_product_attributes', $cart_item['attributes'] );
+        foreach($cart_item['attributes'] as $key => $attribute) {
+            $item->update_meta_data( '_product_attribute_' . $key,  $attribute);
+        }
+    }
+}
+add_action('woocommerce_checkout_create_order_line_item', 'add_order_item_custom_meta', 10, 4 );
+
+/**
+ * Changing a meta title
+ * @param  string        $key  The meta key
+ * @param  WC_Meta_Data  $meta The meta object
+ * @param  WC_Order_Item $item The order item object
+ * @return string        The title
+ */
+function change_order_item_meta_title( $key, $meta, $item ) {
+
+    // By using $meta-key we are sure we have the correct one.
+    if ( '_product_price' === $meta->key ) { $key = 'SOMETHING'; }
+
+    return $key;
+}
+add_filter( 'woocommerce_order_item_display_meta_key', 'change_order_item_meta_title', 20, 3 );
+
+/**
+ * Changing a meta value
+ * @param  string        $value  The meta value
+ * @param  WC_Meta_Data  $meta   The meta object
+ * @param  WC_Order_Item $item   The order item object
+ * @return string        The title
+ */
+function change_order_item_meta_value( $value, $meta, $item ) {
+
+    // By using $meta-key we are sure we have the correct one.
+    if ( '_product_price' === $meta->key ) { $value = 'SOMETHING'; }
+
+    return $value;
+}
+add_filter( 'woocommerce_order_item_display_meta_value', 'change_order_item_meta_value', 20, 3 );
+
+//nova poshta api key: 5dc29908a8b509da998f8600c919ba7f
 /* CHANGES RELATED TO WC PRODUCTS END */

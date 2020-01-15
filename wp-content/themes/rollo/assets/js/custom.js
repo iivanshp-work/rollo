@@ -106,7 +106,7 @@ $(document).ready(function () {
         let btn = $(this);
         let cart_item_key = btn.data('cart-item-key');
         let wrapper = $('.woocommerce-checkout-review-order-table');
-
+        let woocommerceFrm = $('form.woocommerce-checkout');
         //if (wrapper.data("busy")) return;
         wrapper.data("busy", true);
 
@@ -124,8 +124,73 @@ $(document).ready(function () {
             },
             success: function(data) {
                 if (data.has_error) {
-                    //$(titleClass).after('<div class="error">' + data.error_message + '</div>');
+                    let html = '<div class="woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout"><ul class="woocommerce-error" role="alert"><li>' + data.error_message + '</li></ul></div>';
+                    woocommerceFrm.prepend(html);
                 } else {
+                    $('.header .basket-btn__counter').text(data.total_products);
+                    if (!data.total_products) {
+                        window.location = window.location;
+                    } else {
+                        if ( data && data.fragments ) {
+                            $.each( data.fragments, function ( key, value ) {
+                                $(key).replaceWith(value);
+                                $(key).unblock();
+                            } );
+                        }
+                    }
+                }
+            },
+            complete: function(){
+                wrapper.data("busy", false);
+            }
+        });
+
+        if ( data && data.fragments ) {
+            $.each( data.fragments, function ( key, value ) {
+                $( key ).replaceWith( value );
+                $( key ).unblock();
+            } );
+        }
+    });
+
+    $(document).on('click', '.woocommerce-checkout [data-quantity-cart-item]', function(e) {
+        let btn = $(this);
+        let cart_item_key = btn.data('cart-item-key');
+        let quantity = btn.data('quantity-cart-item');
+        let wrapper = $('.woocommerce-checkout-review-order-table');
+
+        //if (wrapper.data("busy")) return;
+        wrapper.data("busy", true);
+
+        data = {
+            action: 'set_quantity',
+            cart_item_key: cart_item_key,
+            quantity: quantity,
+        };
+        $.ajax({
+            url: "/wp-admin/admin-ajax.php",
+            type: "post",
+            dataType: "json",
+            data: data,
+            beforeSend: function() {
+
+            },
+            success: function(data) {
+                if (data.has_error) {
+                    let html = '<div class="woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout"><ul class="woocommerce-error" role="alert"><li>' + data.error_message + '</li></ul></div>';
+                    woocommerceFrm.prepend(html);
+                } else {
+                    $('.header .basket-btn__counter').text(data.total_products);
+                    if (!data.total_products) {
+                        window.location = window.location;
+                    } else {
+                        if ( data && data.fragments ) {
+                            $.each( data.fragments, function ( key, value ) {
+                                $(key).replaceWith(value);
+                                $(key).unblock();
+                            } );
+                        }
+                    }
                 }
             },
             complete: function(){

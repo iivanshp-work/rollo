@@ -45,8 +45,10 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
             <div class="row">
                 <div class="col-xl-5 col-md-5">
                     <form name="checkout" method="post" class="checkout woocommerce-checkout form-section" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data">
-                        <div class="orderingform_box">
-                            <p class="title"><span>1</span> Особисті дані</p>
+                      <?php if ( $checkout->get_checkout_fields() ) : ?>
+                      <div class="orderingform_box">
+                            <p class="title"><span>1</span> <?php echo __('Особисті дані'); ?></p>
+                            <?php do_action( 'woocommerce_checkout_billing' ); ?>
                             <div class="inpinline-field">
                                 <label for="name">Ім’я та прізвище</label>
                                 <input type="text" id="name" class="name-input">
@@ -65,7 +67,16 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                             </div>
                         </div>
                         <div class="orderingform_box">
-                            <p class="title"><span>2</span> Доставка</p>
+                            <p class="title"><span>2</span> <?php echo __('Доставка'); ?></p>
+
+
+                            <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
+                              <div class="incard__bottsect">
+                                <span class="lefttext"><?php echo __('Доставка');?></span>
+                                <span class="allprice"><?php wc_cart_totals_shipping_html(); ?></span>
+                              </div>
+                            <?php endif; ?>
+
                             <div class="inpinline-field align-items-start">
                                 <label>Спосіб доставки</label>
                                 <div class="delivery-field">
@@ -87,8 +98,13 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                                         <label for="delivery2">кур'єр Нова Пошта</label>
                                     </div>
                                 </div>
+
                             </div>
+
+                            <?php do_action( 'woocommerce_checkout_shipping' ); ?>
                         </div>
+                        <?php endif;?>
+
                         <div class="orderingform_box">
                             <div class="inpinline-field align-items-start">
                                 <label>Оплата</label>
@@ -110,7 +126,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                                 </div>
                             </div>
                         </div>
-                        <input type="submit" value="Оформити замовлення" class="black-btn">
+                        <input type="submit" value="<?php echo __('Оформити замовлення'); ?>" class="black-btn">
 
                         <?php do_action( 'woocommerce_review_order_after_order_total' ); ?>
 
@@ -119,7 +135,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 
                 <div class="col-xl-6 offset-xl-1 col-md-7">
                     <div class="incard">
-                        <p class="incard__title">У вашій корзині</p>
+                        <p class="incard__title"><?php echo __('У вашій корзині'); ?></p>
                         <?php do_action( 'woocommerce_checkout_before_order_review' ); ?>
                         <div id="order_review" class="woocommerce-checkout-review-order">
                             <?php do_action( 'woocommerce_checkout_order_review' ); ?>
@@ -133,27 +149,8 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 
 </main>
 
+<!--
 <form name="checkout" method="post" class="checkout woocommerce-checkout" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data">
 
-	<?php if ( $checkout->get_checkout_fields() ) : ?>
+</form>-->
 
-		<?php do_action( 'woocommerce_checkout_before_customer_details' ); ?>
-
-		<div class="col2-set" id="customer_details">
-			<div class="col-1">
-				<?php do_action( 'woocommerce_checkout_billing' ); ?>
-			</div>
-
-			<div class="col-2">
-				<?php do_action( 'woocommerce_checkout_shipping' ); ?>
-			</div>
-		</div>
-
-		<?php do_action( 'woocommerce_checkout_after_customer_details' ); ?>
-
-	<?php endif; ?>
-
-
-</form>
-
-<?php do_action( 'woocommerce_after_checkout_form', $checkout ); ?>

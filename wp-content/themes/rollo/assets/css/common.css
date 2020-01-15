@@ -4130,4 +4130,31 @@ header.woocommerce-Address-title.title h3 {
     width: 100%;
     height: auto;
 }
+.woocommerce-checkout .inpinline-field .form-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    width: 100%;
+}
+.woocommerce-checkout .inpinline-field .form-row .woocommerce-input-wrapper {
+    max-width: 366px;
+    width: 100%;
+    height: 40px;
+    font-weight: 300;
+    font-size: 16px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+.woocommerce-checkout .woocommerce-NoticeGroup-checkout .woocommerce-error {
+    background: initial;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 140%;
+    color: #DD4B39;
+    padding: 0px;
+    padding-left: 5px;
+    margin-top: 0;
+}
+
 /* CHANGES RELATED TO WC PRODUCTS added new styles end*/
