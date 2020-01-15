@@ -92,6 +92,7 @@ $(document).ready(function () {
                     $(titleClass).after('<div class="error">' + data.error_message + '</div>');
                 } else {
                     //redirect to checkout;
+                    window.location = data.redirect_link;
                 }
             },
             complete: function(){
@@ -101,6 +102,45 @@ $(document).ready(function () {
             }
         });
     });
+    $(document).on('click', '.woocommerce-checkout [data-remove-cart-item]', function(e) {
+        let btn = $(this);
+        let cart_item_key = btn.data('cart-item-key');
+        let wrapper = $('.woocommerce-checkout-review-order-table');
+
+        //if (wrapper.data("busy")) return;
+        wrapper.data("busy", true);
+
+        data = {
+            action: 'product_remove',
+            cart_item_key: cart_item_key,
+        };
+        $.ajax({
+            url: "/wp-admin/admin-ajax.php",
+            type: "post",
+            dataType: "json",
+            data: data,
+            beforeSend: function() {
+
+            },
+            success: function(data) {
+                if (data.has_error) {
+                    //$(titleClass).after('<div class="error">' + data.error_message + '</div>');
+                } else {
+                }
+            },
+            complete: function(){
+                wrapper.data("busy", false);
+            }
+        });
+
+        if ( data && data.fragments ) {
+            $.each( data.fragments, function ( key, value ) {
+                $( key ).replaceWith( value );
+                $( key ).unblock();
+            } );
+        }
+    });
+    //$( document.body ).trigger( 'update_checkout', { update_shipping_method: false } );
 });
 
 function recalculatePrice() {

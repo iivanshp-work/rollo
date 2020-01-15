@@ -182,7 +182,7 @@
 						</div>
 						<div class="header__basket">
 							<?php global $woocommerce; ?>
-							<a href="<?php echo $woocommerce->cart->get_cart_url() ?>">
+							<a href="<?php echo $woocommerce->cart->get_checkout_url() ?>">
 								<div class="basket__box">
 									<img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shopping-basket.svg" alt="basket">
 									<span class="basket__icon basket-btn__counter"><?php echo sprintf($woocommerce->cart->cart_contents_count); ?></span>

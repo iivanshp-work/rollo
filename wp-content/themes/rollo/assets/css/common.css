@@ -4123,4 +4123,11 @@ header.woocommerce-Address-title.title h3 {
     line-height: 140%;
     color: #DD4B39;
 }
+.woocommerce-checkout .entry-header {
+    display: none;
+}
+.woocommerce-checkout .incard__pic img {
+    width: 100%;
+    height: auto;
+}
 /* CHANGES RELATED TO WC PRODUCTS added new styles end*/
