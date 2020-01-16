@@ -1024,7 +1024,7 @@ function set_quantity() {
     if (!$cart_item_key) {
         echo json_encode([
             'has_error' => true,
-            'error_message' => __('Сталась помилка. Продукт не може бути видалений.')
+            'error_message' => __('Сталась помилка. Неможливо змінити кількість.')
         ]);
         wp_die();
     }
@@ -1180,4 +1180,62 @@ add_filter('wc_ukr_shipping_get_nova_poshta_translates', function ($translates) 
         'address_placeholder' => 'Введите адрес доставки'
     ];
 });
+
+add_filter('woocommerce_add_error', function ($message){
+    if ($message == 'Укажите отделение Новой Почты') {
+        $currentLanguage = wp_doing_ajax() ? $_COOKIE['pll_language'] : pll_current_language();
+        if ($currentLanguage === 'uk') {
+            $message = 'Вкажіть відділення Нової Пошти';
+        }
+    }
+    return $message;
+}, 20, 3);
+
+/**
+ * Translate string
+ */
+pll_register_string("Сталась помилка. Продукт не знайдено.", "Сталась помилка. Продукт не знайдено.");
+pll_register_string("Ім'я не задано.", "Ім'я не задано.");
+pll_register_string("Email не задано.", "Email не задано.");
+pll_register_string("Відгук не задано.", "Відгук не задано.");
+pll_register_string("Дякуємо за Ваш відгук.", "Дякуємо за Ваш відгук.");
+pll_register_string("Сталась помилка, спробуйте пізніше.", "Сталась помилка, спробуйте пізніше.");
+pll_register_string("Сталась помилка. Продукт не може бути доданий в корзину.", "Сталась помилка. Продукт не може бути доданий в корзину.");
+pll_register_string("Сталась помилка. Продукт не може бути видалений.", "Сталась помилка. Продукт не може бути видалений.");
+pll_register_string("Сталась помилка. Неможливо змінити кількість.", "Сталась помилка. Неможливо змінити кількість.");
+pll_register_string("Кольори моделі", "Кольори моделі");
+pll_register_string("Кількість", "Кількість");
+pll_register_string("Обраний розмір", "Обраний розмір");
+pll_register_string("Стандартні розміри", "Стандартні розміри");
+pll_register_string("Ширина", "Ширина");
+pll_register_string("Висота", "Висота");
+pll_register_string("Сторона управління", "Сторона управління");
+pll_register_string("Кольори системи", "Кольори системи");
+pll_register_string("Інший розмір вікон", "Інший розмір вікон");
+pll_register_string("Додати до корзини", "Додати до корзини");
+pll_register_string("Немає в наявності", "Немає в наявності");
+pll_register_string("Можливо вас зацікавлять", "Можливо вас зацікавлять");
+pll_register_string("Опис", "Опис");
+pll_register_string("Всі", "Всі");
+pll_register_string("Ще немає відгуків.", "Ще немає відгуків.");
+pll_register_string("Залишити відгук", "Залишити відгук");
+pll_register_string("Ім’я", "Ім’я");
+pll_register_string("Email", "Email");
+pll_register_string("Відгук", "Відгук");
+pll_register_string("Надіслати", "Надіслати");
+
+pll_register_string("сторона управління", "сторона управління");
+pll_register_string("ліва", "ліва");
+pll_register_string("права", "права");
+pll_register_string("колір системи", "колір системи");
+pll_register_string("чорний", "чорний");
+pll_register_string("білий", "білий");
+pll_register_string("До оплати", "До оплати");
+pll_register_string("Особисті дані", "Особисті дані");
+pll_register_string("Доставка", "Доставка");
+pll_register_string("У вашій корзині", "У вашій корзині");
+
+//TODO
+//email changes
+
 /* CHANGES RELATED TO WC PRODUCTS END */

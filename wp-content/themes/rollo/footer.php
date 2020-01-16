@@ -1,5 +1,5 @@
 <?php
-	
+
 	/**
 		* The template for displaying the footer
 		*
@@ -51,7 +51,7 @@
 						<ul class="nostyle-list">
 							<? get_top_cat(); ?>
 						</ul>
-						
+
 					</div>
 					<div>
 						<p class="title">

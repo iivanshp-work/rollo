@@ -49,26 +49,9 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                       <div class="orderingform_box">
                             <p class="title"><span>1</span> <?php echo __('Особисті дані'); ?></p>
                             <?php do_action( 'woocommerce_checkout_billing' ); ?>
-                            <!--<div class="inpinline-field">
-                                <label for="name">Ім’я та прізвище</label>
-                                <input type="text" id="name" class="name-input">
-                            </div>
-                            <div class="inpinline-field">
-                                <label for="city">Місто</label>
-                                <input type="text" id="city" class="city-input">
-                            </div>
-                            <div class="inpinline-field">
-                                <label for="phone">Телефон</label>
-                                <input type="text" id="phone" class="phone-input">
-                            </div>
-                            <div class="inpinline-field">
-                                <label for="email">Email</label>
-                                <input type="text" id="email" class="email-input">
-                            </div>-->
                         </div>
                         <div class="orderingform_box">
                             <p class="title"><span>2</span> <?php echo __('Доставка'); ?></p>
-
 
                             <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
                             <div class="inpinline-field align-items-start">
@@ -117,24 +100,6 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                                             $first = false;
                                         }
                                     ?>
-                                    <!--
-                                    <div class="check-formfield">
-                                        <input type="radio" id="delivery1" class="blueact" name="delivery">
-                                        <label for="delivery1">самовивіз з Нової Пошти</label>
-                                    </div>
-                                    <div class="select-formfield">
-                                        <select name="" id="">
-                                            <option value="0">Виберіть відділення</option>
-                                            <option value="1">Відділення 1</option>
-                                            <option value="2">Відділення 2</option>
-                                            <option value="3">Відділення 3</option>
-                                            <option value="4">Відділення 4</option>
-                                        </select>
-                                    </div>
-                                    <div class="check-formfield">
-                                        <input type="radio" id="delivery2" class="blueact" name="delivery">
-                                        <label for="delivery2">кур'єр Нова Пошта</label>
-                                    </div>-->
                                 </div>
                             </div>
                             <?php endif; ?>
@@ -147,30 +112,12 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                             <div class="inpinline-field align-items-start">
                                 <label>Оплата</label>
                                 <div class="delivery-field">
-
-
                                     <?php do_action( 'woocommerce_review_order_after_order_total' ); ?>
-
-                                    <div class="check-formfield">
-                                        <input type="radio" id="payment1" class="blueact" name="payment">
-                                        <label for="payment1">Оплата при отриманні замовлення
-                                        </label>
-                                    </div>
-                                    <div class="check-formfield">
-                                        <input type="radio" id="payment2" class="blueact" name="payment">
-                                        <label for="payment2">Оплатити зараз карткою Visa/Mastercard
-                                        </label>
-                                        <div class="payment-pic">
-                                            <img src="image/icon/mastercard.svg" alt="MasterCard">
-                                            <img src="image/icon/visa.svg" alt="Visa">
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                         <noscript>
                             <?php
-                            /* translators: $1 and $2 opening and closing emphasis tags respectively */
                             printf( esc_html__( 'Since your browser does not support JavaScript, or it is disabled, please ensure you click the %1$sUpdate Totals%2$s button before placing your order. You may be charged more than the amount stated above if you fail to do so.', 'woocommerce' ), '<em>', '</em>' );
                             ?>
                             <br/><button type="submit" class="button alt" name="woocommerce_checkout_update_totals" value="<?php esc_attr_e( 'Update totals', 'woocommerce' ); ?>"><?php esc_html_e( 'Update totals', 'woocommerce' ); ?></button>

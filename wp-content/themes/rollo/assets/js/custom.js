@@ -43,7 +43,7 @@ $(document).ready(function () {
         let frm = $('#product-review-form');
         let wrapper = frm;
 
-        //if (wrapper.data("busy")) return;
+        if (wrapper.data("busy")) return;
         wrapper.data("busy", true);
         //
         let data = frm.serialize();
@@ -80,7 +80,7 @@ $(document).ready(function () {
         let product_id = frm.find('[name="product_id"]').val();
         let wrapper = frm;
 
-        //if (wrapper.data("busy")) return;
+        if (wrapper.data("busy")) return;
         wrapper.data("busy", true);
 
         let data = frm.serialize();
@@ -114,7 +114,7 @@ $(document).ready(function () {
         let cart_item_key = btn.data('cart-item-key');
         let wrapper = $('.woocommerce-checkout-review-order-table');
         let woocommerceFrm = $('form.woocommerce-checkout');
-        //if (wrapper.data("busy")) return;
+        if (wrapper.data("busy")) return;
         wrapper.data("busy", true);
 
         data = {
@@ -131,6 +131,7 @@ $(document).ready(function () {
             },
             success: function(data) {
                 if (data.has_error) {
+                    woocommerceFrm.find('.woocommerce-NoticeGroup-checkout').remove();
                     let html = '<div class="woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout"><ul class="woocommerce-error" role="alert"><li>' + data.error_message + '</li></ul></div>';
                     woocommerceFrm.prepend(html);
                 } else {
@@ -141,7 +142,6 @@ $(document).ready(function () {
                         if ( data && data.fragments ) {
                             $.each( data.fragments, function ( key, value ) {
                                 $(key).replaceWith(value);
-                                $(key).unblock();
                             } );
                         }
                     }
@@ -165,8 +165,9 @@ $(document).ready(function () {
         let cart_item_key = btn.data('cart-item-key');
         let quantity = btn.data('quantity-cart-item');
         let wrapper = $('.woocommerce-checkout-review-order-table');
+        let woocommerceFrm = $('form.woocommerce-checkout');
 
-        //if (wrapper.data("busy")) return;
+        if (wrapper.data("busy")) return;
         wrapper.data("busy", true);
 
         data = {
@@ -184,7 +185,9 @@ $(document).ready(function () {
             },
             success: function(data) {
                 if (data.has_error) {
+                    woocommerceFrm.find('.woocommerce-NoticeGroup-checkout').remove();
                     let html = '<div class="woocommerce-NoticeGroup woocommerce-NoticeGroup-checkout"><ul class="woocommerce-error" role="alert"><li>' + data.error_message + '</li></ul></div>';
+                    console.log(html);
                     woocommerceFrm.prepend(html);
                 } else {
                     $('.header .basket-btn__counter').text(data.total_products);
@@ -194,7 +197,6 @@ $(document).ready(function () {
                         if ( data && data.fragments ) {
                             $.each( data.fragments, function ( key, value ) {
                                 $(key).replaceWith(value);
-                                $(key).unblock();
                             } );
                         }
                     }
@@ -212,7 +214,25 @@ $(document).ready(function () {
             } );
         }
     });
-    //$( document.body ).trigger( 'update_checkout', { update_shipping_method: false } );
+
+    if ($('form.woocommerce-checkout').length) {
+        $('input#billing_email').inputmask({
+            mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]",
+            greedy: false,
+            onBeforePaste: function (pastedValue, opts) {
+                pastedValue = pastedValue.toLowerCase();
+                return pastedValue.replace("mailto:", "");
+            },
+            definitions: {
+                '*': {
+                    validator: "[0-9A-Za-z!#$%&'*+/=?^_`{|}~\-]",
+                    casing: "lower"
+                }
+            }
+        });
+
+        $("input#billing_phone").inputmask({ "mask": "(999) 999-9999" });
+    }
 });
 
 function recalculatePrice() {
@@ -220,7 +240,7 @@ function recalculatePrice() {
     let product_id = frm.find('[name="product_id"]').val();
     let wrapper = frm;
 
-    //if (wrapper.data("busy")) return;
+    if (wrapper.data("busy")) return;
     wrapper.data("busy", true);
 
     let data = frm.serialize();

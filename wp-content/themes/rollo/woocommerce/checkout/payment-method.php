@@ -19,15 +19,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<li class="wc_payment_method payment_method_<?php echo esc_attr( $gateway->id ); ?>">
-	<input id="payment_method_<?php echo esc_attr( $gateway->id ); ?>" type="radio" class="input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php checked( $gateway->chosen, true ); ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" />
-
+<div class="check-formfield wc_payment_method payment_method_<?php echo esc_attr( $gateway->id ); ?>">
 	<label for="payment_method_<?php echo esc_attr( $gateway->id ); ?>">
-		<?php echo $gateway->get_title(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ ?> <?php echo $gateway->get_icon(); /* phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped */ ?>
+    <span class="custom-checkbox"><input id="payment_method_<?php echo esc_attr( $gateway->id ); ?>" type="radio" class="blueact input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php checked( $gateway->chosen, true ); ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" /><span class="checkmark"></span></span>
+		<?php echo $gateway->get_title();  ?> <?php echo $gateway->get_icon(); ?>
 	</label>
-	<?php if ( $gateway->has_fields() || $gateway->get_description() ) : ?>
-		<div class="payment_box payment_method_<?php echo esc_attr( $gateway->id ); ?>" <?php if ( ! $gateway->chosen ) : /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace */ ?>style="display:none;"<?php endif; /* phpcs:ignore Squiz.ControlStructures.ControlSignature.NewlineAfterOpenBrace */ ?>>
-			<?php $gateway->payment_fields(); ?>
-		</div>
-	<?php endif; ?>
-</li>
+  <?php if ($gateway->id == 'bacs'): ?>
+    <div class="payment-pic">
+      <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/mastercard.svg" alt="MasterCard">
+      <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/visa.svg" alt="Visa">
+    </div>
+  <?php endif; ?>
+</div>

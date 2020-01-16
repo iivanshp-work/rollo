@@ -26,7 +26,9 @@ defined( 'ABSPATH' ) || exit;
 		<?php
 		$fields = $checkout->get_checkout_fields( 'billing' );
 		foreach ( $fields as $key => $field ) {
-		  if ($field['type'] == 'tel') $field['type'] = 'text';
+		  if ($field['type'] == 'tel' || $field['type'] == 'email'){
+		    $field['type'] = 'text';
+      }
 		  echo "<div class='inpinline-field'>";
 			woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
 			echo "</div>";
