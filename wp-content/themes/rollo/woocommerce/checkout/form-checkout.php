@@ -49,7 +49,7 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                       <div class="orderingform_box">
                             <p class="title"><span>1</span> <?php echo __('Особисті дані'); ?></p>
                             <?php do_action( 'woocommerce_checkout_billing' ); ?>
-                            <div class="inpinline-field">
+                            <!--<div class="inpinline-field">
                                 <label for="name">Ім’я та прізвище</label>
                                 <input type="text" id="name" class="name-input">
                             </div>
@@ -64,22 +64,60 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                             <div class="inpinline-field">
                                 <label for="email">Email</label>
                                 <input type="text" id="email" class="email-input">
-                            </div>
+                            </div>-->
                         </div>
                         <div class="orderingform_box">
                             <p class="title"><span>2</span> <?php echo __('Доставка'); ?></p>
 
 
                             <?php if ( WC()->cart->needs_shipping() && WC()->cart->show_shipping() ) : ?>
-                              <div class="incard__bottsect">
-                                <span class="lefttext"><?php echo __('Доставка');?></span>
-                                <span class="allprice"><?php wc_cart_totals_shipping_html(); ?></span>
-                              </div>
-                            <?php endif; ?>
-
                             <div class="inpinline-field align-items-start">
                                 <label>Спосіб доставки</label>
                                 <div class="delivery-field">
+                                    <?php
+                                        $packages           = WC()->shipping()->get_packages();
+                                        $first              = true;
+
+                                        foreach ( $packages as $i => $package ) {
+                                            $chosen_method = isset( WC()->session->chosen_shipping_methods[ $i ] ) ? WC()->session->chosen_shipping_methods[ $i ] : '';
+                                            $product_names = array();
+
+                                            if ( count( $packages ) > 1 ) {
+                                                foreach ( $package['contents'] as $item_id => $values ) {
+                                                    $product_names[ $item_id ] = $values['data']->get_name() . ' &times;' . $values['quantity'];
+                                                }
+                                                $product_names = apply_filters( 'woocommerce_shipping_package_details_array', $product_names, $package );
+                                            }
+                                            $available_methods = $package['rates'];
+                                            $show_package_details = count( $packages ) > 1;
+                                            $show_shipping_calculator = is_cart() && apply_filters( 'woocommerce_shipping_show_shipping_calculator', $first, $i, $package );
+                                            $package_details =  implode( ', ', $product_names );
+                                            $package_name =  apply_filters( 'woocommerce_shipping_package_name', ( ( $i + 1 ) > 1 ) ? sprintf( _x( 'Shipping %d', 'shipping packages', 'woocommerce' ), ( $i + 1 ) ) : _x( 'Shipping', 'shipping packages', 'woocommerce' ), $i, $package );
+                                            $index =  $i;
+                                            $formatted_destination =  WC()->countries->get_formatted_address( $package['destination'], ', ' );
+                                            $has_calculated_shipping =  WC()->customer->has_calculated_shipping();
+                                            ?>
+                                            <ul class="shipping-available_methods">
+                                                <?php foreach ( $available_methods as $method ) : ?>
+                                                    <li>
+                                                        <?php
+                                                        printf( '<label class="check-formfield2" for="shipping_method_%1$s_%2$s">', $index, esc_attr( sanitize_title( $method->id ) ), wc_cart_totals_shipping_method_label( $method ) ); // WPCS: XSS ok.
+                                                        printf( '<span class="custom-checkbox"><input type="radio" name="shipping_method[%1$d]" data-index="%1$d" id="shipping_method_%1$d_%2$s" value="%3$s" class="blueact shipping_method" %4$s /><span class="checkmark"></span></span>', $index, esc_attr( sanitize_title( $method->id ) ), esc_attr( $method->id ), checked( $method->id, $chosen_method, false ) ); // WPCS: XSS ok.
+                                                        printf( '%1$s</label>',  wc_cart_totals_shipping_method_label( $method ) ); // WPCS: XSS ok.
+                                                        do_action( 'woocommerce_after_shipping_rate', $method, $index );
+                                                        if ($method->method_id == 'nova_poshta_shipping') {
+                                                            do_action( 'woocommerce_before_order_notes', $checkout );
+                                                        }
+                                                        ?>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                            <?php
+
+                                            $first = false;
+                                        }
+                                    ?>
+                                    <!--
                                     <div class="check-formfield">
                                         <input type="radio" id="delivery1" class="blueact" name="delivery">
                                         <label for="delivery1">самовивіз з Нової Пошти</label>
@@ -96,10 +134,10 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                                     <div class="check-formfield">
                                         <input type="radio" id="delivery2" class="blueact" name="delivery">
                                         <label for="delivery2">кур'єр Нова Пошта</label>
-                                    </div>
+                                    </div>-->
                                 </div>
-
                             </div>
+                            <?php endif; ?>
 
                             <?php do_action( 'woocommerce_checkout_shipping' ); ?>
                         </div>
@@ -109,6 +147,10 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                             <div class="inpinline-field align-items-start">
                                 <label>Оплата</label>
                                 <div class="delivery-field">
+
+
+                                    <?php do_action( 'woocommerce_review_order_after_order_total' ); ?>
+
                                     <div class="check-formfield">
                                         <input type="radio" id="payment1" class="blueact" name="payment">
                                         <label for="payment1">Оплата при отриманні замовлення
@@ -126,9 +168,19 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                                 </div>
                             </div>
                         </div>
-                        <input type="submit" value="<?php echo __('Оформити замовлення'); ?>" class="black-btn">
+                        <noscript>
+                            <?php
+                            /* translators: $1 and $2 opening and closing emphasis tags respectively */
+                            printf( esc_html__( 'Since your browser does not support JavaScript, or it is disabled, please ensure you click the %1$sUpdate Totals%2$s button before placing your order. You may be charged more than the amount stated above if you fail to do so.', 'woocommerce' ), '<em>', '</em>' );
+                            ?>
+                            <br/><button type="submit" class="button alt" name="woocommerce_checkout_update_totals" value="<?php esc_attr_e( 'Update totals', 'woocommerce' ); ?>"><?php esc_html_e( 'Update totals', 'woocommerce' ); ?></button>
+                        </noscript>
 
-                        <?php do_action( 'woocommerce_review_order_after_order_total' ); ?>
+                        <?php echo apply_filters( 'woocommerce_order_button_html', '<button type="submit" class="black-btn" name="woocommerce_checkout_place_order" id="place_order" value="' .  __('Оформити замовлення') . '" data-value="' .  __('Оформити замовлення') . '">' .  __('Оформити замовлення') . '</button>' ); // @codingStandardsIgnoreLine ?>
+
+                        <?php do_action( 'woocommerce_review_order_after_submit' ); ?>
+
+                        <?php wp_nonce_field( 'woocommerce-process_checkout', 'woocommerce-process-checkout-nonce' ); ?>
 
                     </form>
                 </div>

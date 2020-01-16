@@ -1,4 +1,11 @@
 $(document).ready(function () {
+    // input slyled
+    $(function () {
+        if($('.woocommerce-checkout #np_custom_address').length) {
+            $('.woocommerce-checkout #np_custom_address').after('<span class="custom-checkbox"></span>')
+        }
+    });
+
     $(document).on('click', '[data-pa-type]', function(e){
         let type = $(this).data('pa-type');
         let id = $(this).data('id');

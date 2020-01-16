@@ -1099,8 +1099,12 @@ add_action('woocommerce_checkout_create_order_line_item', 'add_order_item_custom
 function change_order_item_meta_title( $key, $meta, $item ) {
 
     // By using $meta-key we are sure we have the correct one.
-    if ( '_product_price' === $meta->key ) { $key = 'SOMETHING'; }
-
+    if ( '_product_price' == $key ) { $key = 'Ціна'; }
+    if ( '_product_width' == $key ) { $key = 'Ширина'; }
+    if ( '_product_height' == $key ) { $key = 'Висота'; }
+    if ( '_product_pa_kolory-modeli' == $key ) { $key = 'Колір моделі'; }
+    if ( '_product_pa_storona-upravlinnya' == $key ) { $key = 'Сторона управління'; }
+    if ( '_product_pa_kolory-systemy' == $key ) { $key = 'Колір системи'; }
     return $key;
 }
 add_filter( 'woocommerce_order_item_display_meta_key', 'change_order_item_meta_title', 20, 3 );
@@ -1115,11 +1119,65 @@ add_filter( 'woocommerce_order_item_display_meta_key', 'change_order_item_meta_t
 function change_order_item_meta_value( $value, $meta, $item ) {
 
     // By using $meta-key we are sure we have the correct one.
-    if ( '_product_price' === $meta->key ) { $value = 'SOMETHING'; }
-
+    if ( '_product_attribute_width' === $meta->key ) { $value = $value . ' мм'; }
+    if ( '_product_attribute_height' === $meta->key ) { $value = $value . ' мм'; }
+    if ( '_product_attribute_pa_kolory-modeli' === $meta->key ) {
+        $term_obj = get_term_by('slug', $value, "pa_kolory-modeli");
+        if ($term_obj) {
+            $value = $term_obj->name;
+        }
+    }
+    if ( '_product_attribute_pa_kolory-systemy' === $meta->key ) {
+        $term_obj = get_term_by('slug', $value, "pa_kolory-systemy");
+        if ($term_obj) {
+            $value = $term_obj->name;
+        } }
+    if ( '_product_attribute_pa_storona-upravlinnya' === $meta->key ) {
+        $term_obj = get_term_by('slug', $value, "pa_storona-upravlinnya");
+        if ($term_obj) {
+            $value = $term_obj->name;
+        }
+    }
     return $value;
 }
 add_filter( 'woocommerce_order_item_display_meta_value', 'change_order_item_meta_value', 20, 3 );
 
+function hide_my_item_meta( $hidden_meta ) {
+    $hidden_meta[] = '_product_price';
+    return $hidden_meta;
+}
+add_filter( 'woocommerce_hidden_order_itemmeta', 'hide_my_item_meta' );
+
 //nova poshta api key: 5dc29908a8b509da998f8600c919ba7f
+
+add_filter('wc_ukr_shipping_language', function ($lang) {
+    if (pll_current_language() === 'uk') {
+        return 'ua';
+    }
+    return 'ru';
+});
+
+add_filter('wc_ukr_shipping_get_nova_poshta_translates', function ($translates) {
+    $currentLanguage = wp_doing_ajax() ? $_COOKIE['pll_language'] : pll_current_language();
+    if ($currentLanguage === 'uk') {
+        return [
+            'method_title' => 'Нова Пошта',
+            'block_title' => 'Вкажіть відділення доставки',
+            'placeholder_area' => 'Оберіть область',
+            'placeholder_city' => 'Оберіть місто',
+            'placeholder_warehouse' => 'Оберіть відділення',
+            'address_title' => 'Доставка кур\'ером',
+            'address_placeholder' => 'Введіть адресу доставки'
+        ];
+    }
+    return [
+        'method_title' => 'Новая почта',
+        'block_title' => 'Укажите отделение доставки',
+        'placeholder_area' => 'Выберите область',
+        'placeholder_city' => 'Выберите город',
+        'placeholder_warehouse' => 'Выберите отделение',
+        'address_title' => 'Доставка курьером',
+        'address_placeholder' => 'Введите адрес доставки'
+    ];
+});
 /* CHANGES RELATED TO WC PRODUCTS END */
