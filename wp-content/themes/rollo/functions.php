@@ -1147,7 +1147,6 @@ function hide_my_item_meta( $hidden_meta ) {
     return $hidden_meta;
 }
 add_filter( 'woocommerce_hidden_order_itemmeta', 'hide_my_item_meta' );
-
 //nova poshta api key: 5dc29908a8b509da998f8600c919ba7f
 
 add_filter('wc_ukr_shipping_language', function ($lang) {
@@ -1191,51 +1190,477 @@ add_filter('woocommerce_add_error', function ($message){
     return $message;
 }, 20, 3);
 
+function wc_display_item_meta_custom( $item, $args = array() ) {
+    $strings = array();
+    $html    = '';
+    $args    = wp_parse_args(
+        $args,
+        array(
+            'before'       => '<ul class="wc-item-meta"><li>',
+            'after'        => '</li></ul>',
+            'separator'    => '</li><li>',
+            'echo'         => true,
+            'autop'        => false,
+            'label_before' => '<strong class="wc-item-meta-label">',
+            'label_after'  => ':</strong> ',
+        )
+    );
+    $skipKeys = ['_product_price', '_product_attribute_pa_kolory-modeli'];
+    foreach ( $item->get_formatted_meta_data("", true) as $meta_id => $meta ) {
+        if (in_array($meta->key, $skipKeys)) continue;
+        $value     = $args['autop'] ? wp_kses_post( $meta->display_value ) : wp_kses_post( make_clickable( trim( $meta->display_value ) ) );
+        $strings[] = $args['label_before'] . wp_kses_post( $meta->display_key ) . $args['label_after'] . $value;
+    }
+
+    if ( $strings ) {
+        $html = $args['before'] . implode( $args['separator'], $strings ) . $args['after'];
+    }
+
+    $html = apply_filters( 'woocommerce_display_item_meta', $html, $item, $args );
+
+    if ( $args['echo'] ) {
+        echo $html; // WPCS: XSS ok.
+    } else {
+        return $html;
+    }
+}
+
+/**
+ * Custom fields
+ */
+if( function_exists('acf_add_local_field_group') ):
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5e1ab7916d0ad',
+        'title' => 'HEX Колір',
+        'fields' => array(
+            array(
+                'key' => 'field_5e1ab7b8ccbb1',
+                'label' => 'HEX Колір',
+                'name' => 'hex_color',
+                'type' => 'color_picker',
+                'instructions' => '',
+                'required' => 1,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'taxonomy',
+                    'operator' => '==',
+                    'value' => 'pa_kolory-modeli',
+                ),
+            ),
+            array(
+                array(
+                    'param' => 'taxonomy',
+                    'operator' => '==',
+                    'value' => 'pa_kolory-systemy',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5e19d0243314b',
+        'title' => 'Додаткова ціна кольору системи',
+        'fields' => array(
+            array(
+                'key' => 'field_5e19d0428e021',
+                'label' => 'Додаткова ціна',
+                'name' => 'additinal_price',
+                'type' => 'number',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => 0,
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'min' => '',
+                'max' => '',
+                'step' => '',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'taxonomy',
+                    'operator' => '==',
+                    'value' => 'pa_kolory-systemy',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5e1d4a82df683',
+        'title' => 'Опис - зображення',
+        'fields' => array(
+            array(
+                'key' => 'field_5e1d4a9e11223',
+                'label' => 'Опис - зображення',
+                'name' => 'description_image',
+                'type' => 'image',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'return_format' => 'url',
+                'preview_size' => 'full',
+                'library' => 'all',
+                'min_width' => '',
+                'min_height' => '',
+                'min_size' => '',
+                'max_width' => '',
+                'max_height' => '',
+                'max_size' => '',
+                'mime_types' => '',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'product',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'side',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5e19ca1068102',
+        'title' => 'Розміри',
+        'fields' => array(
+            array(
+                'key' => 'field_5e19ca2402c90',
+                'label' => 'Стандартні розміри',
+                'name' => 'standard_sizes',
+                'type' => 'repeater',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'collapsed' => '',
+                'min' => 0,
+                'max' => 0,
+                'layout' => 'table',
+                'button_label' => '',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_5e19ca6c02c91',
+                        'label' => 'Ширина',
+                        'name' => 'width',
+                        'type' => 'number',
+                        'instructions' => '',
+                        'required' => 1,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'default_value' => '',
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'min' => 150,
+                        'max' => 2800,
+                        'step' => 1,
+                    ),
+                    array(
+                        'key' => 'field_5e19cb808a856',
+                        'label' => 'Висота',
+                        'name' => 'height',
+                        'type' => 'number',
+                        'instructions' => '',
+                        'required' => 1,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'default_value' => '',
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'min' => 1000,
+                        'max' => 2800,
+                        'step' => 1,
+                    ),
+                    array(
+                        'key' => 'field_5e19cb9e8a857',
+                        'label' => 'Ціна',
+                        'name' => 'price',
+                        'type' => 'number',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'default_value' => '',
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'min' => 0,
+                        'max' => '',
+                        'step' => '',
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_5e19cbcb8a858',
+                'label' => 'Нестандартні розміри',
+                'name' => 'not_standard_sizes',
+                'type' => 'group',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'layout' => 'table',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_5e19cbed8a859',
+                        'label' => 'Ширина',
+                        'name' => 'width',
+                        'type' => 'group',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'layout' => 'block',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'field_5e19cc178a85a',
+                                'label' => 'Мін. ширина',
+                                'name' => 'min_width',
+                                'type' => 'number',
+                                'instructions' => '',
+                                'required' => 1,
+                                'conditional_logic' => 0,
+                                'wrapper' => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id' => '',
+                                ),
+                                'default_value' => 150,
+                                'placeholder' => '',
+                                'prepend' => '',
+                                'append' => '',
+                                'min' => 150,
+                                'max' => 2800,
+                                'step' => 1,
+                            ),
+                            array(
+                                'key' => 'field_5e19cc5d8a85b',
+                                'label' => 'Макс. ширина',
+                                'name' => 'max_width',
+                                'type' => 'number',
+                                'instructions' => '',
+                                'required' => 1,
+                                'conditional_logic' => 0,
+                                'wrapper' => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id' => '',
+                                ),
+                                'default_value' => 2800,
+                                'placeholder' => '',
+                                'prepend' => '',
+                                'append' => '',
+                                'min' => 150,
+                                'max' => 2800,
+                                'step' => 1,
+                            ),
+                        ),
+                    ),
+                    array(
+                        'key' => 'field_5e19cc9b8a85c',
+                        'label' => 'Висота',
+                        'name' => 'height',
+                        'type' => 'group',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'layout' => 'block',
+                        'sub_fields' => array(
+                            array(
+                                'key' => 'field_5e19ccb58a85d',
+                                'label' => 'Мін. висота',
+                                'name' => 'min_height',
+                                'type' => 'number',
+                                'instructions' => '',
+                                'required' => 1,
+                                'conditional_logic' => 0,
+                                'wrapper' => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id' => '',
+                                ),
+                                'default_value' => 1000,
+                                'placeholder' => '',
+                                'prepend' => '',
+                                'append' => '',
+                                'min' => 1000,
+                                'max' => 2800,
+                                'step' => 1,
+                            ),
+                            array(
+                                'key' => 'field_5e19cce78a85e',
+                                'label' => 'Макс. висота',
+                                'name' => 'max_height',
+                                'type' => 'number',
+                                'instructions' => '',
+                                'required' => 1,
+                                'conditional_logic' => 0,
+                                'wrapper' => array(
+                                    'width' => '',
+                                    'class' => '',
+                                    'id' => '',
+                                ),
+                                'default_value' => 2800,
+                                'placeholder' => '',
+                                'prepend' => '',
+                                'append' => '',
+                                'min' => 1000,
+                                'max' => 2800,
+                                'step' => 1,
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'product',
+                ),
+            ),
+        ),
+        'menu_order' => 100,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
+endif;
+
 /**
  * Translate string
  */
-pll_register_string("Сталась помилка. Продукт не знайдено.", "Сталась помилка. Продукт не знайдено.");
-pll_register_string("Ім'я не задано.", "Ім'я не задано.");
-pll_register_string("Email не задано.", "Email не задано.");
-pll_register_string("Відгук не задано.", "Відгук не задано.");
-pll_register_string("Дякуємо за Ваш відгук.", "Дякуємо за Ваш відгук.");
-pll_register_string("Сталась помилка, спробуйте пізніше.", "Сталась помилка, спробуйте пізніше.");
-pll_register_string("Сталась помилка. Продукт не може бути доданий в корзину.", "Сталась помилка. Продукт не може бути доданий в корзину.");
-pll_register_string("Сталась помилка. Продукт не може бути видалений.", "Сталась помилка. Продукт не може бути видалений.");
-pll_register_string("Сталась помилка. Неможливо змінити кількість.", "Сталась помилка. Неможливо змінити кількість.");
-pll_register_string("Кольори моделі", "Кольори моделі");
-pll_register_string("Кількість", "Кількість");
-pll_register_string("Обраний розмір", "Обраний розмір");
-pll_register_string("Стандартні розміри", "Стандартні розміри");
-pll_register_string("Ширина", "Ширина");
-pll_register_string("Висота", "Висота");
-pll_register_string("Сторона управління", "Сторона управління");
-pll_register_string("Кольори системи", "Кольори системи");
-pll_register_string("Інший розмір вікон", "Інший розмір вікон");
-pll_register_string("Додати до корзини", "Додати до корзини");
-pll_register_string("Немає в наявності", "Немає в наявності");
-pll_register_string("Можливо вас зацікавлять", "Можливо вас зацікавлять");
-pll_register_string("Опис", "Опис");
-pll_register_string("Всі", "Всі");
-pll_register_string("Ще немає відгуків.", "Ще немає відгуків.");
-pll_register_string("Залишити відгук", "Залишити відгук");
-pll_register_string("Ім’я", "Ім’я");
-pll_register_string("Email", "Email");
-pll_register_string("Відгук", "Відгук");
-pll_register_string("Надіслати", "Надіслати");
+pll_register_string("Сталась помилка. Продукт не знайдено.", "Сталась помилка. Продукт не знайдено.", "rollo_theme");
+pll_register_string("Ім'я не задано.", "Ім'я не задано.", "rollo_theme");
+pll_register_string("Email не задано.", "Email не задано.", "rollo_theme");
+pll_register_string("Відгук не задано.", "Відгук не задано.", "rollo_theme");
+pll_register_string("Дякуємо за Ваш відгук.", "Дякуємо за Ваш відгук.", "rollo_theme");
+pll_register_string("Сталась помилка, спробуйте пізніше.", "Сталась помилка, спробуйте пізніше.", "rollo_theme");
+pll_register_string("Сталась помилка. Продукт не може бути доданий в корзину.", "Сталась помилка. Продукт не може бути доданий в корзину.", "rollo_theme");
+pll_register_string("Сталась помилка. Продукт не може бути видалений.", "Сталась помилка. Продукт не може бути видалений.", "rollo_theme");
+pll_register_string("Сталась помилка. Неможливо змінити кількість.", "Сталась помилка. Неможливо змінити кількість.", "rollo_theme");
+pll_register_string("Кольори моделі", "Кольори моделі", "rollo_theme");
+pll_register_string("Кількість", "Кількість", "rollo_theme");
+pll_register_string("Обраний розмір", "Обраний розмір", "rollo_theme");
+pll_register_string("Стандартні розміри", "Стандартні розміри", "rollo_theme");
+pll_register_string("Ширина", "Ширина", "rollo_theme");
+pll_register_string("Висота", "Висота", "rollo_theme");
+pll_register_string("Сторона управління", "Сторона управління", "rollo_theme");
+pll_register_string("Кольори системи", "Кольори системи", "rollo_theme");
+pll_register_string("Інший розмір вікон", "Інший розмір вікон", "rollo_theme");
+pll_register_string("Додати до корзини", "Додати до корзини", "rollo_theme");
+pll_register_string("Немає в наявності", "Немає в наявності", "rollo_theme");
+pll_register_string("Можливо вас зацікавлять", "Можливо вас зацікавлять", "rollo_theme");
+pll_register_string("Опис", "Опис", "rollo_theme");
+pll_register_string("Всі", "Всі", "rollo_theme");
+pll_register_string("Ще немає відгуків.", "Ще немає відгуків.", "rollo_theme");
+pll_register_string("Залишити відгук", "Залишити відгук", "rollo_theme");
+pll_register_string("Ім’я", "Ім’я", "rollo_theme");
+pll_register_string("Email", "Email", "rollo_theme");
+pll_register_string("Відгук", "Відгук", "rollo_theme");
+pll_register_string("Надіслати", "Надіслати", "rollo_theme");
 
-pll_register_string("сторона управління", "сторона управління");
-pll_register_string("ліва", "ліва");
-pll_register_string("права", "права");
-pll_register_string("колір системи", "колір системи");
-pll_register_string("чорний", "чорний");
-pll_register_string("білий", "білий");
-pll_register_string("До оплати", "До оплати");
-pll_register_string("Особисті дані", "Особисті дані");
-pll_register_string("Доставка", "Доставка");
-pll_register_string("У вашій корзині", "У вашій корзині");
+pll_register_string("сторона управління", "сторона управління", "rollo_theme");
+pll_register_string("ліва", "ліва", "rollo_theme");
+pll_register_string("права", "права", "rollo_theme");
+pll_register_string("колір системи", "колір системи", "rollo_theme");
+pll_register_string("чорний", "чорний", "rollo_theme");
+pll_register_string("білий", "білий", "rollo_theme");
+pll_register_string("До оплати", "До оплати", "rollo_theme");
+pll_register_string("Особисті дані", "Особисті дані", "rollo_theme");
+pll_register_string("Доставка", "Доставка", "rollo_theme");
+pll_register_string("У вашій корзині", "У вашій корзині", "rollo_theme");
 
-//TODO
-//email changes
-
+/*
+ *  "host": "rollo.ftp.tools",
+    "username": "rollo_ftp",
+    "password": "2LNg30xGx9",
+ */
 /* CHANGES RELATED TO WC PRODUCTS END */

@@ -4203,6 +4203,9 @@ header.woocommerce-Address-title.title h3 {
     -ms-user-select: none;
     user-select: none;
 }
+.woocommerce-checkout-payment .custom-checkbox{
+    margin-bottom: 0;
+}
 .custom-checkbox input {
     position: absolute;
     opacity: 0;

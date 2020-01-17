@@ -16,24 +16,27 @@
  * @global WC_Checkout $checkout
  */
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 ?>
 <div class="woocommerce-billing-fields">
 
-	<?php do_action( 'woocommerce_before_checkout_billing_form', $checkout ); ?>
+    <?php do_action('woocommerce_before_checkout_billing_form', $checkout); ?>
 
-	<div class="woocommerce-billing-fields__field-wrapper">
-		<?php
-		$fields = $checkout->get_checkout_fields( 'billing' );
-		foreach ( $fields as $key => $field ) {
-		  if ($field['type'] == 'tel' || $field['type'] == 'email'){
-		    $field['type'] = 'text';
-      }
-		  echo "<div class='inpinline-field'>";
-			woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
-			echo "</div>";
-		}
-		?>
-	</div>
-	<?php do_action( 'woocommerce_after_checkout_billing_form', $checkout ); ?>
+    <div class="woocommerce-billing-fields__field-wrapper">
+        <?php
+        $fields = $checkout->get_checkout_fields('billing');
+        foreach ($fields as $key => $field) {
+            if ($key == 'billing_email') {
+                $field['label'] = 'Email';
+            }
+            if ($field['type'] == 'tel' || $field['type'] == 'email') {
+                $field['type'] = 'text';
+            }
+            echo "<div class='inpinline-field'>";
+            woocommerce_form_field($key, $field, $checkout->get_value($key));
+            echo "</div>";
+        }
+        ?>
+    </div>
+    <?php do_action('woocommerce_after_checkout_billing_form', $checkout); ?>
 </div>
