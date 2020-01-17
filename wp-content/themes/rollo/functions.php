@@ -905,28 +905,15 @@ function ajax_add_to_cart() {
         ]);
         wp_die();
     }
-    /*echo json_encode([
-        'has_error' => false,
-        'price' => wc_price($price),
-        'product_id' => $variant->get_id(),
-    ]);
-    wp_die();*/
-
-
-    //$product_id = apply_filters('woocommerce_add_to_cart_product_id', absint($_POST['product_id']));
-    //$variation_id = absint($_POST['variation_id']);
-
     $quantity = empty($_POST['quantity']) ? 1 : wc_stock_amount($_POST['quantity']);
     $passed_validation = apply_filters('woocommerce_add_to_cart_validation', true, $product_id, $quantity);
     $product_status = get_post_status($product_id);
-    //test([$product_id, $variation_id, $quantity, $passed_validation, $product_status]);
 
     //there will be attributes
     $cart_item_data['attributes'] = $product_attributes;
     $cart_item_data['price'] = $price;
 
     $variation = wc_get_product_variation_attributes( $variation_id );
-    //WC()->cart->empty_cart();
     if ($passed_validation && WC()->cart->add_to_cart($product_id, $quantity, $variation_id, $variation, $cart_item_data) && 'publish' === $product_status) {
         do_action('woocommerce_ajax_added_to_cart', $product_id);
     } else {
@@ -974,7 +961,6 @@ add_filter( 'woocommerce_get_cart_item_from_session', function( $cart_item, $val
 
 function ajax_product_remove()
 {
-    // Get mini cart
     ob_start();
     $cart_item_key = isset($_POST['cart_item_key']) ? trim($_POST['cart_item_key']) : '';
     if (!$cart_item_key) {
@@ -1089,13 +1075,6 @@ function add_order_item_custom_meta($item, $cart_item_key, $cart_item, $order) {
 }
 add_action('woocommerce_checkout_create_order_line_item', 'add_order_item_custom_meta', 10, 4 );
 
-/**
- * Changing a meta title
- * @param  string        $key  The meta key
- * @param  WC_Meta_Data  $meta The meta object
- * @param  WC_Order_Item $item The order item object
- * @return string        The title
- */
 function change_order_item_meta_title( $key, $meta, $item ) {
 
     // By using $meta-key we are sure we have the correct one.
@@ -1109,13 +1088,6 @@ function change_order_item_meta_title( $key, $meta, $item ) {
 }
 add_filter( 'woocommerce_order_item_display_meta_key', 'change_order_item_meta_title', 20, 3 );
 
-/**
- * Changing a meta value
- * @param  string        $value  The meta value
- * @param  WC_Meta_Data  $meta   The meta object
- * @param  WC_Order_Item $item   The order item object
- * @return string        The title
- */
 function change_order_item_meta_value( $value, $meta, $item ) {
 
     // By using $meta-key we are sure we have the correct one.
@@ -1433,7 +1405,7 @@ if( function_exists('acf_add_local_field_group') ):
                         'min' => 1000,
                         'max' => 2800,
                         'step' => 1,
-                    ),
+                    )/*,
                     array(
                         'key' => 'field_5e19cb9e8a857',
                         'label' => 'Ціна',
@@ -1454,7 +1426,7 @@ if( function_exists('acf_add_local_field_group') ):
                         'min' => 0,
                         'max' => '',
                         'step' => '',
-                    ),
+                    ),*/
                 ),
             ),
             array(
