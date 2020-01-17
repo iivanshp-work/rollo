@@ -92,6 +92,11 @@ $(document).ready(function () {
             data: data,
             beforeSend: function() {
                 btn.attr('disabled', 'disabled');
+                if ($('.post-'+product_id).length) {
+                    titleClass = '.post-'+product_id+' .page-linetitle';
+                } else {
+                    titleClass = '.postid-'+product_id+' .page-linetitle';
+                }
             },
             success: function(data) {
                 wrapper.find('.error').remove();
