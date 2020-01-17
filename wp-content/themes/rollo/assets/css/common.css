@@ -4305,4 +4305,9 @@ body.woocommerce-checkout .select2-container--default .select2-results__option--
         max-width: 300px;
     }
 }
+#product_form.busy,
+#product-review-form.busy{
+    opacity: 0.5;
+    pointer-events: none;
+}
 /* CHANGES RELATED TO WC PRODUCTS added new styles end*/

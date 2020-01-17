@@ -44,7 +44,7 @@ $(document).ready(function () {
         let wrapper = frm;
 
         if (wrapper.data("busy")) return;
-        wrapper.data("busy", true);
+        wrapper.data("busy", true).addClass("busy");
         //
         let data = frm.serialize();
         data = data ? data + '&action=product_review' : 'action=product_review';
@@ -66,7 +66,7 @@ $(document).ready(function () {
                 }
             },
             complete: function(){
-                wrapper.data("busy", false);
+                wrapper.data("busy", false).removeClass("busy");
                 frm.find('input[type="submit"]').removeAttr('disabled');
             }
         });
@@ -81,7 +81,7 @@ $(document).ready(function () {
         let wrapper = frm;
 
         if (wrapper.data("busy")) return;
-        wrapper.data("busy", true);
+        wrapper.data("busy", true).addClass("busy");
 
         let data = frm.serialize();
         data = data ? data + '&action=ajax_add_to_cart' : 'action=ajax_add_to_cart';
@@ -92,6 +92,11 @@ $(document).ready(function () {
             data: data,
             beforeSend: function() {
                 btn.attr('disabled', 'disabled');
+                if ($('.post-'+product_id).length) {
+                    titleClass = '.post-'+product_id+' .page-linetitle';
+                } else {
+                    titleClass = '.postid-'+product_id+' .page-linetitle';
+                }
             },
             success: function(data) {
                 wrapper.find('.error').remove();
@@ -103,7 +108,7 @@ $(document).ready(function () {
                 }
             },
             complete: function(){
-                wrapper.data("busy", false);
+                wrapper.data("busy", false).removeClass("busy");
                 btn.removeAttr('disabled');
                 $(wrapper).find('.loader').remove();
             }
@@ -115,7 +120,7 @@ $(document).ready(function () {
         let wrapper = $('.woocommerce-checkout-review-order-table');
         let woocommerceFrm = $('form.woocommerce-checkout');
         if (wrapper.data("busy")) return;
-        wrapper.data("busy", true);
+        wrapper.data("busy", true).addClass("busy");
 
         data = {
             action: 'product_remove',
@@ -148,7 +153,7 @@ $(document).ready(function () {
                 }
             },
             complete: function(){
-                wrapper.data("busy", false);
+                wrapper.data("busy", false).removeClass("busy");
             }
         });
 
@@ -168,7 +173,7 @@ $(document).ready(function () {
         let woocommerceFrm = $('form.woocommerce-checkout');
 
         if (wrapper.data("busy")) return;
-        wrapper.data("busy", true);
+        wrapper.data("busy", true).addClass("busy");
 
         data = {
             action: 'set_quantity',
@@ -203,7 +208,7 @@ $(document).ready(function () {
                 }
             },
             complete: function(){
-                wrapper.data("busy", false);
+                wrapper.data("busy", false).removeClass("busy");
             }
         });
 
@@ -241,7 +246,7 @@ function recalculatePrice() {
     let wrapper = frm;
 
     if (wrapper.data("busy")) return;
-    wrapper.data("busy", true);
+    wrapper.data("busy", true).addClass("busy");
 
     let data = frm.serialize();
     data = data ? data + '&action=recalculate_price' : 'action=recalculate_price';
@@ -279,7 +284,7 @@ function recalculatePrice() {
             }
         },
         complete: function(){
-            wrapper.data("busy", false);
+            wrapper.data("busy", false).removeClass("busy");
             $(wrapper).find('.loader').remove();
         }
     });
