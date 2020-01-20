@@ -1666,6 +1666,7 @@ pll_register_string("Телефон", "Телефон");
 pll_register_string("Самовивіз", "Самовивіз");
 pll_register_string("Готівка при отриманні", "Готівка при отриманні");
 pll_register_string("Прямий банківський переказ", "Прямий банківський переказ");
+pll_register_string("Оплатити карткою Visa/Mastercard", "Оплатити карткою Visa/Mastercard");
 pll_register_string("Спосіб доставки", "Спосіб доставки");
 pll_register_string("Відгуки", "Відгуки");
 pll_register_string("Вартість / шт.", "Вартість / шт.");

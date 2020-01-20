@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     <span class="custom-checkbox"><input id="payment_method_<?php echo esc_attr( $gateway->id ); ?>" type="radio" class="blueact input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php checked( $gateway->chosen, true ); ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" /><span class="checkmark"></span></span>
       <?php echo pll__($gateway->get_title());  ?>
   </label>
-    <?php if ($gateway->id == 'privat24'): ?>
+    <?php if ($gateway->id == 'bacs'): ?>
       <div class="payment-pic">
         <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/mastercard.svg" alt="MasterCard">
         <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/visa.svg" alt="Visa">
