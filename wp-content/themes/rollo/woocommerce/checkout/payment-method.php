@@ -16,18 +16,18 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+    exit;
 }
 ?>
 <div class="check-formfield wc_payment_method payment_method_<?php echo esc_attr( $gateway->id ); ?>">
-	<label for="payment_method_<?php echo esc_attr( $gateway->id ); ?>">
+  <label for="payment_method_<?php echo esc_attr( $gateway->id ); ?>">
     <span class="custom-checkbox"><input id="payment_method_<?php echo esc_attr( $gateway->id ); ?>" type="radio" class="blueact input-radio" name="payment_method" value="<?php echo esc_attr( $gateway->id ); ?>" <?php checked( $gateway->chosen, true ); ?> data-order_button_text="<?php echo esc_attr( $gateway->order_button_text ); ?>" /><span class="checkmark"></span></span>
-		<?php echo $gateway->get_title();  ?> <?php echo $gateway->get_icon(); ?>
-	</label>
-  <?php if ($gateway->id == 'bacs'): ?>
-    <div class="payment-pic">
-      <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/mastercard.svg" alt="MasterCard">
-      <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/visa.svg" alt="Visa">
-    </div>
-  <?php endif; ?>
+      <?php echo pll__($gateway->get_title());  ?>
+  </label>
+    <?php if ($gateway->id == 'bacs'): ?>
+      <div class="payment-pic">
+        <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/mastercard.svg" alt="MasterCard">
+        <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/visa.svg" alt="Visa">
+      </div>
+    <?php endif; ?>
 </div>

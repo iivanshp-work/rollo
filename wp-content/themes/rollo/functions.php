@@ -8,78 +8,78 @@
  */
 
 if ( ! function_exists( 'rollo_setup' ) ) :
-	/**
-	 * Sets up theme defaults and registers support for various WordPress features.
-	 *
-	 * Note that this function is hooked into the after_setup_theme hook, which
-	 * runs before the init hook. The init hook is too late for some features, such
-	 * as indicating support for post thumbnails.
-	 */
-	function rollo_setup() {
-		/*
-		 * Make theme available for translation.
-		 * Translations can be filed in the /languages/ directory.
-		 * If you're building a theme based on rollo, use a find and replace
-		 * to change 'rollo' to the name of your theme in all the template files.
-		 */
-		load_theme_textdomain( 'rollo', get_template_directory() . '/languages' );
+    /**
+     * Sets up theme defaults and registers support for various WordPress features.
+     *
+     * Note that this function is hooked into the after_setup_theme hook, which
+     * runs before the init hook. The init hook is too late for some features, such
+     * as indicating support for post thumbnails.
+     */
+    function rollo_setup() {
+        /*
+         * Make theme available for translation.
+         * Translations can be filed in the /languages/ directory.
+         * If you're building a theme based on rollo, use a find and replace
+         * to change 'rollo' to the name of your theme in all the template files.
+         */
+        load_theme_textdomain( 'rollo', get_template_directory() . '/languages' );
 
-		// Add default posts and comments RSS feed links to head.
-		add_theme_support( 'automatic-feed-links' );
+        // Add default posts and comments RSS feed links to head.
+        add_theme_support( 'automatic-feed-links' );
 
-		/*
-		 * Let WordPress manage the document title.
-		 * By adding theme support, we declare that this theme does not use a
-		 * hard-coded <title> tag in the document head, and expect WordPress to
-		 * provide it for us.
-		 */
-		add_theme_support( 'title-tag' );
+        /*
+         * Let WordPress manage the document title.
+         * By adding theme support, we declare that this theme does not use a
+         * hard-coded <title> tag in the document head, and expect WordPress to
+         * provide it for us.
+         */
+        add_theme_support( 'title-tag' );
 
-		/*
-		 * Enable support for Post Thumbnails on posts and pages.
-		 *
-		 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-		 */
-		add_theme_support( 'post-thumbnails' );
+        /*
+         * Enable support for Post Thumbnails on posts and pages.
+         *
+         * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+         */
+        add_theme_support( 'post-thumbnails' );
 
-		// This theme uses wp_nav_menu() in one location.
-		register_nav_menus( array(
-			'menu-1' => esc_html__( 'Primary', 'rollo' ),
-		) );
+        // This theme uses wp_nav_menu() in one location.
+        register_nav_menus( array(
+            'menu-1' => esc_html__( 'Primary', 'rollo' ),
+        ) );
 
-		/*
-		 * Switch default core markup for search form, comment form, and comments
-		 * to output valid HTML5.
-		 */
-		add_theme_support( 'html5', array(
-			'search-form',
-			'comment-form',
-			'comment-list',
-			'gallery',
-			'caption',
-		) );
+        /*
+         * Switch default core markup for search form, comment form, and comments
+         * to output valid HTML5.
+         */
+        add_theme_support( 'html5', array(
+            'search-form',
+            'comment-form',
+            'comment-list',
+            'gallery',
+            'caption',
+        ) );
 
-		// Set up the WordPress core custom background feature.
-		add_theme_support( 'custom-background', apply_filters( 'rollo_custom_background_args', array(
-			'default-color' => 'ffffff',
-			'default-image' => '',
-		) ) );
+        // Set up the WordPress core custom background feature.
+        add_theme_support( 'custom-background', apply_filters( 'rollo_custom_background_args', array(
+            'default-color' => 'ffffff',
+            'default-image' => '',
+        ) ) );
 
-		// Add theme support for selective refresh for widgets.
-		add_theme_support( 'customize-selective-refresh-widgets' );
+        // Add theme support for selective refresh for widgets.
+        add_theme_support( 'customize-selective-refresh-widgets' );
 
-		/**
-		 * Add support for core custom logo.
-		 *
-		 * @link https://codex.wordpress.org/Theme_Logo
-		 */
-		add_theme_support( 'custom-logo', array(
-			'height'      => 250,
-			'width'       => 250,
-			'flex-width'  => true,
-			'flex-height' => true,
-		) );
-	}
+        /**
+         * Add support for core custom logo.
+         *
+         * @link https://codex.wordpress.org/Theme_Logo
+         */
+        add_theme_support( 'custom-logo', array(
+            'height'      => 250,
+            'width'       => 250,
+            'flex-width'  => true,
+            'flex-height' => true,
+        ) );
+    }
 endif;
 add_action( 'after_setup_theme', 'rollo_setup' );
 
@@ -91,10 +91,10 @@ add_action( 'after_setup_theme', 'rollo_setup' );
  * @global int $content_width
  */
 function rollo_content_width() {
-	// This variable is intended to be overruled from themes.
-	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-	$GLOBALS['content_width'] = apply_filters( 'rollo_content_width', 640 );
+    // This variable is intended to be overruled from themes.
+    // Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+    $GLOBALS['content_width'] = apply_filters( 'rollo_content_width', 640 );
 }
 add_action( 'after_setup_theme', 'rollo_content_width', 0 );
 
@@ -104,14 +104,14 @@ add_action( 'after_setup_theme', 'rollo_content_width', 0 );
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function rollo_widgets_init() {
-	register_sidebar( array(
-		'name'          => esc_html__( 'Sidebar', 'rollo' ),
-		'id'            => 'sidebar-1',
-		'description'   => esc_html__( 'Add widgets here.', 'rollo' ),
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+    register_sidebar( array(
+        'name'          => esc_html__( 'Sidebar', 'rollo' ),
+        'id'            => 'sidebar-1',
+        'description'   => esc_html__( 'Add widgets here.', 'rollo' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
     ) );
 
     register_sidebar( array(
@@ -129,60 +129,60 @@ function rollo_widgets_init() {
         'id' => 'prod-filtr-1',
         'description' => __( 'Фільтр по типу', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '',
-		'after_title'   => '',
+        'after_widget'  => '</section>',
+        'before_title'  => '',
+        'after_title'   => '',
     ) );
 
-	register_sidebar( array(
+    register_sidebar( array(
         'name' => __( 'Фільтр Колір', '' ),
         'id' => 'prod-filtr-color',
         'description' => __( 'Фільтр по кольору', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '',
-		'after_title'   => '',
+        'after_widget'  => '</section>',
+        'before_title'  => '',
+        'after_title'   => '',
     ) );
 
 
-	register_sidebar( array(
+    register_sidebar( array(
         'name' => __( 'Фільтр затемнення', '' ),
         'id' => 'prod-filtr-temno',
         'description' => __( 'Фільтр затемнення', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '',
-		'after_title'   => '',
+        'after_widget'  => '</section>',
+        'before_title'  => '',
+        'after_title'   => '',
     ) );
 
-	register_sidebar( array(
+    register_sidebar( array(
         'name' => __( 'Фільтр фактура', '' ),
         'id' => 'prod-filtr-faktura',
         'description' => __( 'Фільтр фактура', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '',
-		'after_title'   => '',
+        'after_widget'  => '</section>',
+        'before_title'  => '',
+        'after_title'   => '',
     ) );
 
-	register_sidebar( array(
+    register_sidebar( array(
         'name' => __( 'Фільтр малюнок', '' ),
         'id' => 'prod-filtr-mal',
         'description' => __( 'Фільтр малюнок', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '',
-		'after_title'   => '',
+        'after_widget'  => '</section>',
+        'before_title'  => '',
+        'after_title'   => '',
     ) );
 
-	register_sidebar( array(
+    register_sidebar( array(
         'name' => __( 'Фільтр виробник', '' ),
         'id' => 'prod-filtr-vyr',
         'description' => __( 'Фільтр виробник', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '',
-		'after_title'   => '',
+        'after_widget'  => '</section>',
+        'before_title'  => '',
+        'after_title'   => '',
     ) );
 }
 add_action( 'widgets_init', 'rollo_widgets_init' );
@@ -196,15 +196,16 @@ function rollo_scripts() {
     wp_enqueue_style('rollo-style-bootstrap-grid.min', get_template_directory_uri() . '/assets/css/bootstrap-grid.min.css');
     wp_enqueue_style('rollo-style-jquery.formstyler', get_template_directory_uri() . '/assets/css/jquery.formstyler.css');
     wp_enqueue_style('rollo-style-jquery.formstyler.theme', get_template_directory_uri() . '/assets/css/jquery.formstyler.theme.css');
+    /* CHANGES RELATED TO WC PRODUCTS */
     wp_enqueue_style('rollo-style-rangeslider', get_template_directory_uri() . '/assets/css/rangeslider.css');
     wp_enqueue_style('rollo-style-common', get_template_directory_uri() . '/assets/css/common.css');
     wp_enqueue_style('rollo-style-responsive', get_template_directory_uri() . '/assets/css/responsive.css');
     wp_enqueue_style('rollo-style-font', "https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&display=swap&subset=cyrillic");
 
 
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
+    if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+        wp_enqueue_script( 'comment-reply' );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'rollo_scripts' );
 
@@ -232,18 +233,19 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
-	require get_template_directory() . '/inc/jetpack.php';
+    require get_template_directory() . '/inc/jetpack.php';
 }
 
 /**
  * Load WooCommerce compatibility file.
  */
 if ( class_exists( 'WooCommerce' ) ) {
-	require get_template_directory() . '/inc/woocommerce.php';
+    require get_template_directory() . '/inc/woocommerce.php';
 }
 
 
 require get_template_directory() . '/inc/woo-func.php';
+require get_template_directory() . '/inc/lang.php';
 
 ////////////*************/////////////
 /**
@@ -256,7 +258,7 @@ require get_template_directory() . '/inc/woo-func.php';
  *
  * version 3.3.2
  */
- function kama_breadcrumbs( $sep = ' » ', $l10n = array(), $args = array() ){
+function kama_breadcrumbs( $sep = ' » ', $l10n = array(), $args = array() ){
     $kb = new Kama_Breadcrumbs;
     echo $kb->get_crumbs( $sep, $l10n, $args );
 }
@@ -338,13 +340,13 @@ class Kama_Breadcrumbs {
             );
             // schema.org
             elseif( $mark === 'schema.org' )
-				{$mark = array(
+            {$mark = array(
                 'wrappatt'   => '%s',
                 'linkpatt'   => '<li><a href="%s" itemprop="item"><span itemprop="name">%s</span><meta itemprop="position" content="$d"></a></li>',
                 'sep_after'  => '',
             );
 
-				 }
+            }
 
             elseif( ! is_array($mark) )
                 die( __CLASS__ .': "markup" parameter must be array...');
@@ -571,14 +573,14 @@ class Kama_Breadcrumbs {
 
         $out = sprintf( $wrappatt, $before_out . $out );
 
-		 $count_link = count(explode('$d',$out));
+        $count_link = count(explode('$d',$out));
 
-            $iii= 1;
-            foreach (explode('$d',$out) as $value) {
-              $replace_out .= $value.$iii++;
+        $iii= 1;
+        foreach (explode('$d',$out) as $value) {
+            $replace_out .= $value.$iii++;
 
-            }
-             $out =  substr($replace_out, 0, -1);
+        }
+        $out =  substr($replace_out, 0, -1);
 
         return apply_filters('kama_breadcrumbs', $out, $sep, $loc, $arg );
     }
@@ -641,9 +643,8 @@ class Kama_Breadcrumbs {
 ## CSS стили для админ-панели. Нужно создать файл 'wp-admin.css' в папке темы
 add_action('admin_enqueue_scripts', 'my_admin_css', 99);
 function my_admin_css(){
-	wp_enqueue_style('my-wp-admin', get_template_directory_uri() .'/wp-admin.css' );
+    wp_enqueue_style('my-wp-admin', get_template_directory_uri() .'/wp-admin.css' );
 }
-
 
 
 /* CHANGES RELATED TO WC PRODUCTS START */
@@ -759,7 +760,7 @@ function recalculate_product_price() {
     } else {
         echo json_encode([
             'has_error' => true,
-            'error_message' => __('Сталась помилка. Продукт не знайдено.')
+            'error_message' => pll__('Сталась помилка. Продукт не знайдено.')
         ]);
         wp_die();
     }
@@ -824,15 +825,15 @@ function product_review() {
     if ($product_id) {
         if (!$name) {
             $hasError = true;
-            $errorMessage .= __('Ім\'я не задано.') . '<br>';
+            $errorMessage .= pll__('Ім\'я не задано.') . '<br>';
         }
         if (!$email) {
             $hasError = true;
-            $errorMessage .= __('Email не задано.') . '<br>';
+            $errorMessage .= pll__('Email не задано.') . '<br>';
         }
         if (!$comment) {
             $hasError = true;
-            $errorMessage .= __('Відгук не задано.') . '<br>';
+            $errorMessage .= pll__('Відгук не задано.') . '<br>';
         }
         if (!$hasError) {
             //save comment
@@ -851,16 +852,16 @@ function product_review() {
                 'comment_approved'     => 0,
             ) );
             if ($comment_id) {
-                $errorMessage = __('Дякуємо за Ваш відгук.');
+                $errorMessage = pll__('Дякуємо за Ваш відгук.');
                 update_comment_meta( $comment_id, 'rating', 5 );
             } else {
                 $hasError = true;
-                $errorMessage = __('Сталась помилка, спробуйте пізніше.');
+                $errorMessage = pll__('Сталась помилка, спробуйте пізніше.');
             }
         }
     } else {
         $hasError = true;
-        $errorMessage .= __('Сталась помилка. Продукт не знайдено.') . '<br>';
+        $errorMessage .= pll__('Сталась помилка. Продукт не знайдено.') . '<br>';
     }
 
     echo json_encode([
@@ -901,7 +902,7 @@ function ajax_add_to_cart() {
     } else {
         echo json_encode([
             'has_error' => true,
-            'error_message' => __('Сталась помилка. Продукт не знайдено.')
+            'error_message' => pll__('Сталась помилка. Продукт не знайдено.')
         ]);
         wp_die();
     }
@@ -919,13 +920,13 @@ function ajax_add_to_cart() {
     } else {
         echo json_encode([
             'has_error' => true,
-            'error_message' => __('Сталась помилка. Продукт не може бути доданий в корзину.')
+            'error_message' => pll__('Сталась помилка. Продукт не може бути доданий в корзину.')
         ]);
         wp_die();
     }
     echo json_encode([
         'has_error' => false,
-        'redirect_link' => wc_get_checkout_url(),
+        'redirect_link' => esc_url((pll_current_language() == 'uk' ? '' : '/ru') . '/checkout/'),
     ]);
     wp_die();
 }
@@ -966,7 +967,7 @@ function ajax_product_remove()
     if (!$cart_item_key) {
         echo json_encode([
             'has_error' => true,
-            'error_message' => __('Сталась помилка. Продукт не може бути видалений.')
+            'error_message' => pll__('Сталась помилка. Продукт не може бути видалений.')
         ]);
         wp_die();
     }
@@ -1010,7 +1011,7 @@ function set_quantity() {
     if (!$cart_item_key) {
         echo json_encode([
             'has_error' => true,
-            'error_message' => __('Сталась помилка. Неможливо змінити кількість.')
+            'error_message' => pll__('Сталась помилка. Неможливо змінити кількість.')
         ]);
         wp_die();
     }
@@ -1050,13 +1051,38 @@ add_action('wp_ajax_nopriv_set_quantity', 'set_quantity');
 
 
 function redirect_cart_page() {
+    if (is_checkout() && !is_wc_endpoint_url( 'order-received' )) {
+        $totalCartItems = WC()->cart->get_cart_contents_count();
+        if (!$totalCartItems) {
+            wp_redirect((pll_current_language() == 'uk' ? '' : '/ru') . '/');
+        }
+    }
     if (is_cart()) {
         $totalCartItems = WC()->cart->get_cart_contents_count();
         if ($totalCartItems) {
-            wp_redirect(wc_get_checkout_url());
+            wp_redirect(esc_url((pll_current_language() == 'uk' ? '' : '/ru') . '/checkout/'));
         } else {
-            wp_redirect(get_home_url());
+            wp_redirect((pll_current_language() == 'uk' ? '' : '/ru') . '/');
         }
+    }
+    if (is_checkout() && !is_wc_endpoint_url( 'order-received' )) {
+        wc_setcookie('pll_current_lang_custom', pll_current_language(), time() + 60*10);
+    }
+
+    if (is_wc_endpoint_url( 'order-received')) {
+        $pll_current_lang_custom = array_key_exists('pll_current_lang_custom', $_COOKIE) ? trim($_COOKIE['pll_current_lang_custom']) : null;
+        $pll_current_lang = pll_current_language();
+        if ($pll_current_lang_custom && $pll_current_lang_custom != $pll_current_lang) {
+            $url = $_SERVER['REQUEST_URI'];
+            if ($pll_current_lang_custom == 'ru') {
+                $url = '/ru' . $url;
+            } else {
+                $url = str_replace('/ru/', '/', $url);
+            }
+            wc_setcookie('pll_current_lang_custom', pll_current_language(), time() - 60*100);
+            wp_redirect($url);
+        }
+
     }
 }
 add_action('template_redirect', 'redirect_cart_page');
@@ -1180,10 +1206,12 @@ function wc_display_item_meta_custom( $item, $args = array() ) {
     $skipKeys = ['_product_price', '_product_attribute_pa_kolory-modeli'];
     foreach ( $item->get_formatted_meta_data("", true) as $meta_id => $meta ) {
         if (in_array($meta->key, $skipKeys)) continue;
+        $meta->display_value = trim($meta->display_value);
+        $meta->display_value = '<p2>' . pll__(strip_tags($meta->display_value)) . '</p2>';
+        $meta->display_key = pll__($meta->display_key);
         $value     = $args['autop'] ? wp_kses_post( $meta->display_value ) : wp_kses_post( make_clickable( trim( $meta->display_value ) ) );
         $strings[] = $args['label_before'] . wp_kses_post( $meta->display_key ) . $args['label_after'] . $value;
     }
-
     if ( $strings ) {
         $html = $args['before'] . implode( $args['separator'], $strings ) . $args['after'];
     }
@@ -1405,8 +1433,8 @@ if( function_exists('acf_add_local_field_group') ):
                         'min' => 1000,
                         'max' => 2800,
                         'step' => 1,
-                    )/*,
-                    array(
+                    ),
+                    /*array(
                         'key' => 'field_5e19cb9e8a857',
                         'label' => 'Ціна',
                         'name' => 'price',
@@ -1589,50 +1617,67 @@ endif;
 /**
  * Translate string
  */
-pll_register_string("Сталась помилка. Продукт не знайдено.", "Сталась помилка. Продукт не знайдено.", "rollo_theme");
-pll_register_string("Ім'я не задано.", "Ім'я не задано.", "rollo_theme");
-pll_register_string("Email не задано.", "Email не задано.", "rollo_theme");
-pll_register_string("Відгук не задано.", "Відгук не задано.", "rollo_theme");
-pll_register_string("Дякуємо за Ваш відгук.", "Дякуємо за Ваш відгук.", "rollo_theme");
-pll_register_string("Сталась помилка, спробуйте пізніше.", "Сталась помилка, спробуйте пізніше.", "rollo_theme");
-pll_register_string("Сталась помилка. Продукт не може бути доданий в корзину.", "Сталась помилка. Продукт не може бути доданий в корзину.", "rollo_theme");
-pll_register_string("Сталась помилка. Продукт не може бути видалений.", "Сталась помилка. Продукт не може бути видалений.", "rollo_theme");
-pll_register_string("Сталась помилка. Неможливо змінити кількість.", "Сталась помилка. Неможливо змінити кількість.", "rollo_theme");
-pll_register_string("Кольори моделі", "Кольори моделі", "rollo_theme");
-pll_register_string("Кількість", "Кількість", "rollo_theme");
-pll_register_string("Обраний розмір", "Обраний розмір", "rollo_theme");
-pll_register_string("Стандартні розміри", "Стандартні розміри", "rollo_theme");
-pll_register_string("Ширина", "Ширина", "rollo_theme");
-pll_register_string("Висота", "Висота", "rollo_theme");
-pll_register_string("Сторона управління", "Сторона управління", "rollo_theme");
-pll_register_string("Кольори системи", "Кольори системи", "rollo_theme");
-pll_register_string("Інший розмір вікон", "Інший розмір вікон", "rollo_theme");
-pll_register_string("Додати до корзини", "Додати до корзини", "rollo_theme");
-pll_register_string("Немає в наявності", "Немає в наявності", "rollo_theme");
-pll_register_string("Можливо вас зацікавлять", "Можливо вас зацікавлять", "rollo_theme");
-pll_register_string("Опис", "Опис", "rollo_theme");
-pll_register_string("Всі", "Всі", "rollo_theme");
-pll_register_string("Ще немає відгуків.", "Ще немає відгуків.", "rollo_theme");
-pll_register_string("Залишити відгук", "Залишити відгук", "rollo_theme");
-pll_register_string("Ім’я", "Ім’я", "rollo_theme");
-pll_register_string("Email", "Email", "rollo_theme");
-pll_register_string("Відгук", "Відгук", "rollo_theme");
-pll_register_string("Надіслати", "Надіслати", "rollo_theme");
+pll_register_string("Сталась помилка. Продукт не знайдено.", "Сталась помилка. Продукт не знайдено.");
+pll_register_string("Ім'я не задано.", "Ім'я не задано.");
+pll_register_string("Email не задано.", "Email не задано.");
+pll_register_string("Відгук не задано.", "Відгук не задано.");
+pll_register_string("Дякуємо за Ваш відгук.", "Дякуємо за Ваш відгук.");
+pll_register_string("Сталась помилка, спробуйте пізніше.", "Сталась помилка, спробуйте пізніше.");
+pll_register_string("Сталась помилка. Продукт не може бути доданий в корзину.", "Сталась помилка. Продукт не може бути доданий в корзину.");
+pll_register_string("Сталась помилка. Продукт не може бути видалений.", "Сталась помилка. Продукт не може бути видалений.");
+pll_register_string("Сталась помилка. Неможливо змінити кількість.", "Сталась помилка. Неможливо змінити кількість.");
+pll_register_string("Кольори моделі", "Кольори моделі");
+pll_register_string("Кількість", "Кількість");
+pll_register_string("Обраний розмір", "Обраний розмір");
+pll_register_string("Стандартні розміри", "Стандартні розміри");
+pll_register_string("Ширина", "Ширина");
+pll_register_string("Висота", "Висота");
+pll_register_string("Сторона управління", "Сторона управління");
+pll_register_string("Кольори системи", "Кольори системи");
+pll_register_string("Інший розмір вікон", "Інший розмір вікон");
+pll_register_string("Додати до корзини", "Додати до корзини");
+pll_register_string("Немає в наявності", "Немає в наявності");
+pll_register_string("Можливо вас зацікавлять", "Можливо вас зацікавлять");
+pll_register_string("Опис", "Опис");
+pll_register_string("Всі", "Всі");
+pll_register_string("Ще немає відгуків.", "Ще немає відгуків.");
+pll_register_string("Залишити відгук", "Залишити відгук");
+pll_register_string("Ім’я", "Ім’я");
+pll_register_string("Email", "Email");
+pll_register_string("Відгук", "Відгук");
+pll_register_string("Надіслати", "Надіслати");
 
-pll_register_string("сторона управління", "сторона управління", "rollo_theme");
-pll_register_string("ліва", "ліва", "rollo_theme");
-pll_register_string("права", "права", "rollo_theme");
-pll_register_string("колір системи", "колір системи", "rollo_theme");
-pll_register_string("чорний", "чорний", "rollo_theme");
-pll_register_string("білий", "білий", "rollo_theme");
-pll_register_string("До оплати", "До оплати", "rollo_theme");
-pll_register_string("Особисті дані", "Особисті дані", "rollo_theme");
-pll_register_string("Доставка", "Доставка", "rollo_theme");
-pll_register_string("У вашій корзині", "У вашій корзині", "rollo_theme");
+pll_register_string("сторона управління", "сторона управління");
+pll_register_string("ліва", "ліва");
+pll_register_string("права", "права");
+pll_register_string("колір системи", "колір системи");
+pll_register_string("Колір системи", "Колір системи");
+pll_register_string("чорний", "чорний");
+pll_register_string("білий", "білий");
+pll_register_string("До оплати", "До оплати");
+pll_register_string("Особисті дані", "Особисті дані");
+pll_register_string("Доставка", "Доставка");
+pll_register_string("У вашій корзині", "У вашій корзині");
 
-/*
- *  "host": "rollo.ftp.tools",
-    "username": "rollo_ftp",
-    "password": "2LNg30xGx9",
- */
+pll_register_string("Ім’я та прізвище", "Ім’я та прізвище");
+pll_register_string("Місто / Село", "Місто / Село");
+pll_register_string("Телефон", "Телефон");
+
+pll_register_string("Самовивіз", "Самовивіз");
+pll_register_string("Готівка при отриманні", "Готівка при отриманні");
+pll_register_string("Прямий банківський переказ", "Прямий банківський переказ");
+pll_register_string("Оплатити карткою Visa/Mastercard", "Оплатити карткою Visa/Mastercard");
+pll_register_string("Спосіб доставки", "Спосіб доставки");
+pll_register_string("Відгуки", "Відгуки");
+pll_register_string("Вартість / шт.", "Вартість / шт.");
+pll_register_string("Додати розмір", "Додати розмір");
+
+// fix for checkout update localization
+add_filter('woocommerce_ajax_get_endpoint',  function ($result, $request){
+    return esc_url_raw( add_query_arg( 'wc-ajax', $request, remove_query_arg( array( 'remove_item', 'add-to-cart', 'added-to-cart' ) ) ) );
+}, 10, 2);
+
+/*if ($_SERVER["REMOTE_ADDR"] == '93.175.195.69') {
+    test([pll__('Особисті дані'), pll_current_language()]);
+}*/
 /* CHANGES RELATED TO WC PRODUCTS END */

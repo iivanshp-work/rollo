@@ -26,6 +26,7 @@ defined('ABSPATH') || exit;
         <?php
         $fields = $checkout->get_checkout_fields('billing');
         foreach ($fields as $key => $field) {
+            $field['label'] = pll__($field['label']);
             if ($key == 'billing_email') {
                 $field['label'] = 'Email';
             }
