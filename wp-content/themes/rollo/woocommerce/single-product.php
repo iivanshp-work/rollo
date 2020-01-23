@@ -112,7 +112,7 @@ get_header( '' ); ?>
               </div>
               <div class="row">
                 <div class="col-xl-6 col-lg-7 col-md-6 col-sm-6">
-                  <input class="recalculate_price" data-product_attribute="width" type="hidden" name="product_attribute[width]" value="">
+                  <input data-product_attribute="width" type="hidden" name="product_attribute[width]" value="">
                   <input class="recalculate_price" data-product_attribute="height" type="hidden" name="product_attribute[height]" value="">
 
                   <div class="settblock new-size">
@@ -381,12 +381,12 @@ if (!isset($notStandardSizes)) {
           <div>
             <div class="rangebox">
               <p class="range__title"><?php echo pll__('Ширина');?></p>
-              <input type="range" min="<?php echo isset($notStandardSizes['width']['min_width']) ? $notStandardSizes['width']['min_width'] : 150;?>" max="<?php echo isset($notStandardSizes['width']['max_width']) ? $notStandardSizes['width']['max_width'] : 2800;?>" value="700" step="1" data-rangeslider>
+              <input type="range" min="<?php echo isset($notStandardSizes['width']['min_width']) ? $notStandardSizes['width']['min_width'] : 150;?>" max="<?php echo isset($notStandardSizes['width']['max_width']) ? $notStandardSizes['width']['max_width'] : 2800;?>" value="700" step="5" data-rangeslider>
               <output class="widthrange"></output>
             </div>
             <div class="rangebox">
               <p class="range__title"><?php echo pll__('Висота');?></p>
-              <input type="range" min="<?php echo isset($notStandardSizes['height']['min_height']) ? $notStandardSizes['height']['min_height'] : 1000;?>" max="<?php echo isset($notStandardSizes['height']['max_height']) ? $notStandardSizes['height']['max_height'] : 2800;?>" value="1200" step="1" data-rangeslider>
+              <input type="range" min="<?php echo isset($notStandardSizes['height']['min_height']) ? $notStandardSizes['height']['min_height'] : 1000;?>" max="<?php echo isset($notStandardSizes['height']['max_height']) ? $notStandardSizes['height']['max_height'] : 2800;?>" value="1200" step="5" data-rangeslider>
               <output class="heighthrange"></output>
             </div>
           </div>

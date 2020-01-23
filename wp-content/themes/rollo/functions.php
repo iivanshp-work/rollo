@@ -754,7 +754,9 @@ function recalculate_product_price() {
         $basePrice = $variant->get_price();
         $sizesData = [
             'not_standard_sizes' => get_field('not_standard_sizes', $product->get_id()),
+            'standard_sizes' => get_field('standard_sizes', $product->get_id()),
         ];
+        $product_attributes['sizes'] = $sizesData;
         $price = calculatePrice($basePrice, $product_attributes);
 
     } else {
@@ -789,6 +791,15 @@ function calculatePrice($basePrice = 0, $attributes = []) {
     }
     $width = isset($attributes['width']) ? $attributes['width'] : 0;
     $height = isset($attributes['height']) ? $attributes['height'] : 0;
+    if (isset($attributes['sizes']['standard_sizes']) && !empty($attributes['sizes']['standard_sizes']) && is_array($attributes['sizes']['standard_sizes'])) {
+        foreach($attributes['sizes']['standard_sizes'] as $size) {
+            if (isset($size['price']) && isset($size['width']) && isset($size['height']) && $size['width'] == $width && $size['height'] == $height) {
+                $price = $size['price'];
+                return $price;
+            }
+        }
+    }
+
     if ($width && $height) {
         $price = calculatePriceFunction($price, $width, $height);
     }
@@ -796,6 +807,10 @@ function calculatePrice($basePrice = 0, $attributes = []) {
 }
 
 function calculatePriceFunction($price, $width, $height) {
+    if ($width < 400) {
+        $width = 400;
+    }
+    $price = $price * ($width/1000);
     if ($height > 2500) {
         $price = $price + (0.8 * $price);
     } else if ($height > 2300  && $height <= 2500) {
@@ -897,6 +912,12 @@ function ajax_add_to_cart() {
             $product = wc_get_product($product_id);
         }
         $basePrice = $variant->get_price();
+
+        $sizesData = [
+            'not_standard_sizes' => get_field('not_standard_sizes', $product->get_id()),
+            'standard_sizes' => get_field('standard_sizes', $product->get_id()),
+        ];
+        $product_attributes['sizes'] = $sizesData;
         $price = calculatePrice($basePrice, $product_attributes);
 
     } else {
@@ -1434,7 +1455,7 @@ if( function_exists('acf_add_local_field_group') ):
                         'max' => 2800,
                         'step' => 1,
                     ),
-                    /*array(
+                    array(
                         'key' => 'field_5e19cb9e8a857',
                         'label' => 'Ціна',
                         'name' => 'price',
@@ -1454,7 +1475,7 @@ if( function_exists('acf_add_local_field_group') ):
                         'min' => 0,
                         'max' => '',
                         'step' => '',
-                    ),*/
+                    ),
                 ),
             ),
             array(
