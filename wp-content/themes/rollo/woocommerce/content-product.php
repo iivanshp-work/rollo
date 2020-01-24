@@ -33,7 +33,7 @@
 		</a>
 		<div class="catalog-productbox__text">
 			<a href="<? the_permalink(); ?>" class="title"><? the_title(); ?></a>
-			<p class="price"><?php echo $product->get_price_html(); ?></p>
+			<p class="price"><?php echo wc_price(calculate_product_price($product->get_id())); ?></p>
 			<a href="<? the_permalink(); ?>">
 				<div class="basket-cat">
 				</div>

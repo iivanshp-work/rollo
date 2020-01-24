@@ -41,7 +41,7 @@ get_header( '' ); ?>
                 <?php
                 $image = '';
                 if ( $product->get_image_id() ) {
-                    $image = wp_get_attachment_image($product->get_image_id(), 'woocommerce_thumbnail');
+                    $image = wp_get_attachment_image($product->get_image_id(), 'medium_large');
                 }
                 if ($image):
                     ?>
@@ -60,12 +60,22 @@ get_header( '' ); ?>
                     <?php
                     $availableColorsIDS = isset($productAttributes['pa_kolory-modeli']) ? $productAttributes['pa_kolory-modeli']->get_options() : null;
                     $availableColors = [];
+
                     if ($availableColorsIDS) {
                         foreach($availableColorsIDS as $availableColorsID) {
                             $term_obj = get_term( $availableColorsID, 'pa_kolory-modeli');
                             if ($term_obj) {
                                 $availableColors[$availableColorsID] = $term_obj;
+                                $attributes = [];
+                                $attributes['attribute_pa_kolory-modeli'] = $term_obj->slug;
+                                $var = custom_find_matching_product_variation(new \WC_Product($product->get_id()), $attributes);
+                                $mini_image = 0;
+                                if ($var) {
+                                    $variant = wc_get_product($var);
+                                    $mini_image = get_post_meta( $variant->get_id(), '_mini_image', true );
+                                }
                                 $availableColors[$availableColorsID]->color = get_field('hex_color', $term_obj);
+                                $availableColors[$availableColorsID]->mini_image = $mini_image ? wp_get_attachment_image_url($mini_image) : 0;
                             }
                         }
                     }
@@ -78,7 +88,11 @@ get_header( '' ); ?>
                           <?php foreach($availableColors as $availableColor): ?>
                             <div>
                               <div class="colorbox" data-pa-type="pa_kolory-modeli" data-id="<?php echo $availableColor->slug; ?>" title="<?php echo $availableColor->name; ?>">
-                                <span style="background-color: <?php echo $availableColor->color ? $availableColor->color : '#fff'; ?>;"></span>
+                                <?php if ($availableColor->mini_image): ?>
+                                    <span style="background-size: contain;background-image: url('<?php echo $availableColor->mini_image; ?>');background-color: <?php echo $availableColor->color ? $availableColor->color : '#fff'; ?>;"></span>
+                                <?php else: ?>
+                                    <span style="background-color: <?php echo $availableColor->color ? $availableColor->color : '#fff'; ?>;"></span>
+                                <?php endif; ?>
                               </div>
                             </div>
                           <?php endforeach; ?>
@@ -88,7 +102,7 @@ get_header( '' ); ?>
                       <?php echo $product->get_short_description(); ?>
                   </p>
                   <div class="bottbox">
-                    <span class="price" id="price"><?php echo $product->get_price_html(); ?></span>
+                    <span class="price" id="price"><?php echo wc_price(calculate_product_price($product->get_id())); ?></span>
                       <?php if ($product->is_in_stock()): ?>
                         <div class="kst">
                           <span><?php echo pll__('Кількість');?></span>
@@ -264,7 +278,7 @@ get_header( '' ); ?>
                       </a>
                       <div class="catalog-productbox__text">
                         <a href="<?php echo $product_slug; ?>" class="title"><?php echo $relatedProduct->get_name(); ?></a>
-                        <p class="price"><?php echo $relatedProduct->get_price_html(); ?></p>
+                        <p class="price"><?php echo wc_price(calculate_product_price($relatedProduct->get_id())); ?></p>
                       </div>
                     </div>
                   </div>
@@ -308,7 +322,7 @@ get_header( '' ); ?>
           <div class="container">
             <div class="row">
               <div class="col-lg-5">
-                <h3><?php echo pll__('Опис');?></h3>
+                <h3><?php echo pll__('Відгуки');?></h3>
                   <?php if ($product->get_review_count()): ?>
                       <?php
                       $args = array ('post_id' => $product->get_id(), 'status'=>'approve');
@@ -398,7 +412,7 @@ if (!isset($notStandardSizes)) {
               <p class="lefttext"><?php echo pll__('Вартість / шт.');?></p>
             </div>
             <div class="col-sm-6 col-6">
-              <p class="righttext popup-price"><?php echo $product->get_price_html(); ?></p>
+              <p class="righttext popup-price"><?php echo wc_price(calculate_product_price($product->get_id())); ?></p>
             </div>
             <a href="#" class="black-btn modalbtn"><?php echo pll__('Додати розмір');?></a>
           </div>

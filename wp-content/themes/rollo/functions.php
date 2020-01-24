@@ -734,6 +734,7 @@ function recalculate_product_price() {
     $product_attributes = isset($_POST['product_attribute']) ? $_POST['product_attribute'] : [];
     $attributes = [];
 
+    $title = $image = '';
     if ($product_id) {
         if (isset($product_attributes['pa_kolory-modeli'])) {
             $attributes['attribute_pa_kolory-modeli'] = $product_attributes['pa_kolory-modeli'];
@@ -751,7 +752,15 @@ function recalculate_product_price() {
             $product = wc_get_product($product_id);
         }
         $title = $variant->get_name();
+        if ( $variant->get_image_id() ) {
+            $image = wp_get_attachment_image($variant->get_image_id(), 'medium_large');
+        } else if ( $product->get_image_id() ) {
+            $image = wp_get_attachment_image($product->get_image_id(), 'medium_large');
+        }
+
         $basePrice = $variant->get_price();
+        $basePrice = calculate_product_price($variant->get_id());
+
         $sizesData = [
             'not_standard_sizes' => get_field('not_standard_sizes', $product->get_id()),
             'standard_sizes' => get_field('standard_sizes', $product->get_id()),
@@ -770,7 +779,8 @@ function recalculate_product_price() {
         'has_error' => false,
         'price' => wc_price($price),
         'product_id' => $variant->get_id(),
-        'title' => $title
+        'title' => $title,
+        'image' => $image
     ]);
     wp_die();
 }
@@ -825,6 +835,38 @@ function calculatePriceFunction($price, $width, $height) {
         $price += 150;
     } else {
         $price += 75;
+    }
+    return $price;
+}
+
+function calculate_product_price($product_id = null) {
+
+    $price = 0;
+    $product = wc_get_product($product_id);
+    $parent_id = $product->get_parent_id();
+    if ($parent_id) {
+        $product = wc_get_product($parent_id);
+    }
+    $standardSizes = get_field('standard_sizes', $product->get_id());
+    $standardPrice = 0;
+    $hasStandardSize = false;
+    if (!empty($standardSizes) && is_array($standardSizes)) {
+        $standardSizeArea = 0;
+        foreach($standardSizes as $size) {
+            if (isset($size['price']) && isset($size['width']) && isset($size['height'])) {
+                $sizeArea = $size['width'] * $size['height'];
+                if ((!$standardSizeArea && $sizeArea) || ($standardSizeArea && $sizeArea < $standardSizeArea)) {
+                    $standardPrice = $size['price'];
+                    $standardSizeArea = $sizeArea;
+                    $hasStandardSize = true;
+                }
+            }
+        }
+    }
+    if ($hasStandardSize && $standardPrice) {
+        $price = $standardPrice;
+    } else {
+        $price = $product->get_price();
     }
     return $price;
 }
@@ -912,6 +954,7 @@ function ajax_add_to_cart() {
             $product = wc_get_product($product_id);
         }
         $basePrice = $variant->get_price();
+        $basePrice = calculate_product_price($variant->get_id());
 
         $sizesData = [
             'not_standard_sizes' => get_field('not_standard_sizes', $product->get_id()),
@@ -1245,6 +1288,42 @@ function wc_display_item_meta_custom( $item, $args = array() ) {
         return $html;
     }
 }
+
+
+
+
+
+function variation_settings_fields( $loop, $variation_data, $variation ) {
+    $html =  '<p class="form-row upload_image">';
+    $html .=     '<label>Фото мініатюри</label>';
+    $html .=     '<a href="#" class="upload_image_button ' . (get_post_meta( $variation->ID, '_mini_image', true ) ? 'remove' : '') . ' ">';
+    $html .=        '<img src="' .  (get_post_meta( $variation->ID, '_mini_image', true ) ?  esc_url( wp_get_attachment_thumb_url( get_post_meta( $variation->ID, '_mini_image', true ) ) ) : esc_url( wc_placeholder_img_src() )) . '" />';
+    $html .=        '<input type="hidden" name="_mini_image[' . $variation->ID . ']" class="upload_image_id" value="' . get_post_meta( $variation->ID, '_mini_image', true ) . '" />';
+	$html .=     '</a>';
+    $html .= '</p>';
+    echo $html;
+}
+add_action( 'woocommerce_product_after_variable_attributes', 'variation_settings_fields', 10, 3 );
+
+/**
+ * Save new fields for variations
+ *
+ */
+function save_variation_settings_fields( $post_id ) {
+    $text_field = $_POST['_mini_image'][ $post_id ];
+    test($_REQUEST);
+    if( ! empty( $text_field ) ) {
+        update_post_meta( $post_id, '_mini_image', esc_attr( $text_field ) );
+    }
+}
+add_action( 'woocommerce_save_product_variation', 'save_variation_settings_fields', 10, 2 );
+
+
+function load_variation_settings_fields( $variations ) {
+    $variations['_mini_image'] = get_post_meta( $variations[ 'variation_id' ], '_mini_image', true );
+    return $variations;
+}
+add_filter( 'woocommerce_available_variation', 'load_variation_settings_fields' );
 
 /**
  * Custom fields
@@ -1701,4 +1780,8 @@ add_filter('woocommerce_ajax_get_endpoint',  function ($result, $request){
 /*if ($_SERVER["REMOTE_ADDR"] == '93.175.195.69') {
     test([pll__('Особисті дані'), pll_current_language()]);
 }*/
+/*global $_wp_additional_image_sizes;
+print '<pre>';
+test( get_intermediate_image_sizes() );
+print '</pre>';*/
 /* CHANGES RELATED TO WC PRODUCTS END */

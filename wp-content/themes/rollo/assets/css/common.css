@@ -4310,4 +4310,10 @@ body.woocommerce-checkout .select2-container--default .select2-results__option--
     opacity: 0.5;
     pointer-events: none;
 }
+.product-topsect__pic>div {
+    max-width: 100%;
+}
+.product-topsect__pic>div img {
+    height: auto;
+}
 /* CHANGES RELATED TO WC PRODUCTS added new styles end*/

@@ -23,7 +23,7 @@ $(document).ready(function () {
         let height = $(this).data('height');
         $('.newswidth text').html(width);
         $('.newsheight text').html(height);
-        $('.sizelist').addClass('littheight');
+        //$('.sizelist').addClass('littheight');
         $(".settblock.new-size, .sizelist__boxnew .sizelist__row").show();
         $('[data-product_attribute="width"]').val(width).trigger('change');
         $('[data-product_attribute="height"]').val(height).trigger('change');
@@ -267,6 +267,7 @@ function recalculatePrice() {
             } else {
                 titleClass = '.postid-'+product_id+' .page-linetitle';
             }
+            imageClass = '.product-topsect__pic>div';
             $(priceClass).append('<span class="loader"></span>');
             $(priceClass2).append('<span class="loader"></span>');
         },
@@ -281,6 +282,9 @@ function recalculatePrice() {
                 $(priceClass).html(data.price);
                 $(priceClass2).html(data.price);
                 $(titleClass).html(data.title);
+                if (data.image) {
+                    $(imageClass).html(data.image);
+                }
             }
         },
         complete: function(){

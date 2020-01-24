@@ -290,7 +290,8 @@ $(document).ready(function () {
             $('[data-product_attribute="height"]').val(heighthrange).trigger('change');
         }
 
-        $('.sizelist').addClass('littheight');
+        /* CHANGES RELATED TO WC PRODUCTS added if below */
+        //$('.sizelist').addClass('littheight');
         $(".settblock.new-size, .sizelist__boxnew .sizelist__row").show();
     });
 
