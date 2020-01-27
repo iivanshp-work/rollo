@@ -248,8 +248,8 @@ get_header( '' ); ?>
       </div>
     </section>
       <?php
-      $relatedProducts = wc_get_related_products($product->get_id(), 6);
-      $relatedProducts = wc_get_products(['include' => $relatedProducts]);
+      $relatedProducts = wc_get_related_products($product->get_id(), 10);
+      $relatedProducts = wc_get_products(['include' => $relatedProducts, 'posts_per_page' => 10]);
       ?>
       <?php if (!empty($relatedProducts)): ?>
         <section class=" product__slider product-block">

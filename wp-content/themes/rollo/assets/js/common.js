@@ -150,9 +150,11 @@ $(document).ready(function () {
         $('.forgotpasstab, .regtab').hide();
         $('.logintab').show();
     });
+    var countProducts = parseInt($('.prodslider').data('count-products'));
+    if (countProducts > 8) countProducts = 8;
     // product slider
     $('.prodslider').slick({
-        slidesToShow: 5,
+        slidesToShow: countProducts,
         slidesToScroll: 1,
         nextArrow: '<button type="button" class="slick-next"></button>',
         prevArrow: '<button type="button" class="slick-prev"></button>',
