@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    akeebabackupwp
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 use Awf\Uri\Uri;
@@ -103,6 +103,7 @@ AkeebaBackupWP::enqueueStyle(Uri::base() . 'media/css/fef-wp.min.css');
 if ($darkMode != 0)
 {
 	AkeebaBackupWP::enqueueStyle(Uri::base() . 'media/css/dark.min.css');
+	AkeebaBackupWP::enqueueStyle(Uri::base() . 'media/css/theme_dark.min.css');
 }
 
 if (defined('AKEEBADEBUG') && AKEEBADEBUG && @file_exists(dirname(AkeebaBackupWP::$absoluteFileName) . '/app/media/css/theme.css'))

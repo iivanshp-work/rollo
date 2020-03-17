@@ -1,19 +1,21 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\View\Log;
 
 use Akeeba\Engine\Factory;
-use Akeeba\Engine\Platform;
 use Awf\Utils\Template;
 use Solo\Model\Log;
+use Solo\View\ViewTraits\ProfileIdAndName;
 
 class Html extends \Solo\View\Html
 {
+	use ProfileIdAndName;
+
 	/**
 	 * List of available log files
 	 *
@@ -79,20 +81,19 @@ class Html extends \Solo\View\Html
 			}
 		}
 
-		// Get profile ID and name
-		$this->profileid   = Platform::getInstance()->get_active_profile();;
-		$this->profilename = $this->escape(Platform::getInstance()->get_profile_name($this->profileid));
-
 		// Load the Javascript
 		if ($this->logTooBig)
 		{
-			Template::addJs('media://js/solo/log.js', $this->container->application);
-
-			$src = $this->container->router->route('index.php?view=log&task=download&attachment=0&tag=' . urlencode($this->tag));
+			$src = $this->container->router->route('index.php?view=Log&task=iframe&format=raw&tag=' . urlencode($this->tag));
 
 			$js = <<< JS
 akeeba.loadScripts.push(function() {
-	akeeba.Log.onLoadDefault("$src", "500px");
+	akeeba.System.addEventListener(document.getElementById('showlog'), 'click', function(){
+		var iFrameHolder = document.getElementById('iframe-holder');
+		iFrameHolder.style.display = 'block';
+		iFrameHolder.insertAdjacentHTML('beforeend', '<iframe width="99%" src="$src" height="400px"/>');
+		this.parentNode.style.display = 'none';
+    });
 });
 
 JS;
@@ -100,6 +101,8 @@ JS;
 			$document = $this->container->application->getDocument();
 			$document->addScriptDeclaration($js);
 		}
+
+		$this->getProfileIdAndName();
 
 		return true;
 	}
@@ -122,18 +125,9 @@ JS;
 
 		$this->tag = $tag;
 
-		// Load the Javascript
-		Template::addJs('media://js/solo/log.js', $this->container->application);
+		$this->setLayout('raw');
 
-		$js = <<< JS
-    akeeba.System.documentReady(function() {
-		akeeba.Log.onLoadIFrame();
-    });
-
-JS;
-
-		$document = $this->container->application->getDocument();
-		$document->addScriptDeclaration($js);
+		$this->container->application->getDocument()->setMimeType('text/html');
 
 		return true;
 	}

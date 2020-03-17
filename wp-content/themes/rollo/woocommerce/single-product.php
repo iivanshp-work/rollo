@@ -41,12 +41,14 @@ get_header( '' ); ?>
                 <?php
                 $image = '';
                 if ( $product->get_image_id() ) {
-                    $image = wp_get_attachment_image($product->get_image_id(), 'medium_large');
+                    //$image = wp_get_attachment_image($product->get_image_id(), 'medium_large');
+                    $image = wp_get_attachment_image_url($product->get_image_id(), 'large');
                 }
                 if ($image):
                     ?>
                   <div class="prmainpic">
-                      <?php echo $image; ?>
+                      <?php //echo $image; ?>
+                      <img src="<? echo $image; ?>" class="" alt="">
                   </div>
                 <?php endif; ?>
             </div>
@@ -60,7 +62,6 @@ get_header( '' ); ?>
                     <?php
                     $availableColorsIDS = isset($productAttributes['pa_kolory-modeli']) ? $productAttributes['pa_kolory-modeli']->get_options() : null;
                     $availableColors = [];
-
                     if ($availableColorsIDS) {
                         foreach($availableColorsIDS as $availableColorsID) {
                             $term_obj = get_term( $availableColorsID, 'pa_kolory-modeli');
@@ -88,11 +89,11 @@ get_header( '' ); ?>
                           <?php foreach($availableColors as $availableColor): ?>
                             <div>
                               <div class="colorbox" data-pa-type="pa_kolory-modeli" data-id="<?php echo $availableColor->slug; ?>" title="<?php echo $availableColor->name; ?>">
-                                <?php if ($availableColor->mini_image): ?>
-                                    <span style="background-size: contain;background-image: url('<?php echo $availableColor->mini_image; ?>');background-color: <?php echo $availableColor->color ? $availableColor->color : '#fff'; ?>;"></span>
-                                <?php else: ?>
-                                    <span style="background-color: <?php echo $availableColor->color ? $availableColor->color : '#fff'; ?>;"></span>
-                                <?php endif; ?>
+                                  <?php if ($availableColor->mini_image): ?>
+                                      <span style="background-size: contain;background-image: url('<?php echo $availableColor->mini_image; ?>');background-color: <?php echo $availableColor->color ? $availableColor->color : '#fff'; ?>;"></span>
+                                  <?php else: ?>
+                                      <span style="background-color: <?php echo $availableColor->color ? $availableColor->color : '#fff'; ?>;"></span>
+                                  <?php endif; ?>
                               </div>
                             </div>
                           <?php endforeach; ?>
@@ -102,7 +103,7 @@ get_header( '' ); ?>
                       <?php echo $product->get_short_description(); ?>
                   </p>
                   <div class="bottbox">
-                    <span class="price" id="price"><?php echo wc_price(calculate_product_price($product->get_id())); ?></span>
+                      <span class="price" id="price"><?php echo wc_price(calculate_product_price($product->get_id())); ?></span>
                       <?php if ($product->is_in_stock()): ?>
                         <div class="kst">
                           <span><?php echo pll__('Кількість');?></span>
@@ -248,19 +249,19 @@ get_header( '' ); ?>
       </div>
     </section>
       <?php
-      $relatedProducts = wc_get_related_products($product->get_id(), 6);
-      $relatedProducts = wc_get_products(['include' => $relatedProducts]);
+      $relatedProducts = wc_get_related_products($product->get_id(), 10);
+      $relatedProducts = wc_get_products(['include' => $relatedProducts, 'posts_per_page' => 10]);
       ?>
       <?php if (!empty($relatedProducts)): ?>
         <section class=" product__slider product-block">
           <div class="container">
             <h3><?php echo pll__('Можливо вас зацікавлять');?></h3>
-            <div class="prodslider row">
+            <div class="prodslider row" data-count-products="<?php echo count($relatedProducts); ?>">
                 <?php foreach($relatedProducts as $relatedProduct): ?>
-                    <?php
+                  <?php
                     $product_slug = $relatedProduct->get_slug();
                     $product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/product/' . $product_slug);
-                    ?>
+                  ?>
                   <div>
                     <div class="catalog-productbox">
                       <a href="<?php echo $product_slug; ?>">
@@ -412,7 +413,7 @@ if (!isset($notStandardSizes)) {
               <p class="lefttext"><?php echo pll__('Вартість / шт.');?></p>
             </div>
             <div class="col-sm-6 col-6">
-              <p class="righttext popup-price"><?php echo wc_price(calculate_product_price($product->get_id())); ?></p>
+                <p class="righttext popup-price"><?php echo wc_price(calculate_product_price($product->get_id())); ?></p>
             </div>
             <a href="#" class="black-btn modalbtn"><?php echo pll__('Додати розмір');?></a>
           </div>

@@ -1,15 +1,5 @@
 $(document).ready(function () {
 
-    // home slider
-    $('.home-slider').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        nextArrow: '<button type="button" class="slick-next">наступний</button>',
-        prevArrow: false,
-        dots: true,
-    });
-    // home slider - END
-
     // burger menu
     $('.burger').click(function () {
         $(this).toggleClass('active');
@@ -151,8 +141,10 @@ $(document).ready(function () {
         $('.logintab').show();
     });
     // product slider
+    var countProducts = parseInt($('.prodslider').data('count-products'));
+    if (countProducts > 8) countProducts = 8;
     $('.prodslider').slick({
-        slidesToShow: 5,
+        slidesToShow: countProducts,
         slidesToScroll: 1,
         nextArrow: '<button type="button" class="slick-next"></button>',
         prevArrow: '<button type="button" class="slick-prev"></button>',
@@ -290,7 +282,7 @@ $(document).ready(function () {
             $('[data-product_attribute="height"]').val(heighthrange).trigger('change');
         }
 
-        /* CHANGES RELATED TO WC PRODUCTS added if below */
+        /* CHANGES RELATED TO WC PRODUCTS added comment below */
         //$('.sizelist').addClass('littheight');
         $(".settblock.new-size, .sizelist__boxnew .sizelist__row").show();
     });
@@ -346,7 +338,7 @@ if ($('*').is('#map')) {
             position: new google.maps.LatLng(lat1, lng1),
             map: map,
             icon: {
-                url: "image/icon/pin.svg",
+                url: "/wp-content/themes/rollo/assets/image/icon/pin.svg",
                 scaledSize: new google.maps.Size(40, 40) // pixels
             }
         });

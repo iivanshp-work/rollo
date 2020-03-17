@@ -1,86 +1,80 @@
 <?php
 
-	/**
-		* The template for displaying the footer
-		*
-		* Contains the closing of the #content div and all content after.
-		*
-		* @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
-		*
-		* @package rollo
-	*/
-	$main_page_id = pll_get_post(2, pll_current_language('slug'));
+/**
+ * The template for displaying the footer
+ *
+ * Contains the closing of the #content div and all content after.
+ *
+ * @link https://developer.wordpress.org/themes/basics/template-files/#template-partials
+ *
+ * @package rollo
+ */
+$main_page_id = pll_get_post(2, pll_current_language('slug'));
 ?>
 
 <footer class="footer">
-	<div class="footfig">
-		<p>
-			<span>
-			<? the_field('kopirajt', $main_page_id); ?></span>
-		</p>
-	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-4 col-md-4">
-				<div class="footer__leftblock">
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><img src="<? the_field('logo-futter', $main_page_id); ?>" alt="logo"></a>
-					<ul class="footer__contacts nostyle-list">
-						<li><a href="mailto:<? the_field('emajl', $main_page_id); ?>">
-						<? the_field('emajl', $main_page_id); ?></a></li>
-						<li><a href="tel:<? the_field('telefon', $main_page_id); ?>">
-						<? the_field('telefon', $main_page_id); ?></a></li>
-					</ul>
-					<? $soc = get_field('soczialky', $main_page_id); ?>
-					<ul class="nostyle-list footer__social">
-						<li><a href="<? echo $soc['fejsbuk']; ?>"><img
-							src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/facebook-footer.svg"
-						alt="icon"></a></li>
-						<li><a href="<? echo $soc['instagram']; ?>"><img
-							src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/instagram-footer.svg"
-						alt="icon"></a></li>
-						<li><a href="<? echo $soc['yutub']; ?>"><img
-							src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/youtube-footer.svg"
-						alt="icon"></a></li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-lg-8 col-md-8">
-				<div class="footer__rightblock">
-					<div>
-						<p class="title"><?php pll_e("Товари");?></p>
-						<ul class="nostyle-list">
-							<? get_top_cat(); ?>
-						</ul>
+    <div class="footfig">
+        <p>
+            <span>
+                <? the_field('kopirajt', $main_page_id); ?></span>
+        </p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+                <div class="footer__leftblock">
+                    <a href="<?php echo esc_url(home_url('/')); ?>"><img src="<? the_field('logo-futter', $main_page_id); ?>" alt="logo"></a>
+                    <ul class="footer__contacts nostyle-list">
+                        <li><a href="mailto:<? the_field('emajl', $main_page_id); ?>">
+                                <? the_field('emajl', $main_page_id); ?></a></li>
+                        <li><a href="tel:<? the_field('telefon', $main_page_id); ?>">
+                                <? the_field('telefon', $main_page_id); ?></a></li>
+                    </ul>
+                    <? $soc = get_field('soczialky', $main_page_id); ?>
+                    <ul class="nostyle-list footer__social">
+                        <li><a href="<? echo $soc['fejsbuk']; ?>"><img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/facebook-footer.svg" alt="icon"></a></li>
+                        <li><a href="<? echo $soc['instagram']; ?>"><img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/instagram-footer.svg" alt="icon"></a></li>
+                        <li><a href="<? echo $soc['yutub']; ?>"><img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/youtube-footer.svg" alt="icon"></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <div class="footer__rightblock">
+                    <div>
+                        <p class="title"><?php pll_e("Товари"); ?></p>
+                        <ul class="nostyle-list">
+                            <? get_top_cat(); ?>
+                        </ul>
 
-					</div>
-					<div>
-						<p class="title">
-							<?php pll_e("Інформація"); ?>
-						</p>
-						<ul class="nostyle-list">
-							<? while (have_rows('menyu_informacziya', $main_page_id)) : the_row();
-							$link = get_sub_field('item'); ?>
-							<li><a href="<? echo $link['url'] ?>">
-							<? echo $link['title'] ?> </a></li>
-							<? endwhile;    ?>
-						</ul>
-					</div>
-					<div>
-						<p class="title">
-							<?php pll_e("Про нас"); ?>
-						</p>
-						<ul class="nostyle-list">
-							<? while (have_rows('menyu_about', $main_page_id)) : the_row();
-							$link = get_sub_field('item'); ?>
-							<li><a href="<? echo $link['url'] ?>">
-							<? echo $link['title'] ?> </a></li>
-							<? endwhile; ?>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    </div>
+                    <div>
+                        <p class="title">
+                            <?php pll_e("Інформація"); ?>
+                        </p>
+                        <ul class="nostyle-list">
+                            <? while (have_rows('menyu_informacziya', $main_page_id)) : the_row();
+                                $link = get_sub_field('item'); ?>
+                                <li><a href="<? echo $link['url'] ?>">
+                                        <? echo $link['title'] ?> </a></li>
+                            <? endwhile;    ?>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="title">
+                            <?php pll_e("Про нас"); ?>
+                        </p>
+                        <ul class="nostyle-list">
+                            <? while (have_rows('menyu_about', $main_page_id)) : the_row();
+                                $link = get_sub_field('item'); ?>
+                                <li><a href="<? echo $link['url'] ?>">
+                                        <? echo $link['title'] ?> </a></li>
+                            <? endwhile; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </footer>
 
 <?php wp_footer(); ?>
@@ -97,17 +91,36 @@
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/custom.js"></script>
 
 <script>
-	$('li.woocommerce-MyAccount-navigation-link.is-active').addClass('active');
+    // home slider
+    $('.home-slider').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        nextArrow: '<button type="button" class="slick-next"><?php pll_e("наступний"); ?></button>',
+        prevArrow: false,
+        dots: true,
+    });
+    // home slider - END
+
+    $('li.woocommerce-MyAccount-navigation-link.is-active').addClass('active');
+    $('.socials-list').addClass('signforms__btnsbox');
+    $('.ywsl-social.ywsl-google').addClass('google-btn');
+    $('.ywsl-social.ywsl-facebook').addClass('facebook-btn');
+
+    $('.google-btn').append('<span>google</span>');
+    $('.facebook-btn').append('<span>facebook</span>');
+
+    $('.google-btn > img').attr("src", "/wp-content/themes/rollo/assets/image/icon/google-plus.svg");
+    $('.facebook-btn > img').attr("src", "/wp-content/themes/rollo/assets/image/icon/fb.svg");
+
     if ($('body.logged-in').length) {
         $('body.logged-in header').addClass('login');
-        }
-
+    }
 </script>
 
 <? global $post;
-	if ($post->post_name == 'contacts') { ?>
-	<script async defer	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUk7hCors1DO6D8nnECHhjVyDvOqosuzU&callback=initMap">
-	</script>
+if ($post->post_name == 'kontakty') { ?>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUk7hCors1DO6D8nnECHhjVyDvOqosuzU&callback=initMap">
+    </script>
 <? } ?>
 </body>
 

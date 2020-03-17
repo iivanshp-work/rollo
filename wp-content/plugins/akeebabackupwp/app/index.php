@@ -1,16 +1,21 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 // Minimum PHP version check
-$minimumPHP = '5.4.0';
-
-if (version_compare(PHP_VERSION, $minimumPHP, 'lt'))
+if (!defined('AKEEBA_COMMON_WRONGPHP'))
 {
-	require_once 'wrongphp.php';
+	define('AKEEBA_COMMON_WRONGPHP', 1);
+}
+$minPHPVersion         = '5.6.0';
+$recommendedPHPVersion = '7.3';
+$softwareName          = 'Akeeba Solo';
+
+if (!require_once('wrongphp.php'))
+{
 	return;
 }
 
@@ -103,11 +108,6 @@ if (!defined('AKEEBAENGINE'))
 {
 	define('AKEEBAENGINE', 1);
 	require_once __DIR__ . '/Solo/engine/Factory.php';
-
-	if(file_exists(__DIR__.'/Solo/alice/factory.php'))
-	{
-		require_once __DIR__ . '/Solo/alice/factory.php';
-	}
 
 	Platform::addPlatform('Solo', __DIR__ . '/Solo/Platform/Solo');
 	Platform::getInstance()->load_version_defines();

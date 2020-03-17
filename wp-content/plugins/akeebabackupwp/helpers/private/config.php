@@ -1,11 +1,10 @@
 <?php die; ?>
 {
     "timezone": "Europe\/Kiev",
-    "cms_url": "https:\/\/www.dev.rollo.lviv.ua",
+    "cms_url": "https:\/\/rollo.net.ua",
     "options": {
-        "frontend_secret_word": "###AES128###e\/zA0rKsHFsmwrusLnhZnUpQU1TskqJusKx6svb7eGyPiYAxzsAgbYo4KrnLG1NdMT7OLnbRXsazAi3o1ZhjfVfPqtcNEn0HmuzbNwG+P7adgQRSSlBJVhl6d2l057rQRAMwtWJlQjEAAAAA",
-        "siteurl": "https:\/\/www.dev.rollo.lviv.ua\/wp-content\/plugins\/akeebabackupwp\/app\/",
-        "confwiz_upgrade": 1,
-        "show_howtorestoremodal": 0
+        "frontend_secret_word": "###AES128###LebqMSsG0OGHZzUOp+P3w0pQU1SEDyUglzPYGXI5I+jf9ZkbtOiCMWfURYGio8dEIuC9wMVPLAhv3PlGryHIkAyeAEBtNSchjeqNaDzjGE\/5M8++SlBJViKFQkGk5NBib29GZJRsbw4AAAAA",
+        "siteurl": "https:\/\/rollo.net.ua\/wp-content\/plugins\/akeebabackupwp\/app\/",
+        "confwiz_upgrade": 1
     }
 }

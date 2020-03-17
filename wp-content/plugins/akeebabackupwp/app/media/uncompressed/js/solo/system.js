@@ -1,7 +1,7 @@
 /*
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 if (typeof akeeba === 'undefined')
@@ -18,11 +18,7 @@ if (typeof akeeba.System === 'undefined')
 	};
 	akeeba.System.params       = {
 		AjaxURL:               '',
-		useIFrame:             false,
 		errorCallback:         akeeba.System.modalErrorHandler,
-		iFrame:                null,
-		iFrameCallbackError:   null,
-		iFrameCallbackSuccess: null,
 		password:              '',
 		errorDialogId:         'errorDialog',
 		errorDialogMessageId:  'errorDialogPre'
@@ -92,125 +88,6 @@ akeeba.System.params.errorCallback = akeeba.System.modalErrorHandler;
 
 
 /**
- * Poor man's AJAX, using IFRAME elements
- *
- * @param  data             An object with the query data, e.g. a serialized form
- * @param  successCallback  A function accepting a single object parameter, called on success
- * @param  errorCallback    Error handler
- */
-akeeba.System.doIframeCall = function (data, successCallback, errorCallback)
-{
-	akeeba.System.params.iFrameCallbackSuccess = successCallback;
-	akeeba.System.params.iFrameCallbackError   = errorCallback;
-	akeeba.System.params.iFrame                = document.createElement('iframe');
-
-	var responseTimer                          = document.getElementById('response-timer');
-	akeeba.System.params.iFrame.style.display    = 'none';
-	akeeba.System.params.iFrame.style.visibility = 'hidden';
-	akeeba.System.params.iFrame.style.height     = '1px';
-	akeeba.System.params.iFrame.setAttribute('onload', akeeba.System.iframeCallback);
-
-	var url = akeeba.System.params.AjaxURL + '&' + akeeba.Ajax.interpolateParameters(data);
-
-	akeeba.System.params.iFrame.setAttribute('src', url);
-};
-
-/**
- * Poor man's AJAX, using IFRAME elements: the callback function
- */
-akeeba.System.iframeCallback = function ()
-{
-	// Get the contents of the iFrame
-	var iframeDoc = null;
-
-	if (akeeba.System.params.iFrame.contentDocument)
-	{
-		// The rest of the world
-		iframeDoc = akeeba.System.params.iFrame.contentDocument;
-	}
-	else
-	{
-		// IE on Windows
-		iframeDoc = akeeba.System.params.iFrame.contentWindow.document;
-	}
-
-	var msg = iframeDoc.body.innerHTML;
-
-	// Dispose of the iframe
-	akeeba.System.params.iFrame.parentNode.removeChild(akeeba.System.params.iFrame);
-	akeeba.System.params.iFrame = null;
-
-	// Start processing the message
-	var junk    = null;
-	var message = "";
-
-	// Get rid of junk before the data
-	var valid_pos = msg.indexOf('###');
-
-	if (valid_pos == -1)
-	{
-		// Valid data not found in the response
-		msg = 'Invalid AJAX data: ' + msg;
-
-		if (akeeba.System.params.iFrameCallbackError == null)
-		{
-			if (akeeba.System.params.errorCallback != null)
-			{
-				akeeba.System.params.errorCallback(msg);
-			}
-		}
-		else
-		{
-			akeeba.System.params.iFrameCallbackError(msg);
-		}
-
-		return;
-	}
-	else if (valid_pos != 0)
-	{
-		// Data is prefixed with junk
-		junk    = msg.substr(0, valid_pos);
-		message = msg.substr(valid_pos);
-	}
-	else
-	{
-		message = msg;
-	}
-
-	message = message.substr(3); // Remove triple hash in the beginning
-
-	// Get of rid of junk after the data
-	valid_pos = message.lastIndexOf('###');
-	message   = message.substr(0, valid_pos); // Remove triple hash in the end
-
-	try
-	{
-		var data = JSON.parse(message);
-	}
-	catch (err)
-	{
-		msg = err.message + "\n<br/>\n<pre>\n" + message + "\n</pre>";
-
-		if (akeeba.System.params.iFrameCallbackError == null)
-		{
-			if (akeeba.System.params.errorCallback != null)
-			{
-				akeeba.System.params.errorCallback(msg);
-			}
-		}
-		else
-		{
-			akeeba.System.params.iFrameCallbackError(msg);
-		}
-
-		return;
-	}
-
-	// Call the callback function
-	akeeba.System.params.iFrameCallbackSuccess(data);
-};
-
-/**
  * Performs an AJAX request and returns the parsed JSON output.
  * akeeba.System.params.AjaxURL is used as the AJAX proxy URL.
  * If there is no errorCallback, the global akeeba.System.params.errorCallback is used.
@@ -223,13 +100,6 @@ akeeba.System.iframeCallback = function ()
  */
 akeeba.System.doAjax = function (data, successCallback, errorCallback, useCaching, timeout)
 {
-	if (akeeba.System.params.useIFrame)
-	{
-		akeeba.System.doIframeCall(data, successCallback, errorCallback);
-
-		return;
-	}
-
 	if (useCaching == null)
 	{
 		useCaching = true;

@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    awf
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   awf
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU GPL version 3 or later
  */
 
 namespace Awf\Database\Driver;
@@ -685,7 +685,7 @@ class Sqlsrv extends Driver
 					break;
 				}
 				$l = $k - 1;
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $sql[$l] == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;

@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    awf
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   awf
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU GPL version 3 or later
  */
 
 namespace Awf\Platform\Joomla\Application\Observer;
@@ -74,7 +74,6 @@ class ControllerAcl extends Observer
 		// Get the controller, model and table
 		$container = $this->subject->getContainer();
 		$application_name = $container->application_name;
-		$component_name = 'com_' . strtolower($application_name);
 		/** @var DataController $controller */
 		$controller = Controller::getInstance($application_name, $controllerName, $container);
 		$model = $controller->getModel();

@@ -1,7 +1,7 @@
 /*
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 if (typeof akeeba === 'undefined')
@@ -41,9 +41,9 @@ akeeba.Setup.onFsDriverClick = function (e)
 
 akeeba.Setup.init = function ()
 {
-	akeeba.System.addEventListener(document.getElementById('fs_driver'), 'change', akeeba.Setup.onFsDriverClick);
+	/*akeeba.System.addEventListener(document.getElementById('fs_driver'), 'change', akeeba.Setup.onFsDriverClick);
 
-	this.onFsDriverClick();
+	this.onFsDriverClick();*/
 };
 
 /**

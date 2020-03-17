@@ -1,7 +1,7 @@
 /*
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 // Object initialisation
@@ -32,43 +32,14 @@ akeeba.Wizard.boot = function ()
 	document.getElementById('backup-progress-pane').style.display = 'block';
 	akeeba.Backup.resetTimeoutBar();
 
-	akeeba.Wizard.tryAjax();
-};
-
-/**
- * Try to figure out the optimal AJAX method
- */
-akeeba.Wizard.tryAjax = function ()
-{
-	akeeba.System.useIFrame = false;
-	akeeba.Backup.resetTimeoutBar();
-	akeeba.Backup.startTimeoutBar(10000, 100);
-
-	var stepElement = document.getElementById('step-ajax');
-	stepElement.className = 'akeeba-label--teal';
-
-	document.getElementById('backup-substep').textContent = akeeba.Wizard.translation['COM_AKEEBA_CONFWIZ_UI_TRYAJAX'];
-
+	// Before continuing, perform a call to the ping method, so Akeeba Backup knowns that it was configured
 	akeeba.System.doAjax(
 		{akact: 'ping'},
 		function ()
 		{
-			// Successful AJAX call!
-			akeeba.System.useIFrame = false;
-
-			var stepElement = document.getElementById('step-ajax');
-			stepElement.className = stepElement.className = 'akeeba-label--green';
-
 			akeeba.Wizard.minExec();
 		},
-		function ()
-		{
-			// Unsuccessful IFRAME call, we've ran out if ideas!
-			document.getElementById('backup-progress-pane').style.display = 'none';
-			document.getElementById('error-panel').style.display          = 'block';
-			document.getElementById('backup-error-message').textContent   =
-				akeeba.Wizard.translation['COM_AKEEBA_CONFWIZ_UI_CANTUSEAJAX'];
-		},
+		function (){},
 		false,
 		10000
 	);
@@ -152,15 +123,8 @@ akeeba.Wizard.minExecApply = function (seconds)
 
 	document.getElementById('backup-substep').textContent = akeeba.Wizard.translation['COM_AKEEBA_CONFWIZ_UI_SAVEMINEXEC'];
 
-	var iframe_opt = 0;
-
-	if (akeeba.Backup.useIFrame)
-	{
-		iframe_opt = 1;
-	}
-
 	akeeba.System.doAjax(
-		{akact: 'applyminexec', 'iframes': iframe_opt, 'minexec': seconds},
+		{akact: 'applyminexec', 'minexec': seconds},
 		function (msg)
 		{
 			var stepElement = document.getElementById('step-minexec');

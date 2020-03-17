@@ -1,18 +1,16 @@
 <?php
 /**
- * @package    akeebabackupwp
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Akeeba\Engine\Driver;
 
-use Akeeba\Engine\Base\BaseObject;
-
 // Protection against direct access
 defined('AKEEBAENGINE') or die();
 
-class Wordpress extends BaseObject
+class Wordpress
 {
 	/** @var Base The real database connection object */
 	private $dbo;
@@ -36,9 +34,6 @@ class Wordpress extends BaseObject
 		}
 
 		$this->dbo = new $driver($options);
-
-		// Propagate errors
-		$this->propagateFromObject($this->dbo);
 	}
 
 	public function close()

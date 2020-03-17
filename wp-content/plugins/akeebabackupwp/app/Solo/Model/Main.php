@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\Model;
@@ -115,118 +115,6 @@ class Main extends Model
 		if (empty($ret))
 		{
 			$ret = array();
-		}
-
-		return $ret;
-	}
-
-	/**
-	 * Read a changelog file and returns its HTML beautified rendering
-	 *
-	 * @param   string  $file     The file to read the changelog from
-	 * @param   boolean $onlyLast If true we'll only show the last version
-	 *
-	 * @return  string  The HTML beautified rendering of the changelog
-	 */
-	public function coloriseChangelog($file, $onlyLast = false)
-	{
-		$ret = '';
-
-		$lines = @file($file);
-
-		if (empty($lines))
-		{
-			return $ret;
-		}
-
-		array_shift($lines);
-
-		foreach ($lines as $line)
-		{
-			$line = trim($line);
-
-			if (empty($line))
-			{
-				continue;
-			}
-
-			$type = substr($line, 0, 1);
-			$safeTrimmed = htmlentities(trim(substr($line, 2)));
-
-			switch ($type)
-			{
-				case '=':
-					continue 2;
-					break;
-
-				case '+':
-					$ret .= <<< HTML
-	<li>
-		<span class="fa fa-plus-square"></span> $safeTrimmed
-	</li>
-
-HTML;
-
-					break;
-
-				case '-':
-					$ret .= <<< HTML
-	<li>
-		<span class="fa fa-minus-square"></span> $safeTrimmed
-	</li>
-
-HTML;
-
-					break;
-
-				case '~':
-					$ret .= <<< HTML
-	<li>
-		<span class="fa fa-random"></span> $safeTrimmed
-	</li>
-
-HTML;
-
-					break;
-
-				case '!':
-					$ret .= <<< HTML
-	<li>
-		<span class="fa fa-exclamation-circle"></span> $safeTrimmed
-	</li>
-
-HTML;
-
-					break;
-
-				case '#':
-					$ret .= <<< HTML
-	<li>
-		<span class="fa fa-bug"></span> $safeTrimmed
-	</li>
-
-HTML;
-					break;
-
-				default:
-					if (!empty($ret))
-					{
-						$ret .= "</ul>";
-
-						if ($onlyLast)
-						{
-							return $ret;
-						}
-					}
-
-					if (!$onlyLast)
-					{
-						$ret .= "<h3>$line</h3>\n";
-					}
-
-					$ret .= "<ul>\n";
-					break;
-			}
 		}
 
 		return $ret;
@@ -921,7 +809,7 @@ ENDBODY;
 	public function getFrontendSecretWordError()
 	{
 		// Is frontend backup enabled?
-		$febEnabled = Platform::getInstance()->get_platform_configuration_option('frontend_enable', 0) != 0;
+		$febEnabled = (Platform::getInstance()->get_platform_configuration_option('legacyapi_enabled', 0) != 0) || (Platform::getInstance()->get_platform_configuration_option('jsonapi_enabled', 0) != 0);
 
 		if (!$febEnabled)
 		{
@@ -963,5 +851,4 @@ ENDBODY;
 		return function_exists('mb_strlen') && function_exists('mb_convert_encoding') &&
 		function_exists('mb_substr') && function_exists('mb_convert_case');
 	}
-
 }

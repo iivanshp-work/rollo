@@ -1,11 +1,11 @@
 <?php
-
+	
 	function get_top_cat () {
 		$taxonomy     = 'product_cat';
 		$show_count   = 0;      // 1 for yes, 0 for no
 		$pad_counts   = 0;      // 1 for yes, 0 for no
-		$hierarchical = 1;      // 1 for yes, 0 for no
-		$title        = '';
+		$hierarchical = 1;      // 1 for yes, 0 for no 
+		$title        = ''; 
 		$empty        = 0;
 		$args = array(
 		'taxonomy'     => $taxonomy,
@@ -15,13 +15,13 @@
 		'hierarchical' => $hierarchical,
 		'title_li'     => $title,
 		'hide_empty'   => $empty,
-
+		
 		);
 		$all_categories = get_categories( $args );
 		foreach ($all_categories as $cat) {
 			if($cat->category_parent == 0) {
 				$category_id = $cat->term_id;
-				echo '<li><a href="'. get_term_link($cat, 'product_cat') .'">'. $cat->name .'</a></li>';
+				echo '<li><a href="'. get_term_link($cat->slug, 'product_cat') .'">'. $cat->name .'</a></li>';
 				/*
 					$thumbnail_id = get_woocommerce_term_meta( $cat->term_id, 'thumbnail_id', true );
 					$image = wp_get_attachment_url( $thumbnail_id );
@@ -29,12 +29,12 @@
 					echo '<img class="category-thumb" src="' . $image . '" alt="" />';
 					}
 				*/
-			}
+			}    
 		}
 	}
-
+	
 	/*
-
+		
 		add_action( 'woocommerce_before_shop_loop_item', 'woocommerce_category_image', 20 );
 		function woocommerce_category_image() {
 		$product_cats = wp_get_post_terms( get_the_ID(), 'product_cat' );
@@ -45,13 +45,13 @@
 		}
 		}
 	*/
-
+	
 	add_filter( 'woocommerce_currencies', 'add_my_currency' );
 	function add_my_currency( $currencies ) {
 		$currencies['UAH'] = __( 'Українська гривня', 'woocommerce' );
 		return $currencies;
 	}
-
+	
 	add_filter('woocommerce_currency_symbol', 'add_my_currency_symbol', 10, 2);
 	function add_my_currency_symbol( $currency_symbol, $currency ) {
 		switch( $currency ) {
@@ -59,18 +59,18 @@
 		}
 		return $currency_symbol;
 	}
-
-
+	
+	
 	add_filter( 'woocommerce_variable_sale_price_html', 'wc_wc20_variation_price_format', 10, 2 );
 	add_filter( 'woocommerce_variable_price_html', 'wc_wc20_variation_price_format', 10, 2 );
-
+	
 	function wc_wc20_variation_price_format( $price, $product ) {
-
+		
 		// ???? ???
 		$prices = array( $product->get_variation_price( 'min', true ), $product->get_variation_price( 'max', true ) );
 		$price = $prices[0] !== $prices[1] ? sprintf( __( '%1$s', 'woocommerce' ), wc_price( $prices[0] ) ) : wc_price( $prices[0] );
 		// ?? ? ????
-
+		
 		$prices = array( $product->get_variation_regular_price( 'min', true ), $product->get_variation_regular_price( 'max', true ) );
 		sort( $prices );
 		$saleprice = $prices[0] !== $prices[1] ? sprintf( __( '%1$s', 'woocommerce' ), wc_price( $prices[0] ) ) : wc_price( $prices[0] );
@@ -78,10 +78,10 @@
 			$price = '<del>' . $saleprice . '</del> <ins>' . $price . '</ins>';
 		}
 		return $price;
-
+		
 	}
-
-
+	
+	
 	add_filter('woocommerce_add_to_cart_fragments', 'header_add_to_cart_fragment');
 	function header_add_to_cart_fragment( $fragments ) {
 		global $woocommerce;
@@ -91,8 +91,8 @@
     <?php
 		$fragments['.basket-btn__counter'] = ob_get_clean();
 		return $fragments;
-	}
-
+	}	
+	
 
 if ( ! function_exists( 'woocommerce_form_field_rollo' ) ) {
 
@@ -181,9 +181,9 @@ if ( ! function_exists( 'woocommerce_form_field_rollo' ) ) {
 		$sort            = $args['priority'] ? $args['priority'] : '';
 		$field_container = '<div class="user-form__field form-row %1$s" id="%2$s" data-priority="' . esc_attr( $sort ) . '">%3$s</div>';
 
-
-
-
+        
+		    
+    
 		switch ( $args['type'] ) {
 			case 'country':
 				$countries = 'shipping_country' === $key ? WC()->countries->get_shipping_countries() : WC()->countries->get_allowed_countries();

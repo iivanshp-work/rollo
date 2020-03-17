@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\View\Backup;
@@ -15,6 +15,7 @@ use Awf\Text\Text;
 use Awf\Uri\Uri;
 use Awf\Utils\Template;
 use Solo\Helper\Escape;
+use Solo\Helper\Status;
 use Solo\Helper\Utils;
 use Solo\Model\Main;
 
@@ -23,7 +24,7 @@ use Solo\Model\Main;
  */
 class Html extends \Solo\View\Html
 {
-	public $default_descr;
+	public $defaultDescription;
 
 	public $description;
 
@@ -37,33 +38,41 @@ class Html extends \Solo\View\Html
 
 	public $profileName;
 
-	public $isSTW;
-
 	public $domains;
 
-	public $maxexec;
+	public $maxExecutionTime;
 
-	public $bias;
+	public $runtimeBias;
 
-	public $useIframe;
+	public $showJPSPassword = 0;
 
-	public $showJPSKey = 0;
+	public $jpsPassword;
 
-	public $jpsKey;
+	public $showANGIEPassword;
 
-	public $showANGIEKey;
-
-	public $angieKey;
+	public $ANGIEPassword;
 
 	public $autoStart;
 
-	public $srpInfo;
-
-	public $unwritableOutput;
+	public $unwriteableOutput;
 
 	public $hasQuirks;
 
 	public $hasErrors = false;
+
+	/**
+	 * Do we have warnings which may affect –but do not prevent– the backup from running?
+	 *
+	 * @var  bool
+	 */
+	public $hasWarnings = false;
+
+	/**
+	 * The HTML of the warnings cell
+	 *
+	 * @var  string
+	 */
+	public $warningsCell = '';
 
 	public $hasCriticalErrors = false;
 
@@ -73,9 +82,37 @@ class Html extends \Solo\View\Html
 
 	public $profileList;
 
-	public $desktop_notifications;
+	public $desktopNotifications;
 
 	public $backupOnUpdate = false;
+
+	/**
+	 * Should I try to automatically resume the backup in case of an error? 0/1
+	 *
+	 * @var  int
+	 */
+	public $autoResume = 0;
+
+	/**
+	 * After how many seconds should I try to automatically resume the backup?
+	 *
+	 * @var  int
+	 */
+	public $autoResumeTimeout = 10;
+
+	/**
+	 * How many times in total should I try to automatically resume the backup?
+	 *
+	 * @var  int
+	 */
+	public $autoResumeRetries = 3;
+
+	/**
+	 * Should I prompt the user to run the Configuration Wizard?
+	 *
+	 * @var  bool
+	 */
+	public $promptForConfigurationWizard = false;
 
 	public function onBeforeMain()
 	{
@@ -85,6 +122,94 @@ class Html extends \Solo\View\Html
 		/** @var \Solo\Model\Backup $model */
 		$model = $this->getModel();
 
+		// Load the Status Helper
+		$helper = Status::getInstance();
+
+		// Determine default description
+		$default_description = $this->getDefaultDescription();
+
+		// Load data from the model state
+		$backup_description  = $model->getState('description', $default_description, 'string');
+		$comment             = $model->getState('comment', '', 'html');
+		$returnurl           = Utils::safeDecodeReturnUrl($model->getState('returnurl', ''));
+
+		// Get the maximum execution time and bias
+		$engineConfiguration = Factory::getConfiguration();
+		$maxexec             = $engineConfiguration->get('akeeba.tuning.max_exec_time', 14) * 1000;
+		$bias                = $engineConfiguration->get('akeeba.tuning.run_time_bias', 75);
+
+		// Check if the output directory is writable
+		$warnings         = Factory::getConfigurationChecks()->getDetailedStatus();
+		$unwritableOutput = array_key_exists('001', $warnings);
+
+		$this->hasErrors                    = !$helper->status;
+		$this->hasWarnings                  = $helper->hasQuirks();
+		$this->warningsCell                 = $helper->getQuirksCell(!$helper->status);
+		$this->defaultDescription           = $default_description;
+		$this->description                  = $backup_description;
+		$this->comment                      = $comment;
+		$this->domains                      = json_encode($this->getDomains());
+		$this->maxExecutionTime             = $maxexec;
+		$this->runtimeBias                  = $bias;
+		$this->returnURL                    = $returnurl;
+		$this->unwriteableOutput            = $unwritableOutput;
+		$this->autoStart                    = $model->getState('autostart', 0, 'boolean');
+		$this->desktopNotifications         =  Platform::getInstance()->get_platform_configuration_option('desktop_notifications', '0') ? 1 : 0;
+		$this->autoResume                   = $engineConfiguration->get('akeeba.advanced.autoresume', 1);
+		$this->autoResumeTimeout            = $engineConfiguration->get('akeeba.advanced.autoresume_timeout', 10);
+		$this->autoResumeRetries            = $engineConfiguration->get('akeeba.advanced.autoresume_maxretries', 3);
+		$this->promptForConfigurationWizard = $engineConfiguration->get('akeeba.flag.confwiz', 0) == 0;
+
+		if ($engineConfiguration->get('akeeba.advanced.archiver_engine', 'jpa') == 'jps')
+		{
+			$this->showJPSPassword = 1;
+			$this->jpsPassword     = $engineConfiguration->get('engine.archiver.jps.key', '');
+		}
+
+		// Always show ANGIE password: we add that feature to the Core version as well
+		$this->showANGIEPassword = 1;
+		$this->ANGIEPassword     = $engineConfiguration->get('engine.installer.angie.key', '');
+
+		// Push the return URL for POST redirects
+		$this->returnForm = $model->getState('returnform', '');
+
+		// Push the profile ID and name
+		$this->profileId   = Platform::getInstance()->get_active_profile();
+		$this->profileName = $this->escape(Platform::getInstance()->get_profile_name($this->profileId));
+
+		// Should we display the notice about backup on update?
+		$inCMS = $this->container->segment->get('insideCMS', false);
+		$backupOnUpdate = $this->input->getInt('backuponupdate', 0);
+
+		if ($inCMS && $backupOnUpdate)
+		{
+			$this->backupOnUpdate = true;
+		}
+
+		// Set the toolbar title
+		$this->subtitle = Text::_('COM_AKEEBA_BACKUP');
+
+		// Push the list of profiles
+		/** @var Main $cpanelModel */
+		$cpanelModel       = Model::getInstance($this->container->application_name, 'Main', $this->container);
+		$this->profileList = $cpanelModel->getProfileList();
+
+		if (!$this->hasCriticalErrors)
+		{
+			$this->container->application->getDocument()->getMenu()->disableMenu('main');
+		}
+
+		// All done, show the page!
+		return true;
+	}
+
+	/**
+	 * Get the default description for this backup attempt
+	 *
+	 * @return  string
+	 */
+	private function getDefaultDescription()
+	{
 		// Get the backup description and comment
 		$tz      = $this->container->appConfig->get('timezone', 'UTC');
 		$user    = $this->container->userManager->getUser();
@@ -99,243 +224,33 @@ class Html extends \Solo\View\Html
 
 		$default_description = Text::_('COM_AKEEBA_BACKUP_DEFAULT_DESCRIPTION') . ' ' . $date->format(Text::_('DATE_FORMAT_LC2'), true);
 
-		$this->default_descr = Escape::escapeJS($default_description);
-		$this->description   = Escape::escapeJS($model->getState('description', $default_description, 'string'));
-		$this->comment       = $model->getState('comment', '', 'html');
-
-		// Push the return URL
-		$returnURL        = Utils::safeDecodeReturnUrl($model->getState('returnurl', ''));
-		$this->returnURL  = empty($returnURL) ? '' : $returnURL;
-		$this->returnForm = $model->getState('returnform', '');
-
-		// Push the profile ID and name
-		$this->profileId   = Platform::getInstance()->get_active_profile();
-		$this->profileName = $this->escape(Platform::getInstance()->get_profile_name($this->profileId));
-
-		// If a return URL is set *and* the profile's name is "Site Transfer
-		// Wizard", we are running the Site Transfer Wizard
-		$this->isSTW = ($this->profileName == 'Site Transfer Wizard (do not rename)') && !empty($this->returnURL);
-
-		// Should we display the notice about backup on update?
-		$inCMS = $this->container->segment->get('insideCMS', false);
-		$backupOnUpdate = $this->input->getInt('backuponupdate', 0);
-
-		if ($inCMS && $backupOnUpdate)
-		{
-			$this->backupOnUpdate = true;
-		}
-
-		// Get the domain details from scripting facility
-		$config    = Factory::getConfiguration();
-		$script    = $config->get('akeeba.basic.backup_type', 'full');
-		$scripting = Factory::getEngineParamsProvider()->loadScripting();
-		$domains   = array();
-
-		if (!empty($scripting))
-		{
-			foreach ($scripting['scripts'][$script]['chain'] as $domain)
-			{
-				$domain_descr = Text::_($scripting['domains'][$domain]['text']);
-				$domain_key   = $scripting['domains'][$domain]['domain'];
-
-				if ($this->isSTW && ($domain_key == 'Packing'))
-				{
-					$this->description = Text::_('COM_AKEEBA_BACKUP_LABEL_DOMAIN_PACKING_STW');
-				}
-
-				$domains[] = array($domain_key, $domain_descr);
-			}
-		}
-
-		$this->domains = Escape::escapeJS(json_encode($domains), '"\\');
-
-		// Push some engine parameters
-		$this->maxexec   = $config->get('akeeba.tuning.max_exec_time', 14) * 1000;
-		$this->bias      = $config->get('akeeba.tuning.run_time_bias', 75);
-		$this->useIframe = $config->get('akeeba.basic.useiframe', 0) ? 'true' : 'false';
-
-		$this->showJPSKey = 1;
-		$this->jpsKey     = $config->get('engine.archiver.jps.key', '');
-
-		$this->showANGIEKey = 1;
-		$this->angieKey     = $config->get('engine.installer.angie.key', '');
-
-		$this->autoStart = $model->getState('autostart', 0, 'boolean');
-
-		$this->srpInfo = $model->getState('srpinfo', array());
-
-		// Check if the output directory is writable
-		$this->quirks           = Factory::getConfigurationChecks()->getDetailedStatus(true);
-		$this->unwritableOutput = array_key_exists('001', $this->quirks);
-		$this->hasQuirks        = !empty($this->quirks);
-
-		if (!empty($this->quirks))
-		{
-			foreach ($this->quirks as $quirk)
-			{
-				if ($quirk['severity'] == 'high')
-				{
-					$this->hasErrors = true;
-				}
-				elseif ($quirk['severity'] == 'critical')
-				{
-					$this->hasErrors         = true;
-					$this->hasCriticalErrors = true;
-				}
-			}
-		}
-
-		// Set the toolbar title
-		$this->subtitle = Text::_('COM_AKEEBA_BACKUP');
-
-		if (isset($this->srpInfo['tag']) && $this->srpInfo['tag'] == 'restorepoint')
-		{
-			$this->subtitle = Text::_('AKEEBASRP');
-		}
-		elseif ($this->isSTW)
-		{
-			$this->subtitle = Text::_('SITETRANSFERWIZARD');
-		}
-
-		// Push the list of profiles
-		/** @var Main $cpanelModel */
-		$cpanelModel       = Model::getInstance($this->container->application_name, 'Main', $this->container);
-		$this->profileList = $cpanelModel->getProfileList();
-
-		if (!$this->hasCriticalErrors)
-		{
-			$this->container->application->getDocument()->getMenu()->disableMenu('main');
-		}
-
-		$this->desktop_notifications = Platform::getInstance()
-		                                       ->get_platform_configuration_option('desktop_notifications', '0') ? 1 : 0;
-
-		$this->injectJavascript();
-
-
-		// All done, show the page!
-		return true;
+		return $default_description;
 	}
 
 	/**
-	 * Injects the necessary Javascript to the page's header
+	 * Get a list of backup domain keys and titles
+	 *
+	 * @return  array
 	 */
-	protected function injectJavascript()
+	private function getDomains()
 	{
-		$configuration    = Factory::getConfiguration();
-		$router           = $this->getContainer()->router;
-		$returnURL        = Escape::escapeJS($this->returnURL);
-		$escapedReturnURL = addcslashes($this->returnURL, "'\\");
-		$returnForm       = $this->returnForm ? 'true' : 'false';
-		$isSTW            = $this->isSTW ? 'true' : 'false';
-		$ajaxURL          = $router->route('index.php?view=backup&task=ajax');
-		$logURL           = $router->route('index.php?view=log');
-		$aliceURL         = $router->route('index.php?view=alices');
-		$srpInfo          = Escape::escapeJS(json_encode($this->srpInfo));
-		$angieKey         = Escape::escapeJS($this->angieKey);
-		$jpsKey           = Escape::escapeJS($this->jpsKey);
-		$autoResume       = (int) $configuration->get('akeeba.advanced.autoresume', 1);
-		$autoTimeout      = (int) $configuration->get('akeeba.advanced.autoresume_timeout', 10);;
-		$autoMaxRetries        = (int) $configuration->get('akeeba.advanced.autoresume_maxretries', 3);
-		$iconURL               = Escape::escapeJS(Uri::base(false, $this->container) . '/media/logo/' . $this->container->iconBaseName . '-96.png');
-		$autoStart             = (!$this->unwritableOutput && ($this->autoStart || (isset($this->srpInfo['tag']) && ($this->srpInfo['tag'] == 'restorepoint')))) ? 1 : 0;
-		$desktop_notifications = $this->desktop_notifications ? 'true' : 'false';
-		$escapedDescription    = addslashes(empty($this->description) ? $this->default_descr : $this->description);
-		$escapedComment        = addslashes($this->comment);
+		$engineConfiguration = Factory::getConfiguration();
+		$script              = $engineConfiguration->get('akeeba.basic.backup_type', 'full');
+		$scripting           = Factory::getEngineParamsProvider()->loadScripting();
+		$domains             = array();
 
-		$strings['UI-LASTRESPONSE'] = Escape::escapeJS(Text::_('COM_AKEEBA_BACKUP_TEXT_LASTRESPONSE'));
-		$strings['UI-STW-CONTINUE'] = Escape::escapeJS(Text::_('STW_MSG_CONTINUE'));
+		if (empty($scripting))
+		{
+			return $domains;
+		}
 
-		$strings['UI-BACKUPSTARTED']   = Escape::escapeJS(Text::_('COM_AKEEBA_BACKUP_TEXT_BACKUPSTARTED'));
-		$strings['UI-BACKUPFINISHED']  = Escape::escapeJS(Text::_('COM_AKEEBA_BACKUP_TEXT_BACKUPFINISHED'));
-		$strings['UI-BACKUPHALT']      = Escape::escapeJS(Text::_('COM_AKEEBA_BACKUP_TEXT_BACKUPHALT'));
-		$strings['UI-BACKUPRESUME']    = Escape::escapeJS(Text::_('COM_AKEEBA_BACKUP_TEXT_BACKUPRESUME'));
-		$strings['UI-BACKUPHALT_DESC'] = Escape::escapeJS(Text::_('COM_AKEEBA_BACKUP_TEXT_BACKUPHALT_DESC'));
-		$strings['UI-BACKUPFAILED']    = Escape::escapeJS(Text::_('COM_AKEEBA_BACKUP_TEXT_BACKUPFAILED'));
-		$strings['UI-BACKUPWARNING']   = Escape::escapeJS(Text::_('COM_AKEEBA_BACKUP_TEXT_BACKUPWARNING'));
+		foreach ($scripting['scripts'][ $script ]['chain'] as $domain)
+		{
+			$description = Text::_($scripting['domains'][ $domain ]['text']);
+			$domain_key  = $scripting['domains'][ $domain ]['domain'];
+			$domains[]   = array($domain_key, $description);
+		}
 
-		$js = <<< JS
-akeeba.loadScripts.push(function() {
-	// Initialization
-	akeeba.Backup.defaultDescription = '{$this->default_descr}';
-	akeeba.Backup.currentDescription = "$escapedDescription";
-	akeeba.Backup.currentComment     = "$escapedComment";
-	akeeba.Backup.config_angiekey    = "$angieKey";
-	akeeba.Backup.jpsKey             = "$jpsKey";
-
-	// Auto-resume setup
-	akeeba.Backup.resume.enabled = $autoResume;
-	akeeba.Backup.resume.timeout = $autoTimeout;
-	akeeba.Backup.resume.maxRetries = $autoMaxRetries;
-	akeeba.Backup.resume.retry = 0;
-
-	// The return URL
-	akeeba.Backup.returnUrl = '$escapedReturnURL';
-
-	// Used as parameters to start_timeout_bar()
-	akeeba.Backup.maxExecutionTime = '{$this->maxexec}';
-	akeeba.Backup.runtimeBias = '{$this->bias}';
-
-	// Create a function for saving the editor's contents
-	akeeba.Backup.commentEditorSave = function() {
-	};
-
-	// Push the icon URL
-	akeeba.System.notification.iconURL = '$iconURL';
-
-	//Parse the domain keys
-	akeeba.Backup.domains = JSON.parse("{$this->domains}");
-
-	akeeba.System.params.AjaxURL = '$ajaxURL';
-
-	// Setup AJAX proxy URL
-	akeeba.Backup.returnForm = $returnForm;
-
-	// Setup base View Log URL
-	akeeba.Backup.URLs.LogURL = '$logURL';
-	akeeba.Backup.URLs.AliceURL = '$aliceURL';
-
-	// Setup the IFRAME mode
-	akeeba.System.params.useIFrame = $this->useIframe;
-	
-	akeeba.Backup.isSTW = $isSTW;
-	akeeba.Backup.srpInfo = JSON.parse('$srpInfo');
-	
-	// Work around Safari which ignores autocomplete=off (FOR CRYING OUT LOUD!)
-	setTimeout(akeeba.Backup.restoreDefaultOptions, 500);
-	
-	// Create a function for saving the editor's contents
-	akeeba_comment_editor_save = function() {
-	};
-	
-	
-	// Push translations
-	akeeba.Backup.translations['UI-LASTRESPONSE'] = '{$strings['UI-LASTRESPONSE']}'; 
-	akeeba.Backup.translations['UI-STW-CONTINUE'] = '{$strings['UI-STW-CONTINUE']}';	 
-	
-	akeeba.Backup.translations['UI-BACKUPSTARTED']  = '{$strings['UI-BACKUPSTARTED']}';
-	akeeba.Backup.translations['UI-BACKUPFINISHED']  = '{$strings['UI-BACKUPFINISHED']}';
-	akeeba.Backup.translations['UI-BACKUPHALT'] = '{$strings['UI-BACKUPHALT']}';
-	akeeba.Backup.translations['UI-BACKUPRESUME']  = '{$strings['UI-BACKUPRESUME']}';
-	akeeba.Backup.translations['UI-BACKUPHALT_DESC']  = '{$strings['UI-BACKUPHALT_DESC']}';
-	akeeba.Backup.translations['UI-BACKUPFAILED']  = '{$strings['UI-BACKUPFAILED']}';
-	akeeba.Backup.translations['UI-BACKUPWARNING']  = '{$strings['UI-BACKUPWARNING']}';
-	
-	if ($autoStart) {
-		akeeba.Backup.start();
-	} else {
-		akeeba.System.addEventListener(document.getElementById('backup-start'), 'click', akeeba.Backup.start);
-		akeeba.System.addEventListener(document.getElementById('backup-default'), 'click', akeeba.Backup.restoreDefaultOptions);
-	}
-	
-	if ($desktop_notifications)
-	{
-		akeeba.System.notification.askPermission();
-	}
-});
-
-JS;
-
-		$this->getContainer()->application->getDocument()->addScriptDeclaration($js);
+		return $domains;
 	}
 }

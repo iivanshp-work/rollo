@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    akeebabackupwp
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 defined('WPINC') or die;
@@ -151,6 +151,8 @@ $darkMode = $this->getContainer()->appConfig->get('darkmode', -1);
 	<?php if ($darkMode != 0): ?>
 	<link rel="stylesheet" type="text/css"
 		  href="<?php echo Uri::base(); ?>/media/css/dark.min.css?<?php echo $mediaquery ?>"/>
+	<link rel="stylesheet" type="text/css"
+		  href="<?php echo Uri::base(); ?>/media/css/theme_dark.min.css?<?php echo $mediaquery ?>"/>
 	<?php endif; ?>
 	<?php if (defined('AKEEBADEBUG') && AKEEBADEBUG && @file_exists(dirname(AkeebaBackupWP::$absoluteFileName) . '/app/media/css/theme.css')): ?>
 		<link rel="stylesheet" type="text/css"

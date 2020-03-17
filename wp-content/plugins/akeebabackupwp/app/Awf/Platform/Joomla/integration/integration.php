@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    awf
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   awf
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU GPL version 3 or later
  */
 
 /**
@@ -22,10 +22,10 @@ use Awf\Session;
  */
 defined('_JEXEC') or die;
 
-// Makes sure we have PHP 5.3.3 or later
-if (version_compare(PHP_VERSION, '5.3.3', 'lt'))
+// Check the minimum PHP version
+if (version_compare(PHP_VERSION, '5.6.0', 'lt'))
 {
-	echo sprintf('This component requires PHP 5.3.3 or later but your server only has PHP %s.', PHP_VERSION);
+	echo sprintf('This software requires PHP 5.6.0 or later but your server only has PHP %s.', PHP_VERSION);
 }
 
 // Include the autoloader

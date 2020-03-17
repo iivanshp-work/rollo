@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    awf
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   awf
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU GPL version 3 or later
  */
 
 namespace Awf\Mvc;
@@ -214,10 +214,10 @@ class View
 		}
 
 		$classNames = array(
-			'\\' . ucfirst($appName) . '\\View\\' . ucfirst($viewName) . '\\' . ucfirst($viewType),
-			'\\' . ucfirst($appName) . '\\View\\' . ucfirst($viewName) . '\\DefaultView',
-			'\\' . ucfirst($appName) . '\\View\\Default\\' . ucfirst($viewType),
-			'\\' . ucfirst($appName) . '\\View\\DefaultView'
+			$container->applicationNamespace . '\\View\\' . ucfirst($viewName) . '\\' . ucfirst($viewType),
+			$container->applicationNamespace . '\\View\\' . ucfirst($viewName) . '\\DefaultView',
+			$container->applicationNamespace . '\\View\\Default\\' . ucfirst($viewType),
+			$container->applicationNamespace . '\\View\\DefaultView'
 		);
 
 		foreach ($classNames as $className)
@@ -422,7 +422,7 @@ class View
 	 *
 	 * @return  string  The name of the model
 	 *
-	 * @throws  \Exception
+	 * @throws  RuntimeException
 	 */
 	public function getName()
 	{
@@ -432,10 +432,10 @@ class View
 
 			if (!preg_match('/(.*)\\\\View\\\\(.*)\\\\(.*)/i', get_class($this), $r))
 			{
-				throw new \Exception(\Awf\Text\Text::_('AWF_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
+				throw new RuntimeException(Text::_('AWF_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 
-			$this->name = strtolower($r[2]);
+			$this->name = $r[2];
 		}
 
 		return $this->name;
@@ -592,7 +592,7 @@ class View
 	 */
 	public function setModel($modelName, Model &$model)
 	{
-		$this->modelInstances[$modelName] = $model;
+		$this->modelInstances[strtolower($modelName)] = $model;
 	}
 
 	/**
@@ -671,6 +671,8 @@ class View
 				$basePath . 'default',
 			);
 		}
+
+		$paths = array_unique($paths);
 
 		foreach ($paths as $path)
 		{

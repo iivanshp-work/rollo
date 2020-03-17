@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\Controller;
@@ -32,7 +32,7 @@ class Sysconfig extends ControllerDefault
 
 		$keys = array_keys($data);
 		$checkboxKeys = array(
-			'mail.online', 'mail.smtpauth', 'options.frontend_enable', 'options.frontend_email_on_finish',
+			'mail.online', 'mail.smtpauth', 'options.legacyapi_enabled', 'options.jsonapi_enabled', 'options.frontend_email_on_finish',
 			'options.usesvnsource', 'options.displayphpwarning'
 		);
 
@@ -98,6 +98,15 @@ class Sysconfig extends ControllerDefault
 		}
 
 		$this->setRedirect($url, Text::_('SOLO_SYSCONFIG_SAVE'));
+
+		// Akeeba Backup for WordPress: reset update information
+		if (defined('WPINC'))
+		{
+			$transient = (object) [
+				'response' => []
+			];
+			\AkeebaBackupWPUpdater::getupdates($transient);
+		}
 	}
 
 	public function apply()

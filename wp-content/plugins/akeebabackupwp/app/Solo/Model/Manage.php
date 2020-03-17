@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\Model;
@@ -311,13 +311,13 @@ class Manage extends Model
 		$db->setQuery($query);
 		$profiles = $db->loadColumn();
 
-		$engines = array();
+		$engines = [];
 
-		foreach($profiles as $profileID)
+		foreach ($profiles as $profileID)
 		{
 			Platform::getInstance()->load_configuration($profileID);
-			$pConf = Factory::getConfiguration();
-			$engines[$profileID] = $pConf->get('akeeba.advanced.proc_engine');
+			$pConf               = Factory::getConfiguration();
+			$engines[$profileID] = $pConf->get('akeeba.advanced.postproc_engine');
 		}
 
 		Platform::getInstance()->load_configuration($currentProfileID);

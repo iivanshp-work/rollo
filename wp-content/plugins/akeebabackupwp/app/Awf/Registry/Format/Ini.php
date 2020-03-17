@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    awf
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   awf
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU GPL version 3 or later
  */
 
 namespace Awf\Registry\Format;
@@ -103,7 +103,7 @@ class Ini extends AbstractRegistryFormat
 			$line = trim($line);
 
 			// Ignore empty lines and comments.
-			if (empty($line) || ($line{0} == ';'))
+			if (empty($line) || ($line[0] == ';'))
 			{
 				continue;
 			}
@@ -120,7 +120,7 @@ class Ini extends AbstractRegistryFormat
 					continue;
 				}
 			}
-			elseif ($line{0} == '[')
+			elseif ($line[0] == '[')
 			{
 				continue;
 			}

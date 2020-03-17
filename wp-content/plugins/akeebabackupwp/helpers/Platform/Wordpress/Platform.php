@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    akeebabackupwp
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Akeeba\Engine\Platform;
@@ -454,9 +454,9 @@ class Wordpress extends Base
 	{
 		$site_root = $this->get_site_root();
 
-		Factory::getLog()->log(LogLevel::INFO, "APATH_BASE         :" . APATH_BASE);
-		Factory::getLog()->log(LogLevel::INFO, "Application Path   :" . \Awf\Application\Application::getInstance()->getContainer()->basePath);
-		Factory::getLog()->log(LogLevel::INFO, "Site root          :" . $this->get_site_root());
+		Factory::getLog()->log(LogLevel::INFO, "APATH_BASE         :" . APATH_BASE, ['translate_root' => false]);
+		Factory::getLog()->log(LogLevel::INFO, "Application Path   :" . \Awf\Application\Application::getInstance()->getContainer()->basePath, ['translate_root' => false]);
+		Factory::getLog()->log(LogLevel::INFO, "Site root          :" . $this->get_site_root(), ['translate_root' => false]);
 
 		// If the release is older than 3 months, issue a warning
 		if (defined('AKEEBABACKUP_DATE'))
@@ -478,7 +478,7 @@ class Wordpress extends Base
 
 		// Detect UNC paths and warn the user
 		if(DIRECTORY_SEPARATOR == '\\') {
-			if( (substr(JPATH_ROOT, 0, 2) == '\\\\') || (substr(JPATH_ROOT, 0, 2) == '//') ) {
+			if( (substr(ABSPATH, 0, 2) == '\\\\') || (substr(ABSPATH, 0, 2) == '//') ) {
 				if (!isset($ret['warnings']))
 				{
 					$ret['warnings'] = array();

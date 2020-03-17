@@ -8,78 +8,78 @@
  */
 
 if ( ! function_exists( 'rollo_setup' ) ) :
-    /**
-     * Sets up theme defaults and registers support for various WordPress features.
-     *
-     * Note that this function is hooked into the after_setup_theme hook, which
-     * runs before the init hook. The init hook is too late for some features, such
-     * as indicating support for post thumbnails.
-     */
-    function rollo_setup() {
-        /*
-         * Make theme available for translation.
-         * Translations can be filed in the /languages/ directory.
-         * If you're building a theme based on rollo, use a find and replace
-         * to change 'rollo' to the name of your theme in all the template files.
-         */
-        load_theme_textdomain( 'rollo', get_template_directory() . '/languages' );
+	/**
+	 * Sets up theme defaults and registers support for various WordPress features.
+	 *
+	 * Note that this function is hooked into the after_setup_theme hook, which
+	 * runs before the init hook. The init hook is too late for some features, such
+	 * as indicating support for post thumbnails.
+	 */
+	function rollo_setup() {
+		/*
+		 * Make theme available for translation.
+		 * Translations can be filed in the /languages/ directory.
+		 * If you're building a theme based on rollo, use a find and replace
+		 * to change 'rollo' to the name of your theme in all the template files.
+		 */
+		load_theme_textdomain( 'rollo', get_template_directory() . '/languages' );
 
-        // Add default posts and comments RSS feed links to head.
-        add_theme_support( 'automatic-feed-links' );
+		// Add default posts and comments RSS feed links to head.
+		add_theme_support( 'automatic-feed-links' );
 
-        /*
-         * Let WordPress manage the document title.
-         * By adding theme support, we declare that this theme does not use a
-         * hard-coded <title> tag in the document head, and expect WordPress to
-         * provide it for us.
-         */
-        add_theme_support( 'title-tag' );
+		/*
+		 * Let WordPress manage the document title.
+		 * By adding theme support, we declare that this theme does not use a
+		 * hard-coded <title> tag in the document head, and expect WordPress to
+		 * provide it for us.
+		 */
+		add_theme_support( 'title-tag' );
 
-        /*
-         * Enable support for Post Thumbnails on posts and pages.
-         *
-         * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
-         */
-        add_theme_support( 'post-thumbnails' );
+		/*
+		 * Enable support for Post Thumbnails on posts and pages.
+		 *
+		 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+		 */
+		add_theme_support( 'post-thumbnails' );
 
-        // This theme uses wp_nav_menu() in one location.
-        register_nav_menus( array(
-            'menu-1' => esc_html__( 'Primary', 'rollo' ),
-        ) );
+		// This theme uses wp_nav_menu() in one location.
+		register_nav_menus( array(
+			'menu-1' => esc_html__( 'Primary', 'rollo' ),
+		) );
 
-        /*
-         * Switch default core markup for search form, comment form, and comments
-         * to output valid HTML5.
-         */
-        add_theme_support( 'html5', array(
-            'search-form',
-            'comment-form',
-            'comment-list',
-            'gallery',
-            'caption',
-        ) );
+		/*
+		 * Switch default core markup for search form, comment form, and comments
+		 * to output valid HTML5.
+		 */
+		add_theme_support( 'html5', array(
+			'search-form',
+			'comment-form',
+			'comment-list',
+			'gallery',
+			'caption',
+		) );
 
-        // Set up the WordPress core custom background feature.
-        add_theme_support( 'custom-background', apply_filters( 'rollo_custom_background_args', array(
-            'default-color' => 'ffffff',
-            'default-image' => '',
-        ) ) );
+		// Set up the WordPress core custom background feature.
+		add_theme_support( 'custom-background', apply_filters( 'rollo_custom_background_args', array(
+			'default-color' => 'ffffff',
+			'default-image' => '',
+		) ) );
 
-        // Add theme support for selective refresh for widgets.
-        add_theme_support( 'customize-selective-refresh-widgets' );
+		// Add theme support for selective refresh for widgets.
+		add_theme_support( 'customize-selective-refresh-widgets' );
 
-        /**
-         * Add support for core custom logo.
-         *
-         * @link https://codex.wordpress.org/Theme_Logo
-         */
-        add_theme_support( 'custom-logo', array(
-            'height'      => 250,
-            'width'       => 250,
-            'flex-width'  => true,
-            'flex-height' => true,
-        ) );
-    }
+		/**
+		 * Add support for core custom logo.
+		 *
+		 * @link https://codex.wordpress.org/Theme_Logo
+		 */
+		add_theme_support( 'custom-logo', array(
+			'height'      => 250,
+			'width'       => 250,
+			'flex-width'  => true,
+			'flex-height' => true,
+		) );
+	}
 endif;
 add_action( 'after_setup_theme', 'rollo_setup' );
 
@@ -91,10 +91,10 @@ add_action( 'after_setup_theme', 'rollo_setup' );
  * @global int $content_width
  */
 function rollo_content_width() {
-    // This variable is intended to be overruled from themes.
-    // Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
-    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-    $GLOBALS['content_width'] = apply_filters( 'rollo_content_width', 640 );
+	// This variable is intended to be overruled from themes.
+	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+	$GLOBALS['content_width'] = apply_filters( 'rollo_content_width', 640 );
 }
 add_action( 'after_setup_theme', 'rollo_content_width', 0 );
 
@@ -104,14 +104,14 @@ add_action( 'after_setup_theme', 'rollo_content_width', 0 );
  * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
  */
 function rollo_widgets_init() {
-    register_sidebar( array(
-        'name'          => esc_html__( 'Sidebar', 'rollo' ),
-        'id'            => 'sidebar-1',
-        'description'   => esc_html__( 'Add widgets here.', 'rollo' ),
-        'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '<h2 class="widget-title">',
-        'after_title'   => '</h2>',
+	register_sidebar( array(
+		'name'          => esc_html__( 'Sidebar', 'rollo' ),
+		'id'            => 'sidebar-1',
+		'description'   => esc_html__( 'Add widgets here.', 'rollo' ),
+		'before_widget' => '<section id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</section>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
     ) );
 
     register_sidebar( array(
@@ -129,60 +129,60 @@ function rollo_widgets_init() {
         'id' => 'prod-filtr-1',
         'description' => __( 'Фільтр по типу', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '',
-        'after_title'   => '',
+		'after_widget'  => '</section>',
+		'before_title'  => '',
+		'after_title'   => '',
     ) );
 
-    register_sidebar( array(
+	register_sidebar( array(
         'name' => __( 'Фільтр Колір', '' ),
         'id' => 'prod-filtr-color',
         'description' => __( 'Фільтр по кольору', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '',
-        'after_title'   => '',
+		'after_widget'  => '</section>',
+		'before_title'  => '',
+		'after_title'   => '',
     ) );
 
 
-    register_sidebar( array(
+	register_sidebar( array(
         'name' => __( 'Фільтр затемнення', '' ),
         'id' => 'prod-filtr-temno',
         'description' => __( 'Фільтр затемнення', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '',
-        'after_title'   => '',
+		'after_widget'  => '</section>',
+		'before_title'  => '',
+		'after_title'   => '',
     ) );
 
-    register_sidebar( array(
+	register_sidebar( array(
         'name' => __( 'Фільтр фактура', '' ),
         'id' => 'prod-filtr-faktura',
         'description' => __( 'Фільтр фактура', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '',
-        'after_title'   => '',
+		'after_widget'  => '</section>',
+		'before_title'  => '',
+		'after_title'   => '',
     ) );
 
-    register_sidebar( array(
+	register_sidebar( array(
         'name' => __( 'Фільтр малюнок', '' ),
         'id' => 'prod-filtr-mal',
         'description' => __( 'Фільтр малюнок', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '',
-        'after_title'   => '',
+		'after_widget'  => '</section>',
+		'before_title'  => '',
+		'after_title'   => '',
     ) );
 
-    register_sidebar( array(
+	register_sidebar( array(
         'name' => __( 'Фільтр виробник', '' ),
         'id' => 'prod-filtr-vyr',
         'description' => __( 'Фільтр виробник', '' ),
         'before_widget' => '<section id="%1$s" class="widget %2$s">',
-        'after_widget'  => '</section>',
-        'before_title'  => '',
-        'after_title'   => '',
+		'after_widget'  => '</section>',
+		'before_title'  => '',
+		'after_title'   => '',
     ) );
 }
 add_action( 'widgets_init', 'rollo_widgets_init' );
@@ -203,9 +203,9 @@ function rollo_scripts() {
     wp_enqueue_style('rollo-style-font', "https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&display=swap&subset=cyrillic");
 
 
-    if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-        wp_enqueue_script( 'comment-reply' );
-    }
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'rollo_scripts' );
 
@@ -233,14 +233,14 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
-    require get_template_directory() . '/inc/jetpack.php';
+	require get_template_directory() . '/inc/jetpack.php';
 }
 
 /**
  * Load WooCommerce compatibility file.
  */
 if ( class_exists( 'WooCommerce' ) ) {
-    require get_template_directory() . '/inc/woocommerce.php';
+	require get_template_directory() . '/inc/woocommerce.php';
 }
 
 
@@ -258,7 +258,7 @@ require get_template_directory() . '/inc/lang.php';
  *
  * version 3.3.2
  */
-function kama_breadcrumbs( $sep = ' » ', $l10n = array(), $args = array() ){
+ function kama_breadcrumbs( $sep = ' » ', $l10n = array(), $args = array() ){
     $kb = new Kama_Breadcrumbs;
     echo $kb->get_crumbs( $sep, $l10n, $args );
 }
@@ -340,13 +340,13 @@ class Kama_Breadcrumbs {
             );
             // schema.org
             elseif( $mark === 'schema.org' )
-            {$mark = array(
+				{$mark = array(
                 'wrappatt'   => '%s',
                 'linkpatt'   => '<li><a href="%s" itemprop="item"><span itemprop="name">%s</span><meta itemprop="position" content="$d"></a></li>',
                 'sep_after'  => '',
             );
 
-            }
+				 }
 
             elseif( ! is_array($mark) )
                 die( __CLASS__ .': "markup" parameter must be array...');
@@ -573,14 +573,14 @@ class Kama_Breadcrumbs {
 
         $out = sprintf( $wrappatt, $before_out . $out );
 
-        $count_link = count(explode('$d',$out));
+		 $count_link = count(explode('$d',$out));
 
-        $iii= 1;
-        foreach (explode('$d',$out) as $value) {
-            $replace_out .= $value.$iii++;
+            $iii= 1;
+            foreach (explode('$d',$out) as $value) {
+              $replace_out .= $value.$iii++;
 
-        }
-        $out =  substr($replace_out, 0, -1);
+            }
+             $out =  substr($replace_out, 0, -1);
 
         return apply_filters('kama_breadcrumbs', $out, $sep, $loc, $arg );
     }
@@ -643,7 +643,7 @@ class Kama_Breadcrumbs {
 ## CSS стили для админ-панели. Нужно создать файл 'wp-admin.css' в папке темы
 add_action('admin_enqueue_scripts', 'my_admin_css', 99);
 function my_admin_css(){
-    wp_enqueue_style('my-wp-admin', get_template_directory_uri() .'/wp-admin.css' );
+	wp_enqueue_style('my-wp-admin', get_template_directory_uri() .'/wp-admin.css' );
 }
 
 
@@ -758,8 +758,13 @@ function recalculate_product_price() {
             $image = wp_get_attachment_image($product->get_image_id(), 'medium_large');
         }
 
-        $basePrice = $variant->get_price();
-        $basePrice = calculate_product_price($variant->get_id());
+        $width = isset($product_attributes['width']) ? $product_attributes['width'] : 0;
+        $height = isset($product_attributes['height']) ? $product_attributes['height'] : 0;
+        if ($width && $height) {
+            $basePrice = $variant->get_price();
+        } else {
+            $basePrice = calculate_product_price($variant->get_id());
+        }
 
         $sizesData = [
             'not_standard_sizes' => get_field('not_standard_sizes', $product->get_id()),
@@ -953,8 +958,14 @@ function ajax_add_to_cart() {
             $variant = wc_get_product($product_id);
             $product = wc_get_product($product_id);
         }
-        $basePrice = $variant->get_price();
-        $basePrice = calculate_product_price($variant->get_id());
+
+        $width = isset($product_attributes['width']) ? $product_attributes['width'] : 0;
+        $height = isset($product_attributes['height']) ? $product_attributes['height'] : 0;
+        if ($width && $height) {
+            $basePrice = $variant->get_price();
+        } else {
+            $basePrice = calculate_product_price($variant->get_id());
+        }
 
         $sizesData = [
             'not_standard_sizes' => get_field('not_standard_sizes', $product->get_id()),
@@ -1289,29 +1300,20 @@ function wc_display_item_meta_custom( $item, $args = array() ) {
     }
 }
 
-
-
-
-
 function variation_settings_fields( $loop, $variation_data, $variation ) {
     $html =  '<p class="form-row upload_image">';
     $html .=     '<label>Фото мініатюри</label>';
     $html .=     '<a href="#" class="upload_image_button ' . (get_post_meta( $variation->ID, '_mini_image', true ) ? 'remove' : '') . ' ">';
     $html .=        '<img src="' .  (get_post_meta( $variation->ID, '_mini_image', true ) ?  esc_url( wp_get_attachment_thumb_url( get_post_meta( $variation->ID, '_mini_image', true ) ) ) : esc_url( wc_placeholder_img_src() )) . '" />';
     $html .=        '<input type="hidden" name="_mini_image[' . $variation->ID . ']" class="upload_image_id" value="' . get_post_meta( $variation->ID, '_mini_image', true ) . '" />';
-	$html .=     '</a>';
+    $html .=     '</a>';
     $html .= '</p>';
     echo $html;
 }
 add_action( 'woocommerce_product_after_variable_attributes', 'variation_settings_fields', 10, 3 );
 
-/**
- * Save new fields for variations
- *
- */
 function save_variation_settings_fields( $post_id ) {
     $text_field = $_POST['_mini_image'][ $post_id ];
-    test($_REQUEST);
     if( ! empty( $text_field ) ) {
         update_post_meta( $post_id, '_mini_image', esc_attr( $text_field ) );
     }
@@ -1780,8 +1782,4 @@ add_filter('woocommerce_ajax_get_endpoint',  function ($result, $request){
 /*if ($_SERVER["REMOTE_ADDR"] == '93.175.195.69') {
     test([pll__('Особисті дані'), pll_current_language()]);
 }*/
-/*global $_wp_additional_image_sizes;
-print '<pre>';
-test( get_intermediate_image_sizes() );
-print '</pre>';*/
 /* CHANGES RELATED TO WC PRODUCTS END */

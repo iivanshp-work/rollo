@@ -1,10 +1,9 @@
 /*
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
-// Object initialisation
 if (typeof akeeba === "undefined")
 {
 	var akeeba = {};
@@ -173,7 +172,7 @@ akeeba.Backup.renderBackupSteps = function (active_step)
 
 	for (var counter = 0; counter < akeeba.Backup.domains.length; counter++)
 	{
-		element = akeeba.Backup.domains[counter];
+		var element = akeeba.Backup.domains[counter];
 
 		var step       = document.createElement("div");
 		step.className = " ";
@@ -184,11 +183,11 @@ akeeba.Backup.renderBackupSteps = function (active_step)
 		if (element[0] == active_step)
 		{
 			normal_class = "akeeba-label--grey";
-			this_class   = "akeeba-label--teal";
+			var this_class   = "akeeba-label--teal";
 		}
 		else
 		{
-			this_class = normal_class;
+			var this_class = normal_class;
 		}
 
 		step.className += " " + this_class;
@@ -323,7 +322,6 @@ akeeba.Backup.onStep = function (data)
 	akeeba.Backup.currentDomain = data.Domain;
 
 	// Update percentage display
-	var percentageText                                               = data.Progress + "%";
 	document.querySelector("#backup-percentage div.bar").style.width = data.Progress + "%";
 
 	// Update Piecon percentage display
@@ -352,7 +350,7 @@ akeeba.Backup.onStep = function (data)
 
 		for (var i = 0; i < data.Warnings.length; i++)
 		{
-			warning = data.Warnings[i];
+			var warning = data.Warnings[i];
 
 			akeeba.System.notification.notify(akeeba.Backup.translations["UI-BACKUPWARNING"], warning);
 
@@ -639,7 +637,7 @@ akeeba.Backup.onDone = function ()
 	{
 	}
 
-	// Proceed to the return URL if it is set
+	// Proceed to the return URL if it is set, using a POST redirect or a "standard" one
 	if (akeeba.Backup.returnForm)
 	{
 		document.getElementById("returnForm").submit();

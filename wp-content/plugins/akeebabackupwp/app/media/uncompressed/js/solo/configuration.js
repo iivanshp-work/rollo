@@ -1,7 +1,7 @@
 /*
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 // Object initialisation
@@ -115,9 +115,9 @@ akeeba.Configuration.onBrowser = function (folder, element)
 	dialogBody.appendChild(iFrame);
 
 	akeeba.Configuration.fsBrowser.modalObject = akeeba.Modal.open({
-																	   inherit: '#' + akeeba.Configuration.fsBrowser.params.dialogId,
-																	   width:   '80%'
-																   });
+		inherit: '#' + akeeba.Configuration.fsBrowser.params.dialogId,
+		width:   '80%'
+	});
 };
 
 /**
@@ -181,9 +181,9 @@ akeeba.Configuration.FtpBrowser.open = function ()
 	});
 
 	akeeba.Configuration.FtpModal = akeeba.System.Modal.open({
-																 inherit: ftp_dialog_element,
-																 width:   '80%'
-															 });
+		inherit: ftp_dialog_element,
+		width:   '80%'
+	});
 
 	document.getElementById('ftpBrowserErrorContainer').style.display = 'none';
 	document.getElementById('ftpBrowserFolderList').innerHTML         = '';
@@ -399,9 +399,9 @@ akeeba.Configuration.SftpBrowser.open = function ()
 	});
 
 	akeeba.Configuration.FtpModal = akeeba.System.Modal.open({
-																 inherit: ftp_dialog_element,
-																 width:   '80%'
-															 });
+		inherit: ftp_dialog_element,
+		width:   '80%'
+	});
 
 	document.getElementById('sftpBrowserErrorContainer').style.display = 'none';
 	document.getElementById('sftpBrowserFolderList').innerHTML         = '';
@@ -572,9 +572,9 @@ akeeba.Configuration.FtpTest.testConnection = function (buttonKey, configKey, is
 			}
 
 			akeeba.Modal.open({
-								  inherit: '#testFtpDialog',
-								  width:   '80%'
-							  });
+				inherit: '#testFtpDialog',
+				width:   '80%'
+			});
 		}, null, false, 15000
 	)
 };
@@ -630,9 +630,9 @@ akeeba.Configuration.SftpTest.testConnection = function (buttonKey, configKey, i
 			}
 
 			akeeba.Modal.open({
-								  inherit: '#testFtpDialog',
-								  width:   '80%'
-							  });
+				inherit: '#testFtpDialog',
+				width:   '80%'
+			});
 		}, null, false, 15000
 	)
 };
@@ -1848,11 +1848,11 @@ akconfig_onedrivebusiness_openoauth = function ()
 	window.open(url + 'engine=onedrivebusiness', 'akeeba_onedrivebusiness_window', 'width=1010,height=500');
 };
 
-akconfig_onedrivebusiness_oauth_callback = function (data)
+akeeba_onedrivebusiness_oauth_callback = function (data)
 {
 	// Update the tokens
-	document.getElementById('var[engine.postproc.onedrive.service_id]').value  = data.service_id;
-	document.getElementById('var[engine.postproc.onedrive.refresh_token]').value = data.refresh_token;
+	document.getElementById('var[engine.postproc.onedrivebusiness.service_id]').value  = data.service_id;
+	document.getElementById('var[engine.postproc.onedrivebusiness.refresh_token]').value = data.refresh_token;
 
 	// Close the window
 	myWindow = window.open("", "akeeba_onedrivebusiness_window");
@@ -1969,5 +1969,31 @@ akconfig_box_oauth_callback = function (data)
 
 	// Close the window
 	myWindow = window.open("", "akeeba_box_window");
+	myWindow.close();
+};
+
+akconfig_pcloud_openoauth = function ()
+{
+	var url = akeeba.Configuration.URLs.dpeauthopen;
+
+	if (url.indexOf("?") == -1)
+	{
+		url = url + '?';
+	}
+	else
+	{
+		url = url + '&';
+	}
+
+	window.open(url + 'engine=pcloud', 'akeeba_pcloud_window', 'width=1010,height=500');
+};
+
+akconfig_pcloud_oauth_callback = function (data)
+{
+	// Update the tokens
+	document.getElementById('var[engine.postproc.pcloud.access_token]').value  = data.access_token;
+
+	// Close the window
+	myWindow = window.open("", "akeeba_pcloud_window");
 	myWindow.close();
 };

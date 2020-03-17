@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    akeebabackupwp
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 use Akeeba\Engine\Platform;
@@ -36,7 +36,7 @@ class AkeebaBackupWP
 	public static $wrongPHP = false;
 
 	/** @var string Minimum PHP version */
-	public static $minimumPHP = '5.4.0';
+	public static $minimumPHP = '5.6.0';
 
 	protected static $loadedScripts = array();
 
@@ -378,9 +378,17 @@ class AkeebaBackupWP
 			$bootstrapFile = 'boot_webapp.php';
 		}
 
-		if (self::$wrongPHP)
+		if (!defined('AKEEBA_COMMON_WRONGPHP'))
 		{
-			include_once dirname(self::$absoluteFileName) . '/helpers/wrongphp.php';
+			define('AKEEBA_COMMON_WRONGPHP', 1);
+		}
+
+		$minPHPVersion         = '5.6.0';
+		$recommendedPHPVersion = '7.3';
+		$softwareName          = 'Akeeba Backup for WordPress';
+
+		if (!require_once(dirname(self::$absoluteFileName) . '/helpers/wrongphp.php'))
+		{
 			return;
 		}
 
@@ -681,4 +689,78 @@ class AkeebaBackupWP
 		return $localContainer;
 	}
 
+	/**
+	 * Issues a redirection to the 'installation' folder if such a folder is present and seems to contain a copy of
+	 * ANGIE. This prevents some webmasters used to the Stone Ages from unzipping a backup archive and not running the
+	 * installer, then complain very loudly that Akeeba Backup doesn't work when the only thing doesn't working is their
+	 * common sense.
+	 *
+	 * In simple terms, this static method fixes stupid.
+	 */
+	public static function redirectIfInstallationPresent()
+	{
+		$installDir   = rtrim(ABSPATH, '/\\') . '/installation';
+		$installIndex = rtrim(ABSPATH, '/\\') . '/installation/index.php';
+
+		if (!@is_dir($installDir) && !is_file($installIndex))
+		{
+			return;
+		}
+
+		$indexContents = @file_get_contents($installIndex);
+
+		if ($indexContents === false)
+		{
+			return;
+		}
+
+		if (!preg_match('#\s*\*\s*ANGIE\s#', $indexContents) || (strpos($indexContents, '_AKEEBA') === false))
+		{
+			return;
+		}
+
+		ob_end_clean();
+		ob_start();
+
+		try
+		{
+			// Required by the integration.php file
+			define('AKEEBASOLO', 1);
+			// Creates the application container, required for translations to work
+			global $akeebaBackupWordPressLoadPlatform;
+			$akeebaBackupWordPressLoadPlatform = true;
+			/** @var \Awf\Container\Container $container */
+			$container = require 'integration.php';
+			// This tells AWF to consider the 'solo' app as the default
+			$app = Awf\Application\Application::getInstance($container->application->getName());
+			// Tell the app to load the translation strings
+			$app->initialise();
+			// Load the message page
+			require __DIR__ . '/installation_detected.php';
+			// Show the message page
+			ob_end_flush();
+		}
+		catch (Exception $e)
+		{
+			// If something broke we show a low-tech, abbreviated page
+			ob_end_clean();
+
+			echo <<< HTML
+<html>
+<head><title>You have not completed the restoration of this site backup</title></head>
+<body>
+<h1>You have not completed the restoration of this site backup</h1>
+<p>
+	Please <a href="installation/index.php">click here</a> to run the restoration script. Do remember to delete the
+	<code>installation</code> directory after you are done restoring your site to prevent this page from appearing
+	again. 
+</p>
+</body>
+</html>
+HTML;
+			die;
+		}
+
+		exit(200);
+	}
 }

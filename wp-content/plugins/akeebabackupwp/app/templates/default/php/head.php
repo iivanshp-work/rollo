@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 use Awf\Document\Document;
@@ -70,13 +70,14 @@ if(!empty($styles)) foreach($styles as $url => $params)
 }
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo Uri::base(); ?>/media/css/fef.min.css?<?php echo $this->container->mediaQueryKey ?>" />
-<?php if ($darkMode != 0): ?>
-<link rel="stylesheet" type="text/css" href="<?php echo Uri::base(); ?>/media/css/dark.min.css?<?php echo $this->container->mediaQueryKey ?>" />
-<?php endif; ?>
 <?php if (defined('AKEEBADEBUG') && AKEEBADEBUG && @file_exists(APATH_BASE . '/media/css/theme.css')): ?>
 <link rel="stylesheet" type="text/css" href="<?php echo \Awf\Uri\Uri::base(); ?>/media/css/theme.css?<?php echo $this->container->mediaQueryKey ?>" />
 <?php else: ?>
 <link rel="stylesheet" type="text/css" href="<?php echo \Awf\Uri\Uri::base(); ?>/media/css/theme.min.css?<?php echo $this->container->mediaQueryKey ?>" />
+<?php endif; ?>
+<?php if ($darkMode != 0): ?>
+	<link rel="stylesheet" type="text/css" href="<?php echo Uri::base(); ?>/media/css/dark.min.css?<?php echo $this->container->mediaQueryKey ?>" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Uri::base(); ?>/media/css/theme_dark.min.css?<?php echo $this->container->mediaQueryKey ?>" />
 <?php endif; ?>
 <?php
 // CSS files before the template CSS

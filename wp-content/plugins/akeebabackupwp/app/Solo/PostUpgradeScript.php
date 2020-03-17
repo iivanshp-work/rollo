@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo;
@@ -17,7 +17,7 @@ class PostUpgradeScript
 	/**
 	 * @var array Files to remove from all versions
 	 */
-	protected $removeFilesAllVersions = array(
+	protected $removeFilesAllVersions = [
 		'media/css/bootstrap-namespaced.css',
 		'media/css/bootstrap-switch.css',
 		'media/css/datepicker.css',
@@ -57,11 +57,11 @@ class PostUpgradeScript
 		// Obsolete Azure files
 		'Solo/engine/Postproc/Connector/Azure/Credentials/Sharedsignature.php',
 		// Obsolete Mautic integration
-	    'Solo/assets/installers/angie-mautic.ini',
-	    'Solo/assets/installers/angie-mautic.jpa',
-	    'Solo/Platform/Solo/Filter/MauticSkipDirs.php',
-	    'Solo/Platform/Solo/Filter/MauticSkipFiles.php',
-	    'Solo/Pythia/Oracle/Mautic.php',
+		'Solo/assets/installers/angie-mautic.ini',
+		'Solo/assets/installers/angie-mautic.jpa',
+		'Solo/Platform/Solo/Filter/MauticSkipDirs.php',
+		'Solo/Platform/Solo/Filter/MauticSkipFiles.php',
+		'Solo/Pythia/Oracle/Mautic.php',
 		// Obsolete AES-128 CTR implementation in Javascript
 		'media/js/solo/encryption.min.js',
 		'media/js/solo/encryption.min.map',
@@ -203,12 +203,30 @@ class PostUpgradeScript
 
 		'Solo/assets/sql/xml/postgresql.xml',
 		'Solo/assets/sql/xml/sqlsrv.xml',
-	);
+
+		// Engine 7
+		'Solo/engine/Base/BaseObject.php',
+
+		// ALICE refactoring
+		'media/js/solo/stepper.min.js',
+		'media/js/solo/stepper.min.map',
+
+		// Version 7 -- remove non-RAW JSON API encapsulation
+		"Solo/Model/Json/Encapsulation/AesCbc128.php",
+		"Solo/Model/Json/Encapsulation/AesCbc256.php",
+		"Solo/Model/Json/Encapsulation/AesCtr128.php",
+		"Solo/Model/Json/Encapsulation/AesCtr256.php",
+
+		// pCloud
+//		"Solo/engine/Postproc/Connector/Pcloud.php",
+//		"Solo/engine/Postproc/pcloud.json",
+//		"Solo/engine/Postproc/Pcloud.php",
+	];
 
 	/**
 	 * @var array Files to remove from Core
 	 */
-	protected $removeFilesCore = array(
+	protected $removeFilesCore = [
 		// Pro engine features
 		// -- Archivers
 		'Solo/engine/Archiver/directftp.ini',
@@ -274,38 +292,68 @@ class PostUpgradeScript
 		'Solo/engine/Postproc/webdav.ini',
 		'Solo/engine/Postproc/Webdav.php',
 		// Pro application features
+		'Solo/Controller/Alice.php',
+		'Solo/Controller/Check.php',
 		'Solo/Controller/Discover.php',
-		'Solo/Model/Discover.php',
 		'Solo/Controller/Extradirs.php',
-		'Solo/Model/Extradirs.php',
+		'Solo/Controller/Json.php',
 		'Solo/Controller/Multidb.php',
-		'Solo/Model/Multidb.php',
 		'Solo/Controller/Regexdbfilters.php',
-		'Solo/Model/Regexdbfilters.php',
 		'Solo/Controller/Regexfsfilters.php',
-		'Solo/Model/Regexfsfilters.php',
+		'Solo/Controller/Remote.php',
 		'Solo/Controller/Remotefiles.php',
-		'Solo/Model/Remotefiles.php',
+		'Solo/Controller/Restore.php',
 		'Solo/Controller/S3import.php',
-		'Solo/Model/S3import.php',
+		'Solo/Controller/Schedule.php',
+		'Solo/Controller/Transfer.php',
 		'Solo/Controller/Upload.php',
+
+		'Solo/Model/Alice.php',
+		'Solo/Model/Discover.php',
+		'Solo/Model/Extradirs.php',
+		'Solo/Model/Json.php',
+		'Solo/Model/Multidb.php',
+		'Solo/Model/Regexdbfilters.php',
+		'Solo/Model/Regexfsfilters.php',
+		'Solo/Model/Remotefiles.php',
+		'Solo/Model/Restore.php',
+		'Solo/Model/S3import.php',
+		'Solo/Model/Schedule.php',
+		'Solo/Model/Transfers.php',
 		'Solo/Model/Upload.php',
 
-		// PostgreSQL and MS SQL Server support
-		'Solo/engine/Dump/Reverse',
-	);
+		'media/js/solo/alice.min.js',
+		'media/js/solo/alice.min.map',
+		'media/js/solo/extradirs.min.js',
+		'media/js/solo/extradirs.min.map',
+		'media/js/solo/multidb.min.js',
+		'media/js/solo/multidb.min.map',
+		'media/js/solo/regexdbfilters.min.js',
+		'media/js/solo/regexdbfilters.min.map',
+		'media/js/solo/regexfsfilters.min.js',
+		'media/js/solo/regexfsfilters.min.map',
+		'media/js/solo/restore.min.js',
+		'media/js/solo/restore.min.map',
+		'media/js/solo/transfer.min.js',
+		'media/js/solo/transfer.min.map',
+
+		// Version 7 -- JSON and legacy API
+		'remote.php',
+		// NEVER DELETE restore.php – IT IS REQUIRED FOR INSTALLING UPDATES
+		// 'restore.php',
+	];
 
 	/**
 	 * @var array Files to remove from Pro
 	 */
-	protected $removeFilesPro = array(
+	protected $removeFilesPro = [
 
-	);
+	];
 
 	/**
 	 * @var array Folders to remove from all versions
 	 */
-	protected $removeFoldersAllVersions = array(
+	protected $removeFoldersAllVersions = [
 		// Removed in version 1.2 (introducing Akeeba Engine 2)
 		'Solo/engine/platform/solo',
 		'Solo/engine/abstract',
@@ -322,40 +370,103 @@ class PostUpgradeScript
 		// Bootstrap-based theme
 		'media/css/selectize',
 		'media/less',
-	);
+
+		// ALICE refactoring
+		"Solo/alice",
+
+		// Conversion to Blade
+		'Solo/View/Alice/tmpl',
+		'Solo/View/Backup/tmpl',
+		'Solo/View/Browser/tmpl',
+		'Solo/View/Common',
+		'Solo/View/Configuration/tmpl',
+		'Solo/View/Dbfilters/tmpl',
+		'Solo/View/Discover/tmpl',
+		'Solo/View/Extradirs/tmpl',
+		'Solo/View/Fsfilters/tmpl',
+		'Solo/View/Log/tmpl',
+		'Solo/View/Login/tmpl',
+		'Solo/View/Main/tmpl',
+		'Solo/View/Manage/tmpl',
+		'Solo/View/Multidb/tmpl',
+		'Solo/View/Phpinfo/tmpl',
+		'Solo/View/Profiles/tmpl',
+		'Solo/View/Regexdbfilters/tmpl',
+		'Solo/View/Regexfsfilters/tmpl',
+		'Solo/View/Remotefiles/tmpl',
+		'Solo/View/Restore/tmpl',
+		'Solo/View/S3import/tmpl',
+		'Solo/View/Schedule/tmpl',
+		'Solo/View/Setup/tmpl',
+		'Solo/View/Sysconfig/tmpl',
+		'Solo/View/Transfer/tmpl',
+		'Solo/View/Update/tmpl',
+		'Solo/View/Upload/tmpl',
+		'Solo/View/Users/tmpl',
+		'Solo/View/Wizard/tmpl',
+
+		// Precompiled tempaltes
+		'Solo/PrecompiledTemplates',
+	];
 
 	/**
 	 * @var array Folders to remove from Core
 	 */
-	protected $removeFoldersCore = array(
+	protected $removeFoldersCore = [
 		// CLI scripts
 		'cli',
 		// Pro engine features
 		'Solo/engine/plugins',
 		'Solo/engine/Postproc/Connector',
 		'Solo/Platform/Solo/Config/Pro',
+
 		// Pro application features
+		'Solo/AliceChecks',
+
+		'Solo/Model/Json',
+
+		'Solo/View/Alice',
 		'Solo/View/Discover',
 		'Solo/View/Extradirs',
 		'Solo/View/Multidb',
 		'Solo/View/Regexdbfilters',
 		'Solo/View/Regexfsfilters',
 		'Solo/View/Remotefiles',
+		'Solo/View/Restore',
 		'Solo/View/S3import',
+		'Solo/View/Schedule',
+		'Solo/View/Transfer',
 		'Solo/View/Upload',
-	);
+
+		'Solo/ViewTemplates/Alice',
+		'Solo/ViewTemplates/Discover',
+		'Solo/ViewTemplates/Extradirs',
+		'Solo/ViewTemplates/Multidb',
+		'Solo/ViewTemplates/Regexdbfilters',
+		'Solo/ViewTemplates/Regexfsfilters',
+		'Solo/ViewTemplates/Remotefiles',
+		'Solo/ViewTemplates/Restore',
+		'Solo/ViewTemplates/S3import',
+		'Solo/ViewTemplates/Schedule',
+		'Solo/ViewTemplates/Transfer',
+		'Solo/ViewTemplates/Upload',
+
+		// Version 7 -- JSON and legacy API
+		'Solo/Model/Json',
+
+	];
 
 	/**
 	 * @var array Folders to remove from Pro
 	 */
-	protected $removeFoldersPro = array(
+	protected $removeFoldersPro = [
 
-	);
+	];
 
 	/**
 	 * Class constructor
 	 *
-	 * @param \Awf\Container\Container $container The container of the application we are running in
+	 * @param   \Awf\Container\Container  $container  The container of the application we are running in
 	 */
 	public function __construct(\Awf\Container\Container $container)
 	{
@@ -367,16 +478,20 @@ class PostUpgradeScript
 	 */
 	public function execute()
 	{
+		// Do not execute the post-upgrade script in the development environment
+		$realPath = realpath(__DIR__);
+
+		if (@file_exists($realPath . '/../../.nopostupgrade'))
+		{
+			return;
+		}
+
+		// Special handling for running the Solo application inside WordPress.
 		if ($this->container->segment->get('insideCMS', false))
 		{
 			if (defined('WPINC'))
 			{
 				$this->_WordPressActions();
-			}
-
-			if (defined('_JEXEC'))
-			{
-				$this->_JoomlaActions();
 			}
 		}
 
@@ -388,6 +503,10 @@ class PostUpgradeScript
 
 		// Migrate profiles
 		$this->migrateProfiles();
+
+		// Migrate front-end API activation options
+		$this->upgradeFrontendEnable();
+
 	}
 
 	/**
@@ -445,19 +564,32 @@ class PostUpgradeScript
 	 */
 	private function _WordPressRemoveFolders()
 	{
-		$removeFolders = array(
+		$removeFolders = [
+			// Standalone platform
+			'app/Solo/Platform',
 			// Obsolete folders after the introduction of Akeeba Engine 2
 			'helpers/platform/solowp',
-		);
+		];
+
+		// Remove WordPress-specific features from the Core release
+		if (defined('AKEEBABACKUP_PRO') && !AKEEBABACKUP_PRO)
+		{
+			$removeFolders = array_merge([
+				'helpers/assets/mu-plugins',
+				'wpcli'
+
+			], $removeFolders);
+		}
 
 		$fsBase = rtrim($this->container->filesystemBase, '/' . DIRECTORY_SEPARATOR) . '/../';
-		$fs = $this->container->fileSystem;
+		$fs     = $this->container->fileSystem;
 
-		foreach($removeFolders as $folder)
+		foreach ($removeFolders as $folder)
 		{
 			$fs->rmdir($fsBase . $folder, true);
 		}
 	}
+
 	/**
 	 * Remove obsolete files from the WordPress installation
 	 *
@@ -465,7 +597,7 @@ class PostUpgradeScript
 	 */
 	private function _WordPressRemoveFiles()
 	{
-		$removeFiles = array(
+		$removeFiles = [
 			// Migrating INI files to .json files
 			"helpers/Platform/Wordpress/Config/04.quota.ini",
 			"helpers/Platform/Wordpress/Config/02.advanced.ini",
@@ -478,14 +610,14 @@ class PostUpgradeScript
 			"helpers/Platform/Wordpress/Config/01.basic.ini",
 			"helpers/Platform/Wordpress/Config/02.platform.ini",
 			"helpers/Platform/Wordpress/Config/05.tuning.ini",
-		);
+		];
 
 		// Remove WordPress-specific features from the Core release
 		if (defined('AKEEBABACKUP_PRO') && !AKEEBABACKUP_PRO)
 		{
-			$additionalFiles = array(
-				'wpcli/Command/ProFeatures.php',
-			);
+			$additionalFiles = [
+				'helpers/boot_wpcli.php',
+			];
 
 			$removeFiles = array_merge($removeFiles, $additionalFiles);
 		}
@@ -496,9 +628,9 @@ class PostUpgradeScript
 		}
 
 		$fsBase = rtrim($this->container->filesystemBase, '/' . DIRECTORY_SEPARATOR) . '/../';
-		$fs = $this->container->fileSystem;
+		$fs     = $this->container->fileSystem;
 
-		foreach($removeFiles as $file)
+		foreach ($removeFiles as $file)
 		{
 			$fs->delete($fsBase . $file);
 		}
@@ -547,17 +679,9 @@ class PostUpgradeScript
 	}
 
 	/**
-	 * Specific actions to execute when we are running inside Joomla
-	 */
-	private function _JoomlaActions()
-	{
-
-	}
-
-	/**
 	 * Removes obsolete files given on a list
 	 *
-	 * @param array $removeFiles List of files to remove
+	 * @param   array  $removeFiles  List of files to remove
 	 *
 	 * @return void
 	 */
@@ -569,9 +693,9 @@ class PostUpgradeScript
 		}
 
 		$fsBase = rtrim($this->container->filesystemBase, '/' . DIRECTORY_SEPARATOR) . '/';
-		$fs = $this->container->fileSystem;
+		$fs     = $this->container->fileSystem;
 
-		foreach($removeFiles as $file)
+		foreach ($removeFiles as $file)
 		{
 			$fs->delete($fsBase . $file);
 		}
@@ -580,7 +704,7 @@ class PostUpgradeScript
 	/**
 	 * Removes obsolete folders given on a list
 	 *
-	 * @param array $removeFolders List of folders to remove
+	 * @param   array  $removeFolders  List of folders to remove
 	 *
 	 * @return void
 	 */
@@ -592,9 +716,9 @@ class PostUpgradeScript
 		}
 
 		$fsBase = rtrim($this->container->filesystemBase, '/' . DIRECTORY_SEPARATOR) . '/';
-		$fs = $this->container->fileSystem;
+		$fs     = $this->container->fileSystem;
 
-		foreach($removeFolders as $folder)
+		foreach ($removeFolders as $folder)
 		{
 			$fs->rmdir($fsBase . $folder, true);
 		}
@@ -610,10 +734,10 @@ class PostUpgradeScript
 	private function migrateProfiles()
 	{
 		// Get a list of backup profiles
-		$db = $this->container->db;
-		$query = $db->getQuery(true)
-					->select($db->qn('id'))
-					->from($db->qn('#__ak_profiles'));
+		$db       = $this->container->db;
+		$query    = $db->getQuery(true)
+			->select($db->qn('id'))
+			->from($db->qn('#__ak_profiles'));
 		$profiles = $db->setQuery($query)->loadColumn();
 
 		// Normally this should never happen as we're supposed to have at least profile #1
@@ -681,4 +805,27 @@ class PostUpgradeScript
 			}
 		}
 	}
+
+	/**
+	 * Upgrades the frontend_enable option into the two separate legacyapi_enabled and jsonapi_enabled options.
+	 *
+	 * Before version 7 we had a single option to control both frontend backup APIs. Starting version 7 we can enable
+	 * and disable them separately.
+	 */
+	public function upgradeFrontendEnable()
+	{
+		$currentValue = $this->container->appConfig->get('options.frontend_enable', null);
+
+		if (is_null($currentValue))
+		{
+			return;
+		}
+
+		$this->container->appConfig->set('options.frontend_enable', null);
+		$this->container->appConfig->set('options.legacyapi_enabled', $currentValue);
+		$this->container->appConfig->set('options.jsonapi_enabled', $currentValue);
+
+		$this->container->appConfig->saveConfiguration();
+	}
+
 }

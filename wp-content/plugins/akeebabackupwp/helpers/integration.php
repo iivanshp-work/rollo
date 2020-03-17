@@ -1,12 +1,13 @@
 <?php
 /**
- * @package    akeebabackupwp
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 // Bootstrap file for Akeeba Solo for WordPress
 use Akeeba\Engine\Platform;
+use Solo\Pythia\Oracle\Wordpress;
 
 /**
  * Make sure we are being called from Akeeba Solo
@@ -72,47 +73,52 @@ if (!defined('WPINC'))
 
 	if (!$foundWpConfig)
 	{
-		$dirParts = [];
+		$possibleDirs = [getcwd()];
 
 		if (isset($_SERVER['SCRIPT_FILENAME']))
 		{
-			$scriptFilename = $_SERVER['SCRIPT_FILENAME'];
-
-			if (substr(PHP_OS, 0, 3) == 'WIN')
-			{
-				$scriptFilename = str_replace('\\', '/', $scriptFilename);
-
-				if (substr($scriptFilename, 0, 2) == '//')
-				{
-					$scriptFilename = '\\' . substr($scriptFilename, 2);
-				}
-			}
-
-			$dirParts = explode('/', $_SERVER['SCRIPT_FILENAME']);
+			$possibleDirs[] = dirname($_SERVER['SCRIPT_FILENAME']);
 		}
 
-		if (count($dirParts) > 5)
+		foreach ($possibleDirs as $scriptFolder)
 		{
-			$dirParts = array_splice($dirParts, 0, -5);
-			$filePath = implode(DIRECTORY_SEPARATOR, $dirParts);
+			// Can't use realpath() because in our dev environment it will resolve the symlinks outside the site root
+			$dirParts = explode(DIRECTORY_SEPARATOR, $scriptFolder);
+
+			$filePath = implode(DIRECTORY_SEPARATOR, array_slice($dirParts, 0, -2));
+
+			if (!is_file($filePath . '/wp-config.php'))
+			{
+				$filePath = implode(DIRECTORY_SEPARATOR, array_slice($dirParts, 0, -3));
+			}
+
+			if (!is_file($filePath . '/wp-config.php'))
+			{
+				$filePath = implode(DIRECTORY_SEPARATOR, array_slice($dirParts, 0, -4));
+			}
+
+			if (!is_file($filePath . '/wp-config.php'))
+			{
+				$filePath = implode(DIRECTORY_SEPARATOR, array_slice($dirParts, 0, -5));
+			}
 
 			$foundWpConfig = file_exists($filePath . '/wp-config.php');
 
-			if (!$foundWpConfig)
+			if ($foundWpConfig)
 			{
-				$dirParts      = array_splice($dirParts, 0, -1);
-				$altFilePath   = implode(DIRECTORY_SEPARATOR, $dirParts);
-				$foundWpConfig = file_exists($altFilePath . '/wp-config.php');
+				$filePath  = dirname(realpath($filePath . '/wp-config.php'));
+
+				break;
 			}
 		}
 	}
 
-	$oracle = new \Solo\Pythia\Oracle\Wordpress($filePath);
+	$oracle = new Wordpress($filePath);
 
 	if (!$oracle->isRecognised())
 	{
 		$filePath = realpath($filePath . '/..');
-		$oracle   = new \Solo\Pythia\Oracle\Wordpress($filePath);
+		$oracle   = new Wordpress($filePath);
 	}
 
 	if (!$oracle->isRecognised())

@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    awf
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   awf
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU GPL version 3 or later
  */
 
 namespace Awf\Mvc;
@@ -13,6 +13,8 @@ use Awf\Inflector\Inflector;
 use Awf\Input\Filter;
 use Awf\Input\Input;
 use Awf\Registry\Registry;
+use Awf\Text\Text;
+use RuntimeException;
 
 /**
  * Class Model
@@ -93,7 +95,7 @@ class Model
 	 *
 	 * @return  static
 	 *
-	 * @throws  \RuntimeException  If the Model is not found
+	 * @throws  RuntimeException  If the Model is not found
 	 */
 	public static function getInstance($appName = null, $modelName = '', $container = null)
 	{
@@ -121,9 +123,9 @@ class Model
 
 		// Try to load the Model class
 		$classes = array(
-			'\\' . ucfirst($appName) . '\\Model\\' . ucfirst($modelName),
-			'\\' . ucfirst($appName) . '\\Model\\' . ucfirst(Inflector::pluralize($modelName)), // For data models
-			'\\' . ucfirst($appName) . '\\Model\\DefaultModel',
+			$container->applicationNamespace . '\\Model\\' . ucfirst($modelName),
+			$container->applicationNamespace . '\\Model\\' . ucfirst(Inflector::pluralize($modelName)), // For data models
+			$container->applicationNamespace . '\\Model\\DefaultModel',
 		);
 
 		foreach ($classes as $className)
@@ -136,7 +138,7 @@ class Model
 
 		if (!class_exists($className))
 		{
-			throw new \RuntimeException("Model not found (app : model) = $appName : $modelName");
+			throw new RuntimeException("Model not found (app : model) = $appName : $modelName");
 		}
 
 		/** @var Model $result */
@@ -171,7 +173,7 @@ class Model
 	 *
 	 * @return  static
 	 *
-	 * @throws  \RuntimeException  If the Model is not found
+	 * @throws  RuntimeException  If the Model is not found
 	 */
 	public static function getTmpInstance($appName = '', $modelName = '', $container = null)
 	{
@@ -272,7 +274,7 @@ class Model
 	 *
 	 * @return  string  The name of the model
 	 *
-	 * @throws  \RuntimeException  If it's impossible to get the name
+	 * @throws  RuntimeException  If it's impossible to get the name
 	 */
 	public function getName()
 	{
@@ -282,10 +284,10 @@ class Model
 
 			if (!preg_match('/(.*)\\\\Model\\\\(.*)/i', get_class($this), $r))
 			{
-				throw new \RuntimeException(\Awf\Text\Text::_('AWF_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new RuntimeException(Text::_('AWF_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
-			$this->name = strtolower($r[2]);
+			$this->name = $r[2];
 		}
 
 		return $this->name;

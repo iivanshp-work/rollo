@@ -19,8 +19,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
  ?>
-
-
+<main>
+<div class="breadcrums">
+        <div class="container">
+			<? 	get_template_part( 'template-parts/bread'); ?>
+		</div>
+    </div>
 
 
 	<section class="loginpage">
@@ -119,7 +123,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							</a>
 						</div>
 						
-						<? echo do_shortcode('[yith_wc_social_login] '); ?>
+						
 						
 					</div>
 				</div>
@@ -172,6 +176,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</form>
 			</div>
 			
+            <!--
+                <div style="cursor:pointer;" onclick="google_login()">G-login</div>
+            -->
+
+         
 		</div>
-	</section>
+    </section>
+</main>
 <?php do_action( 'woocommerce_after_customer_login_form' ); ?>

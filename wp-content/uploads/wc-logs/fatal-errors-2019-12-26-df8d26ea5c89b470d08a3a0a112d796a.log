@@ -1,6 +1,0 @@
-2019-12-26T14:30:09+00:00 CRITICAL Object of class WP_Error could not be converted to string в /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/page-home.php на строке 94
-
-2019-12-26T14:34:59+00:00 CRITICAL Object of class WP_Error could not be converted to string в /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/inc/woo-func.php на строке 24
-
-2019-12-26T14:35:01+00:00 CRITICAL Object of class WP_Error could not be converted to string в /home/rollo/rollo.lviv.ua/dev/wp-content/themes/rollo/inc/woo-func.php на строке 24
-

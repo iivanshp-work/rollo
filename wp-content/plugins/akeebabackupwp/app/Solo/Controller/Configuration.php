@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\Controller;
@@ -145,9 +145,20 @@ class Configuration extends ControllerDefault
 		$model->setState('passive', $this->input->get('passive', '', 'raw') == 'true');
 		$model->setState('passive_mode_workaround', $this->input->get('passive_mode_workaround', '', 'raw') == 'true');
 
+		$result = true;
+
+		try
+		{
+			$model->testFTP();
+		}
+		catch (\Exception $e)
+		{
+			$result = false;
+		}
+
 		@ob_end_clean();
 
-		echo '###' . json_encode($model->testFTP()) . '###';
+		echo '###' . json_encode($result) . '###';
 
 		flush();
 		$this->container->application->close();
@@ -172,9 +183,20 @@ class Configuration extends ControllerDefault
 		$model->setState('pubkey', $this->input->get('pubkey', '', 'raw'));
 		$model->setState('initdir', $this->input->get('initdir', '', 'raw'));
 
+		$result = true;
+
+		try
+		{
+			$model->testSFTP();
+		}
+		catch (\Exception $e)
+		{
+			$result = false;
+		}
+
 		@ob_end_clean();
 
-		echo '###' . json_encode($model->testSFTP()) . '###';
+		echo '###' . json_encode($result) . '###';
 
 		flush();
 		$this->container->application->close();

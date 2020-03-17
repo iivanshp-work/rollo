@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    awf
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   awf
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU GPL version 3 or later
  */
 
 namespace Awf\Mvc;
@@ -12,7 +12,8 @@ use Awf\Container\Container;
 use Awf\Inflector\Inflector;
 use Awf\Input\Input;
 use Awf\Text\Text;
-use Awf\Utils;
+use Exception;
+use RuntimeException;
 
 /**
  * Class Controller
@@ -165,7 +166,7 @@ class Controller
 	 *
 	 * @return  Controller  A Controller instance
 	 *
-	 * @throws  \RuntimeException  When you are referring to a controller class which doesn't exist
+	 * @throws  RuntimeException  When you are referring to a controller class which doesn't exist
 	 */
 	public static function &getInstance($appName = null, $controller = null, $container = null)
 	{
@@ -192,7 +193,7 @@ class Controller
 		}
 
 		// Get the class base name, e.g. \Foobar\Controller\
-		$classBaseName = '\\' . ucfirst($appName) . '\\Controller\\';
+		$classBaseName = $container->applicationNamespace . '\\Controller\\';
 
 		// Get the class name suffixes, in the order to be searched for
 		$classSuffixes = array(
@@ -220,7 +221,7 @@ class Controller
 
 		if (!class_exists($className))
 		{
-			throw new \RuntimeException("Controller not found (app : controller) = $appName : $controller");
+			throw new RuntimeException("Controller not found (app : controller) = $appName : $controller");
 		}
 
 		$instance = new $className($container);
@@ -332,7 +333,7 @@ class Controller
 	 *
 	 * @return  null|bool  False on execution failure
 	 *
-	 * @throws  \Exception  When the task is not found
+	 * @throws  Exception  When the task is not found
 	 */
 	public function execute($task)
 	{
@@ -350,7 +351,19 @@ class Controller
 		}
 		else
 		{
-			throw new \Exception(Text::sprintf('AWF_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
+			throw new Exception(Text::sprintf('AWF_APPLICATION_ERROR_TASK_NOT_FOUND', $task), 404);
+		}
+
+		$method_name = 'onBeforeExecute';
+
+		if (method_exists($this, $method_name))
+		{
+			$result = $this->$method_name($task, $doTask);
+
+			if (!$result)
+			{
+				return false;
+			}
 		}
 
 		$method_name = 'onBefore' . ucfirst($task);
@@ -391,6 +404,18 @@ class Controller
 		if (method_exists($this, $method_name))
 		{
 			$result = $this->$method_name();
+
+			if (!$result)
+			{
+				return false;
+			}
+		}
+
+		$method_name = 'onAfterExecute';
+
+		if (method_exists($this, $method_name))
+		{
+			$result = $this->$method_name($task, $doTask);
 
 			if (!$result)
 			{
@@ -576,7 +601,7 @@ class Controller
 	 */
 	public function setModel($modelName, Model &$model)
 	{
-		$this->modelInstances[$modelName] = $model;
+		$this->modelInstances[strtolower($modelName)] = $model;
 	}
 
 	/**
@@ -595,12 +620,12 @@ class Controller
 	/**
 	 * Method to get the controller name
 	 *
-	 * The controller name is set by default parsed using the classname, or it can be set
-	 * by passing a $config['name'] in the class constructor
+	 * The controller name is set by default parsed using the classname, or it can be set by passing a $config['name']
+	 * in the class constructor.
 	 *
 	 * @return  string  The name of the controller
 	 *
-	 * @throws  \Exception  If it's impossible to determine the name and it's not set
+	 * @throws  RuntimeException  If it's impossible to determine the name and it's not set
 	 */
 	public function getName()
 	{
@@ -610,10 +635,10 @@ class Controller
 
 			if (!preg_match('/(.*)\\\\Controller\\\\(.*)/i', get_class($this), $r))
 			{
-				throw new \Exception(Text::_('AWF_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new RuntimeException(Text::_('AWF_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
 
-			$this->name = strtolower($r[2]);
+			$this->name = $r[2];
 		}
 
 		return $this->name;
@@ -761,7 +786,7 @@ class Controller
 	 *
 	 * @return  void
 	 *
-	 * @throws  \Exception
+	 * @throws  Exception
 	 */
 	protected function csrfProtection($useCMS = false)
 	{
@@ -795,7 +820,7 @@ class Controller
 
 		if (!$isValidToken)
 		{
-			throw new \Exception('Invalid security token', 500);
+			throw new Exception('Invalid security token', 500);
 		}
 	}
 }

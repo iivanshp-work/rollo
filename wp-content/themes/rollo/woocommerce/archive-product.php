@@ -33,7 +33,7 @@
 			<div>
 				<div class="filtercat">
 					<select name="" id="" onchange="window.location.href=this.options[this.selectedIndex].value">
-						<option>Сортування</option>
+						<option><?php pll_e("Сортування"); ?></option>
 						<?php dynamic_sidebar( 'prod-sort' ); ?>
 					</select>
 				</div>
@@ -43,42 +43,45 @@
 	<section class="category-section">
 		<div class="container">
 			<div class="row">
+            <?php   if (! is_search() ) {?>
 				<div class="col-filter">
 					<div class="filter">
+                    
 						<div class="filter__box">
-							<p class="filter__title">Тип</p>
+							<p class="filter__title"><?php pll_e("Тип"); ?></p>
 							<div class="filter__lists radiostyled">
-								<?php dynamic_sidebar( 'prod-filtr-1' ); ?>	
+								<?php  dynamic_sidebar( 'prod-filtr-1' ); ?>	
 							</div>
 							
 						</div>
+                    
 						<div class="filter__box">
-							<p class="filter__title">Колір</p>
+							<p class="filter__title"><?php pll_e("Колір"); ?></p>
 							<div class="filter__lists filter__colors">
 								<?php dynamic_sidebar( 'prod-filtr-color' ); ?>
 							</div>
 						</div>
 						<div class="filter__box">
-							<p class="filter__title">Затемнення</p>
+							<p class="filter__title"><?php pll_e("Затемнення"); ?></p>
 							<div class="filter__lists radiostyled">
 								<?php dynamic_sidebar( 'prod-filtr-temno' ); ?>
 							</div>
 						</div>
 						<div class="filter__box">
-							<p class="filter__title">Фактура</p>
+							<p class="filter__title"><?php pll_e("Фактура"); ?></p>
 							<div class="filter__lists radiostyled">
 								<?php dynamic_sidebar( 'prod-filtr-faktura' ); ?>
 							</div>
 						</div>
 						<div class="filter__box">
-							<p class="filter__title">Малюнок</p>
+							<p class="filter__title"><?php pll_e("Малюнок"); ?></p>
 							<div class="filter__lists radiostyled">
 								<?php dynamic_sidebar( 'prod-filtr-mal' ); ?>
 								
 							</div>
 						</div>
 						<div class="filter__box">
-							<p class="filter__title">Виробник</p>
+							<p class="filter__title"><?php pll_e("Виробник"); ?></p>
 							<div class="filter__lists radiostyled">
 								<?php dynamic_sidebar( 'prod-filtr-vyr' ); ?>
 								
@@ -88,7 +91,8 @@
 					
 					
 					
-				</div>
+                </div>
+            <? } ?>
 				<div class="col">
 					<div class="row products">
 						

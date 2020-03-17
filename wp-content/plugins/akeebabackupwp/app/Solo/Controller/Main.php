@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\Controller;
@@ -152,6 +152,15 @@ HTML;
 			$config->saveConfiguration();
 		}
 
+		// Akeeba Backup for WordPress: reset update information
+		if (defined('WPINC'))
+		{
+			$transient = (object) [
+				'response' => []
+			];
+			\AkeebaBackupWPUpdater::getupdates($transient);
+		}
+
 		// Redirect
 		$url = $this->container->router->route('index.php?view=main');
 
@@ -218,6 +227,21 @@ HTML;
 		{
 			// This should never happen, since we reset the flag before execute the update, but you never know
 		}
+
+		$url = $this->container->router->route('index.php?view=Main');
+		$this->setRedirect($url);
+	}
+
+	/**
+	 * Dismisses the Core to Pro upsell for 15 days
+	 *
+	 * @return  void
+	 */
+	public function dismissUpsell()
+	{
+		// Reset the flag so the updates could take place
+		$this->container->appConfig->set('lastUpsellDismiss', time());
+		$this->container->appConfig->saveConfiguration();
 
 		$url = $this->container->router->route('index.php?view=Main');
 		$this->setRedirect($url);

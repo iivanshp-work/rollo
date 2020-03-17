@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\View\Wizard;
@@ -89,9 +89,6 @@ JS;
 
 		$router                                                 = $this->getContainer()->router;
 		$strings                                                = array();
-		$strings['COM_AKEEBA_CONFWIZ_UI_TRYAJAX']               = Escape::escapeJS(Text::_('COM_AKEEBA_CONFWIZ_UI_TRYAJAX'));
-		$strings['COM_AKEEBA_CONFWIZ_UI_TRYIFRAME']             = Escape::escapeJS(Text::_('COM_AKEEBA_CONFWIZ_UI_TRYIFRAME'));
-		$strings['COM_AKEEBA_CONFWIZ_UI_CANTUSEAJAX']           = Escape::escapeJS(Text::_('COM_AKEEBA_CONFWIZ_UI_CANTUSEAJAX'));
 		$strings['COM_AKEEBA_CONFWIZ_UI_MINEXECTRY']            = Escape::escapeJS(Text::_('COM_AKEEBA_CONFWIZ_UI_MINEXECTRY'));
 		$strings['COM_AKEEBA_CONFWIZ_UI_CANTDETERMINEMINEXEC']  = Escape::escapeJS(Text::_('COM_AKEEBA_CONFWIZ_UI_CANTDETERMINEMINEXEC'));
 		$strings['COM_AKEEBA_CONFWIZ_UI_SAVEMINEXEC']           = Escape::escapeJS(Text::_('COM_AKEEBA_CONFWIZ_UI_SAVEMINEXEC'));
@@ -113,9 +110,6 @@ akeeba.loadScripts.push(function ()
 {
 	akeeba.System.params.AjaxURL = '$urlAjax';
 
-	akeeba.Wizard.translation['COM_AKEEBA_CONFWIZ_UI_TRYAJAX'] 				= '{$strings['COM_AKEEBA_CONFWIZ_UI_TRYAJAX']}';
-	akeeba.Wizard.translation['COM_AKEEBA_CONFWIZ_UI_TRYIFRAME'] 			    = '{$strings['COM_AKEEBA_CONFWIZ_UI_TRYIFRAME']}';
-	akeeba.Wizard.translation['COM_AKEEBA_CONFWIZ_UI_CANTUSEAJAX'] 			= '{$strings['COM_AKEEBA_CONFWIZ_UI_CANTUSEAJAX']}';
 	akeeba.Wizard.translation['COM_AKEEBA_CONFWIZ_UI_MINEXECTRY'] 			= '{$strings['COM_AKEEBA_CONFWIZ_UI_MINEXECTRY']}';
 	akeeba.Wizard.translation['COM_AKEEBA_CONFWIZ_UI_CANTDETERMINEMINEXEC'] 	= '{$strings['COM_AKEEBA_CONFWIZ_UI_CANTDETERMINEMINEXEC']}';
 	akeeba.Wizard.translation['COM_AKEEBA_CONFWIZ_UI_SAVEMINEXEC'] 			= '{$strings['COM_AKEEBA_CONFWIZ_UI_SAVEMINEXEC']}';

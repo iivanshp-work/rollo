@@ -1,7 +1,7 @@
 /*
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 // Object initialisation
@@ -119,4 +119,15 @@ akeeba.ControlPanel.getUpdateInformation = function (updateInformationUrl)
 				 }
 	});
 
+};
+
+/**
+ * Displays the changelog in a popup box
+ */
+akeeba.ControlPanel.showChangelog = function ()
+{
+	akeeba.Modal.open({
+		inherit: '#akeeba-changelog',
+		width: "80%"
+	});
 };

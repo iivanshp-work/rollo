@@ -1,17 +1,20 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\View\Profiles;
 
 use Akeeba\Engine\Platform;
 use Solo\View\DataHtml;
+use Solo\View\ViewTraits\ProfileIdAndName;
 
 class Html extends DataHtml
 {
+	use ProfileIdAndName;
+
 	public function onBeforeBrowse()
 	{
 		$document = $this->container->application->getDocument();
@@ -51,11 +54,7 @@ class Html extends DataHtml
 			$toolbar->addButtonFromDefinition($button);
 		}
 
-		// Pass the profile ID and name
-		$this->profileid = Platform::getInstance()->get_active_profile();
-
-		// Get profile name
-		$this->profilename = $this->escape(Platform::getInstance()->get_profile_name($this->profileid));
+		$this->getProfileIdAndName();
 
 		return parent::onBeforeBrowse();
 	}

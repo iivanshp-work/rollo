@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\Controller;
@@ -433,8 +433,7 @@ class Manage extends ControllerDefault
 		$statistic['description'] = $description;
 		$statistic['comment'] = $comment;
 
-		$dummy = null;
-		$result = Platform::getInstance()->set_or_update_statistics($id, $statistic, $dummy);
+		$result = Platform::getInstance()->set_or_update_statistics($id, $statistic);
 
 		if ($result !== false)
 		{

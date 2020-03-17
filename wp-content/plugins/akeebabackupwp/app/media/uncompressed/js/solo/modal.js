@@ -1,7 +1,7 @@
 /*
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 // Object initialisation
@@ -129,8 +129,8 @@ if (typeof akeeba.Modal === 'undefined')
 			{
 				element = window.document.createElement('iframe');
 				element.setAttribute('src', parameters.iframe);
-				element.setAttribute('width', parameters.width);
-				element.setAttribute('height', parameters.height);
+				element.setAttribute('width', parameters.width - 50);
+				element.setAttribute('height', parameters.height - 40);
 				element.setAttribute('frameborder', 0);
 				element.setAttribute('marginheight', 0);
 				element.setAttribute('marginwidth', 0);

@@ -1,14 +1,20 @@
 <?php
 /**
- * @package    akeebabackupwp
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
-use Akeeba\Engine\Platform;
+use Awf\Application\Application;
+use Awf\Exception\App as AWFAppException;
 use Awf\Mvc\Model;
+use Awf\Registry\Registry;
+use Awf\Text\Text;
+use Solo\Container;
 use Solo\Exception\Update\ConnectionError;
 use Solo\Exception\Update\PlatformError;
+use Solo\Exception\Update\StabilityError;
+use Solo\Exception\Update\UpdateError;
 
 /**
  * This class will take care of bridging WordPress update system and Akeeba Backup package, fetching the info from the
@@ -16,53 +22,70 @@ use Solo\Exception\Update\PlatformError;
  */
 abstract class AkeebaBackupWPUpdater
 {
+	/**
+	 * Private static variable keys that belong to our frozen state, stored in a site transient.
+	 */
+	const STATE_KEYS = [
+		'needsDownloadID', 'connectionError', 'platformError', 'downloadLink', 'cantUseWpUpdate', 'stabilityError',
+	];
+
 	/** @var bool Do I need the Download ID? */
 	protected static $needsDownloadID = false;
-
 	/** @var bool Did I have a connection error while */
 	protected static $connectionError = false;
-
 	/** @var bool Do I have a platform error? (Wrong PHP or WP version) */
 	protected static $platformError = false;
-
-	/** @var string	Stores the download link. In this way we can run our logic only on our download links */
+	/** @var string    Stores the download link. In this way we can run our logic only on our download links */
 	protected static $downloadLink;
-
-	/** @var bool	Am I in an ancient version of WordPress, were the integrated system is not usable? */
+	/** @var bool    Am I in an ancient version of WordPress, were the integrated system is not usable? */
 	protected static $cantUseWpUpdate = false;
+	/** @var bool    Do I have an update that's less stable than my preferred stability? */
+	protected static $stabilityError = false;
 
 	/**
-	 * Fetches update info and reports them to WordPress
+	 * Retrieve the update information from Akeeba Backup for WordPress' update cache and report them back to WordPress
+	 * in a format it understands.
 	 *
-	 * @param	\stdClass	$transient
+	 * The returned information is cached by WordPress and used by checkinfo() to render the Akeeba Backup for WordPress
+	 * update information in WordPress' Plugins page.
 	 *
-	 * @return	\stdClass
+	 * @param   stdClass  $transient
+	 *
+	 * @return  stdClass
+	 * @throws  AWFAppException
 	 */
 	public static function getupdates($transient)
 	{
 		global $wp_version;
 		global $akeebaBackupWordPressLoadPlatform;
 
-		// On WordPress < 4.3 we can't use the integrated update system since the hook we're using to tweak
-		// the installation is not available (upgrader_package_options).
-		// Let's warn the user and tell him to use our own update system
+		/**
+		 * On WordPress < 4.3 we can't use the integrated update system since the hook we're using to apply our Download
+		 * ID is not available. Instead we warn the user and tell them to use our own update system.
+		 */
 		if (version_compare($wp_version, '4.3', 'lt'))
 		{
 			static::$cantUseWpUpdate = true;
+			self::freezeState();
 
 			return $transient;
 		}
 
-		// When the plugin is deleted, WP reloads the updates. Since this file was already in memory, its code runs even
-		// if Akeeba Backup is not anymore installed. This is a sanity check to prevent error during the uninstallation
+		/**
+		 * When the plugin is deleted, Wordpress reloads the updates. Since this file was already in memory, its code
+		 * runs even if Akeeba Backup's files are not installed anymore. The following is a sanity check to prevent
+		 * a PHP fatal error during the uninstallation of the plugin.
+		 */
 		$akeebaBackupWordPressLoadPlatform = false;
 
 		if (!file_exists(__DIR__ . '/../helpers/integration.php'))
 		{
+			self::freezeState();
+
 			return $transient;
 		}
 
-		// Do I have to notify the user that he needs to put the
+		// Do I have to notify the user that the Download ID is missing?
 		if (static::needsDownloadID())
 		{
 			static::$needsDownloadID = true;
@@ -83,6 +106,16 @@ abstract class AkeebaBackupWPUpdater
 		{
 			static::$platformError = true;
 		}
+		catch (StabilityError $e)
+		{
+			static::$stabilityError = true;
+		}
+		catch (AWFAppException $e)
+		{
+			static::$connectionError = true;
+		}
+
+		self::freezeState();
 
 		if (!$updateInfo)
 		{
@@ -91,7 +124,7 @@ abstract class AkeebaBackupWPUpdater
 
 		if (!isset($transient->response))
 		{
-			$transient->response = array();
+			$transient->response = [];
 		}
 
 		$obj              = new stdClass();
@@ -100,70 +133,103 @@ abstract class AkeebaBackupWPUpdater
 		$obj->new_version = $updateInfo->get('version');
 		$obj->url         = $updateInfo->get('infourl');
 		$obj->package     = $updateInfo->get('link');
-		$obj->icons	      = array(
-			'2x' => WP_PLUGIN_URL.'/'.AkeebaBackupWP::$dirName.'/app/media/logo/abwp-256.png',
-			'1x' => WP_PLUGIN_URL.'/'.AkeebaBackupWP::$dirName.'/app/media/logo/abwp-128.png'
-		);
+		$obj->icons       = [
+			'2x' => WP_PLUGIN_URL . '/' . AkeebaBackupWP::$dirName . '/app/media/logo/abwp-256.png',
+			'1x' => WP_PLUGIN_URL . '/' . AkeebaBackupWP::$dirName . '/app/media/logo/abwp-128.png',
+		];
 
 		$transient->response['akeebabackupwp/akeebabackupwp.php'] = $obj;
 
-		// Since the event we're hooking to is a global one (triggered for every plugin) we have to store a reference
-		// of our download link. In this way we can apply our logic only on our stuff and don't interfere with other people
+		/**
+		 * Since the event we're hooking to is a global one (triggered for every plugin) we have to store a reference
+		 * of our download link. This way we can apply our logic only on our stuff and don't interfere with third party
+		 * plugins.
+		 */
 		static::$downloadLink = $updateInfo->get('link');
 
 		return $transient;
 	}
 
-	public static function checkinfo($false, $action, $arg)
+	/**
+	 * Used to render "View version x.x.x details" link from the plugins page.
+	 * We hook to this event to redirect the connection from the WordPress directory to our site for updates
+	 *
+	 * @param $cur_info
+	 * @param $action
+	 * @param $arg
+	 *
+	 * @return object
+	 */
+	public static function checkinfo($cur_info, $action, $arg)
 	{
 		if (!isset($arg->slug))
 		{
-			return false;
+			return $cur_info;
 		}
 
 		if ($arg->slug !== 'akeebabackupwp')
 		{
-			return false;
+			return $cur_info;
 		}
 
-		$updateInfo = static::getUpdateInfo();
+		try
+		{
+			$updateInfo = static::getUpdateInfo();
+		}
+		catch (UpdateError $e)
+		{
+			$updateInfo = false;
+		}
+		catch (AWFAppException $e)
+		{
+			$updateInfo = false;
+		}
 
-		// This should never occur, since if we get here, it means that we already have an update flagged
+		/**
+		 * Sanity check.
+		 *
+		 * This if-block should never be triggered. We only ever reach this code if we have already determined there is
+		 * an update available.
+		 */
 		if (!$updateInfo)
 		{
-			return false;
+			return $cur_info;
 		}
 
-		$information = array(
+		/**
+		 * This is the information WordPress is using to render the Akeeba Backup for WordPress row in its Plugins page.
+		 */
+		$information = [
 			// We leave the "name" index empty, so WordPress won't display the ugly title on top of our banner
-			'name' 			=> '',
-			'slug' 			=> 'akeebabackupwp',
-			'author' 		=> 'Akeeba Ltd.',
-			'homepage' 		=> 'https://www.akeebabackup.com',
-			'last_updated' 	=> $updateInfo->get('date'),
-			'version' 		=> $updateInfo->get('version'),
+			'name'          => '',
+			'slug'          => 'akeebabackupwp',
+			'author'        => 'Akeeba Ltd.',
+			'homepage'      => 'https://www.akeebabackup.com',
+			'last_updated'  => $updateInfo->get('date'),
+			'version'       => $updateInfo->get('version'),
 			'download_link' => $updateInfo->get('link'),
-			'requires' 		=> '3.8',
-			'tested' 		=> get_bloginfo( 'version' ),
-			'sections' 		=> array(
+			'requires'      => '3.8',
+			'tested'        => get_bloginfo('version'),
+			'sections'      => [
 				// 'description' => 'Something description',
-				'release_notes' => $updateInfo->get('releasenotes')
-			),
-			'banners' => array(
-				'low' => plugins_url().'/akeebabackupwp/app/media/image/wordpressupdate_banner.jpg',
-				'high'  => false
-			)
-		);
+				'release_notes' => $updateInfo->get('releasenotes'),
+			],
+			'banners'       => [
+				'low'  => plugins_url() . '/akeebabackupwp/app/media/image/wordpressupdate_banner.jpg',
+				'high' => false,
+			],
+		];
 
 		return (object) $information;
 	}
 
 	/**
-	 * @param	bool		$bailout
-	 * @param 	string		$package
-	 * @param 	WP_Upgrader	$upgrader
+	 * @param   bool         $bailout
+	 * @param   string       $package
+	 * @param   WP_Upgrader  $upgrader
 	 *
-	 * @return WP_Error|false	An error if anything goes wrong or is missing, either case FALSE to keep the update process going
+	 * @return WP_Error|false    An error if anything goes wrong or is missing, either case FALSE to keep the update
+	 *                           process going
 	 */
 	public static function addDownloadID($bailout, $package, $upgrader)
 	{
@@ -188,9 +254,9 @@ abstract class AkeebaBackupWPUpdater
 	 * and abort if the folder already exists; by tweaking the options we can force WordPress to extract on top of the
 	 * existing folder without deleting it first.
 	 *
-	 * @param	array	$options	Options to be used while upgrading our plugin
+	 * @param   array  $options  Options to be used while upgrading our plugin
 	 *
-	 * @return	array	Updated options
+	 * @return    array    Updated options
 	 */
 	public static function packageOptions($options)
 	{
@@ -200,7 +266,7 @@ abstract class AkeebaBackupWPUpdater
 			// without deleting anything
 			if (stripos($options['hook_extra']['plugin'], 'akeebabackupwp.php') !== false)
 			{
-				$options['clear_destination'] 			= false;
+				$options['clear_destination']           = false;
 				$options['abort_if_destination_exists'] = false;
 			}
 		}
@@ -210,7 +276,9 @@ abstract class AkeebaBackupWPUpdater
 
 	/**
 	 * Helper function to display some custom text AFTER the row regarding our update.
-	 * Usually is used to warn the user that something bad happened while trying to fetch new updates
+	 *
+	 * This is typically used to communicate problems preventing the update information from being retrieved or used,
+	 * meaning updates for our plugin are essentially broken.
 	 *
 	 * @param $plugin_file
 	 * @param $plugin_data
@@ -218,54 +286,73 @@ abstract class AkeebaBackupWPUpdater
 	 */
 	public static function updateMessage($plugin_file, $plugin_data, $status)
 	{
-		$html 	  = '';
-		$warnings = array();
+		self::thawState();
 
-		if (static::$platformError)
+		// Load enough of our plugin to display translated strings
+		try
 		{
-			$warnings[] = <<<HTML
-<p id="akeebabackupwp-error-update-platform-mismatch">
-	There is a new version available, but it requires a newer version of PHP or WordPress than the one you have. As a result it will not be installed.
-</p>
-HTML;
+			$container = static::loadAkeebaBackup();
+			Text::loadLanguage(null, 'akeebabackup', '.com_akeebabackup.ini', false, $container->languagePath);
+			Text::loadLanguage('en-GB', 'akeebabackup', '.com_akeebabackup.ini', false, $container->languagePath);
+
+		}
+		catch (Exception $e)
+		{
+			return;
 		}
 
-		if (static::$needsDownloadID)
-		{
-			$warnings[] = <<<HTML
-<p id="akeebabackupwp-error-update-nodownloadid">
-	You have to supply your Download ID indside Akeeba Backup for WordPress System Configuration before trying to upgrade to the latest release.
-</p>
-HTML;
-		}
-
-		if (static::$connectionError)
-		{
-			$updateUrl = 'admin.php?page=akeebabackupwp/akeebabackupwp.php&view=update&force=1';
-
-			$warnings[] = <<<HTML
-<p id="akeebabackupwp-error-update-noconnection">
-	An error occurred while trying to connect Akeeba Backup for WordPress update server. Please try again later
-	or <a href="$updateUrl">manually check for updates</a>.
-</p>
-HTML;
-		}
+		$html     = '';
+		$warnings = [];
 
 		if (static::$cantUseWpUpdate)
 		{
 			$updateUrl = 'admin.php?page=akeebabackupwp/akeebabackupwp.php&view=update&force=1';
 
-			$warnings[] = <<<HTML
-<p id="akeebabackupwp-error-update-noconnection">
-	In WordPress versions previous to 4.3 you can't use the integrated update system. 
-	Please use  <a href="$updateUrl">our update system</a> to install the latest version of Akeeba Backup for WordPress.
-</p>
-HTML;
+			$warnings[] = sprintf(
+				"<p id=\"akeebabackupwp-error-update-noconnection\">%s</p>",
+				Text::sprintf('SOLO_UPDATE_WORDPRESS_OLDER_THAN_43', $updateUrl)
+			);
+		}
+		elseif (static::$needsDownloadID)
+		{
+			$warnings[] = sprintf(
+				"<p id=\"akeebabackupwp-error-update-nodownloadid\">%s</p>",
+				Text::_('SOLO_UPDATE_ERROR_NEEDSAUTH')
+			);
+		}
+		elseif (static::$connectionError)
+		{
+			$updateUrl = 'admin.php?page=akeebabackupwp/akeebabackupwp.php&view=update&force=1';
+
+			$warnings[] = sprintf(
+				"<p id=\"akeebabackupwp-error-update-noconnection\">%s</p>",
+				Text::sprintf('SOLO_UPDATE_WORDPRESS_CONNECTION_ERROR', $updateUrl)
+			);
+		}
+		elseif (static::$platformError)
+		{
+			$warnings[] = sprintf(
+				"<p id=\"akeebabackupwp-error-update-platform-mismatch\">%s</p>",
+				Text::_('SOLO_UPDATE_PLATFORM_HEAD')
+			);
+		}
+		elseif (static::$stabilityError)
+		{
+			/**
+			 * There is an update available but it's less stable than the minimum stability preference.
+			 *
+			 * For example: a Beta is available but we are asked to only report stable versions.
+			 *
+			 * We deliberately don't show a warning. The whole point of the stability preference is to stop buggering
+			 * the poor user during our pre-release runs (alphas, betas and occasional RC). In this case we just pretend
+			 * there is no update available, just like we do in the interface of our plugin.
+			 */
 		}
 
 		if ($warnings)
 		{
 			$warnings = implode('', $warnings);
+			$msg      = Text::_('SOLO_UPDATE_WORDPRESS_WARNING');
 
 			$html = <<<HTML
 <tr class="">
@@ -273,7 +360,7 @@ HTML;
 	<td></td>
 	<td>
 		<div style="border: 1px solid #F0AD4E;border-radius: 3px;background: #fdf5e9;padding:10px">
-			<strong>Warning!</strong><br/>
+			<strong>$msg</strong><br/>
 			$warnings		
 		</div>
 	</td>
@@ -288,9 +375,77 @@ HTML;
 	}
 
 	/**
-	 * Fetches the info from the remote server
+	 * Includes all the required pieces to load Akeeba Backup from within a standard WordPress page
 	 *
-	 * @return \Awf\Registry\Registry|bool
+	 * @return Container|false
+	 *
+	 * @throws AWFAppException
+	 */
+	public static function loadAkeebaBackup()
+	{
+		static $localContainer;
+
+		// Do not run the whole logic if we already have a valid Container
+		if ($localContainer)
+		{
+			return $localContainer;
+		}
+
+		if (!defined('AKEEBASOLO'))
+		{
+			define('AKEEBASOLO', 1);
+		}
+
+		@include_once __DIR__ . '/../app/version.php';
+
+		// Include the autoloader
+		if (!include_once __DIR__ . '/../app/Awf/Autoloader/Autoloader.php')
+		{
+			return false;
+		}
+
+		global $akeebaBackupWordPressLoadPlatform;
+		$akeebaBackupWordPressLoadPlatform = false;
+
+		if (!file_exists(__DIR__ . '/../helpers/integration.php'))
+		{
+			return false;
+		}
+
+		/** @var Container $container */
+		$container = require __DIR__ . '/../helpers/integration.php';
+
+		// Ok, really don't know why but this function gets called TWICE. It seems to completely ignore the first result
+		// (even if we report that there's an update) and calls it again. This means that the require_once above will be ignored.
+		// I can't simply return the current $transient because it doesn't contain the updated info.
+		// So I'll save a previous copy of the container and then use it later.
+		if (!$localContainer)
+		{
+			$localContainer = $container;
+		}
+
+		if (!$localContainer)
+		{
+			return false;
+		}
+
+		// Get all info saved inside the configuration
+		$container->appConfig->loadConfiguration();
+		$container->basePath = WP_PLUGIN_DIR . '/akeebabackupwp/app/Solo';
+
+		// Require the application for the first time by passing all values. In this way we prime the internal cache and
+		// we will be covered on cases where we fetch the application from the getInstance method instead of using the container
+		Application::getInstance('Solo', $container);
+
+		return $localContainer;
+	}
+
+	/**
+	 * Fetches the update information from the remote server
+	 *
+	 * @return Registry|bool
+	 * @throws AWFAppException
+	 * @throws UpdateError
 	 */
 	private static function getUpdateInfo()
 	{
@@ -325,6 +480,12 @@ HTML;
 				throw new ConnectionError();
 			}
 
+			// We might have an update that does not match the stability preference, e.g. RC with min. stability Stable.
+			if ($updateInfo->get('minstabilityMatch') == false)
+			{
+				throw new StabilityError();
+			}
+
 			// mhm... maybe we're on a old WordPress version?
 			if (!$updateInfo->get('platformMatch', 0))
 			{
@@ -337,71 +498,6 @@ HTML;
 		$updates = $updateModel->getUpdateInformation();
 
 		return $updates;
-	}
-
-	/**
-	 * Includes all the required pieces to load Akeeba Backup from within a standard WordPress page
-	 *
-	 * @return \Solo\Container|false
-	 */
-	public static function loadAkeebaBackup()
-
-	{
-		static $localContainer;
-
-		// Do not run the whole logic if we already have a valid Container
-		if ($localContainer)
-		{
-			return $localContainer;
-		}
-
-		if (!defined('AKEEBASOLO'))
-		{
-			define('AKEEBASOLO', 1);
-		}
-
-		@include_once __DIR__.'/../app/version.php';
-
-		// Include the autoloader
-		if (!include_once __DIR__ . '/../app/Awf/Autoloader/Autoloader.php')
-		{
-			return false;
-		}
-
-		global $akeebaBackupWordPressLoadPlatform;
-		$akeebaBackupWordPressLoadPlatform = false;
-
-		if (!file_exists(__DIR__ . '/../helpers/integration.php'))
-		{
-			return false;
-		}
-
-		/** @var \Solo\Container $container */
-		$container = require __DIR__ . '/../helpers/integration.php';
-
-		// Ok, really don't know why but this function gets called TWICE. It seems to completely ignore the first result
-		// (even if we report that there's an update) and calls it again. This means that the require_once above will be ignored.
-		// I can't simply return the current $transient because it doesn't contain the updated info.
-		// So I'll save a previous copy of the container and then use it later.
-		if (!$localContainer)
-		{
-			$localContainer = $container;
-		}
-
-		if (!$localContainer)
-		{
-			return false;
-		}
-
-		// Get all info saved inside the configuration
-		$container->appConfig->loadConfiguration();
-		$container->basePath = WP_PLUGIN_DIR.'/akeebabackupwp/app/Solo';
-
-		// Require the application for the first time by passing all values. In this way we prime the internal cache and
-		// we will be covered on cases where we fetch the application from the getInstance method instead of using the container
-		\Awf\Application\Application::getInstance('Solo', $container);
-
-		return $localContainer;
 	}
 
 	private static function needsDownloadID()
@@ -423,5 +519,48 @@ HTML;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Freeze the update warnings state in carbonite
+	 *
+	 * Just joking. We create an array with the update warnings flags and save it as a site transient.
+	 */
+	private static function freezeState()
+	{
+		$frozenState = [];
+
+		foreach (self::STATE_KEYS as $key)
+		{
+			if (isset(self::${$key}))
+			{
+				$frozenState[$key] = self::${$key};
+			}
+		}
+
+		set_site_transient('akeebabackupwp_pluginupdate_frozenstate', $frozenState);
+	}
+
+	/**
+	 * Unfreeze the update warnings state
+	 *
+	 * We read the site transient and restore the update warnings flags from it, if it's set.
+	 */
+	private static function thawState()
+	{
+		$frozenState = get_site_transient('akeebabackupwp_pluginupdate_frozenstate');
+
+		if (empty($frozenState) || !is_array($frozenState))
+		{
+			return;
+		}
+
+		foreach (self::STATE_KEYS as $key)
+		{
+			if (isset(self::${$key}) && isset($frozenState[$key]))
+			{
+				self::${$key} = $frozenState[$key];
+			}
+		}
 	}
 }

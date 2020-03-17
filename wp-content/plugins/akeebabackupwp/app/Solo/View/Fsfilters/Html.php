@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\View\Fsfilters;
@@ -15,9 +15,33 @@ use Awf\Text\Text;
 use Awf\Uri\Uri;
 use Awf\Utils\Template;
 use Solo\Helper\Escape;
+use Solo\View\ViewTraits\ProfileIdAndName;
 
 class Html extends \Solo\View\Html
 {
+	use ProfileIdAndName;
+
+	/**
+	 * SELECT element for choosing a database root
+	 *
+	 * @var  string
+	 */
+	public $root_select = '';
+
+	/**
+	 * List of database roots
+	 *
+	 * @var  array
+	 */
+	public $roots = [];
+
+	/**
+	 * The view's interface data encoded in JSON format
+	 *
+	 * @var  string
+	 */
+	public $json = '';
+
 	/**
 	 * Prepare the view data for the main task
 	 *
@@ -96,12 +120,7 @@ class Html extends \Solo\View\Html
 				break;
 		}
 
-		// Get profile ID
-		$profileid       = Platform::getInstance()->get_active_profile();
-		$this->profileid = $profileid;
-
-		// Get profile name
-		$this->profilename = $this->escape(Platform::getInstance()->get_profile_name($profileid));
+		$this->getProfileIdAndName();
 
 		// Load additional Javascript
 		Template::addJs('media://js/solo/fsfilters.js', $this->container->application);
@@ -166,7 +185,7 @@ class Html extends \Solo\View\Html
 
 		$js = <<< JS
 		
-var akeeba_fsfilter_data = eval($json);
+var akeeba_fsfilter_data = JSON.parse('{$json}');
 
 akeeba.loadScripts.push(function() {
 		akeeba.Fsfilters.translations['COM_AKEEBA_FILEFILTERS_UIROOT'] = '{$strings['COM_AKEEBA_FILEFILTERS_UIROOT']}';

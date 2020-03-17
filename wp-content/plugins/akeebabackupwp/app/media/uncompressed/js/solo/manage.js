@@ -1,7 +1,7 @@
 /*
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 if (typeof akeeba === 'undefined')
@@ -23,8 +23,8 @@ akeeba.Manage.onRemoteManagementClick = function (managementUrl, reloadUrl)
 {
 	akeeba.Modal.remoteManagementModal = akeeba.Modal.open({
 		iframe:        managementUrl,
-		width:         '450',
-		height:        '280',
+		width:         '500',
+		height:        '450',
 		closeCallback: function ()
 					   {
 						   akeeba.Modal.remoteManagementModal = null;

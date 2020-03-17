@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\View\Browser;
@@ -12,15 +12,68 @@ use Solo\Model\Browser;
 
 class Html extends \Solo\View\Html
 {
-    public $folder;
-    public $folder_raw;
-    public $parent;
-    public $exists;
-    public $inRoot;
-    public $openbasedirRestricted;
-    public $writable;
-    public $subfolders;
-    public $breadcrumbs;
+	/**
+	 * Path to current folder (with variables such as [SITEROOT] replaced)
+	 *
+	 * @var  string
+	 */
+	public $folder = '';
+
+	/**
+	 * Path to current folder (WITHOUT variables such as [SITEROOT] replaced)
+	 *
+	 * @var  string
+	 */
+	public $folder_raw = '';
+
+	/**
+	 * Parent folder
+	 *
+	 * @var  string
+	 */
+	public $parent = '';
+
+	/**
+	 * Does the current folder exist in the filesystem?
+	 *
+	 * @var  bool
+	 */
+	public $exists = false;
+
+	/**
+	 * Is the current folder under the site's root directory? False means it's an off-site directory.
+	 *
+	 * @var  bool
+	 */
+	public $inRoot = false;
+
+	/**
+	 * Is the current folder restricted by open_basedir?
+	 *
+	 * @var  bool
+	 */
+	public $openbasedirRestricted = false;
+
+	/**
+	 * Is the current folder writable?
+	 *
+	 * @var  bool
+	 */
+	public $writable = false;
+
+	/**
+	 * Subdirectories
+	 *
+	 * @var  array
+	 */
+	public $subfolders = [];
+
+	/**
+	 * Breadcrumbs to display in the browser view
+	 *
+	 * @var  array
+	 */
+	public $breadcrumbs = [];
 
 	/**
 	 * Pull the folder browser data from the model

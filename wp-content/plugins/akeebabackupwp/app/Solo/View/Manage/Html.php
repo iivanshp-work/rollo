@@ -1,23 +1,96 @@
 <?php
 /**
- * @package    solo
- * @copyright  Copyright (c)2014-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license    GNU GPL version 3 or later
+ * @package   solo
+ * @copyright Copyright (c)2014-2020 Nicholas K. Dionysopoulos / Akeeba Ltd
+ * @license   GNU General Public License version 3, or later
  */
 
 namespace Solo\View\Manage;
 
 use Akeeba\Engine\Factory;
 use Akeeba\Engine\Platform;
+use Awf\Date\Date;
 use Awf\Html\Select;
 use Awf\Mvc\Model;
+use Awf\Pagination\Pagination;
 use Awf\Text\Text;
 use Awf\Utils\Template;
+use DateTimeZone;
 use Solo\Helper\Escape;
 use Solo\Model\Profiles;
 
 class Html extends \Solo\View\Html
 {
+	/**
+	 * Should I use the user's local time zone for display?
+	 *
+	 * @var  boolean
+	 */
+	public $useLocalTime;
+
+	/**
+	 * Time format string to use for the time zone suffix
+	 *
+	 * @var  string
+	 */
+	public $timeZoneFormat;
+
+	/**
+	 * The backup record for the showcomment view
+	 *
+	 * @var  array
+	 */
+	public $record = [];
+
+	/**
+	 * The backup record ID for the showcomment view
+	 *
+	 * @var  int
+	 */
+	public $record_id = 0;
+
+	/**
+	 * List of Profiles objects
+	 *
+	 * @var  array
+	 */
+	public $profiles = [];
+
+	/**
+	 * List of profiles for JHtmlSelect
+	 *
+	 * @var  array
+	 */
+	public $profilesList = [];
+
+	/**
+	 * List of records to display
+	 *
+	 * @var  array
+	 */
+	public $items = [];
+
+	/**
+	 * Pagination object
+	 *
+	 * @var Pagination
+	 */
+	public $pagination = null;
+
+	/**
+	 * Date format for the backup start time
+	 *
+	 * @var  string
+	 */
+	public $dateFormat = '';
+
+	/**
+	 * Should I prompt the user ot run the configuration wizard?
+	 *
+	 * @var  bool
+	 */
+	public $promptForBackupRestoration = false;
+
 	/**
 	 * The record lists of this view
 	 *
@@ -39,9 +112,9 @@ class Html extends \Solo\View\Html
 	 */
 	public $enginesPerProfile = array();
 
-	public function __construct($config = array())
+	public function __construct($container = null)
 	{
-		parent::__construct($config);
+		parent::__construct($container);
 
 		$this->lists = new \stdClass();
 
@@ -55,26 +128,10 @@ class Html extends \Solo\View\Html
 		$this->privileges['download']  = $user->getPrivilege('akeeba.download');
 		$this->privileges['configure'] = $user->getPrivilege('akeeba.configure');
 
-		$buttons  = array();
 		$document = $this->container->application->getDocument();
 		$router   = $this->container->router;
 
 		$task = $this->container->segment->get('solo_manage_task', 'main');
-
-		/**
-		 * $document->getMenu()->addItem(new Item(array(
-		 * 'title' => Text::_('BUADMIN_LABEL_BACKUPS'),
-		 * 'name'  => 'show-main',
-		 * 'url'   => $router->route('index.php?view=manage&task=main'),
-		 * 'show'  => array('submenu')
-		 * )));
-		 * $document->getMenu()->addItem(new Item(array(
-		 * 'title' => Text::_('BUADMIN_LABEL_SRP'),
-		 * 'name'  => 'show-srp',
-		 * 'url'   => $router->route('index.php?view=manage&task=restorePoints'),
-		 * 'show'  => array('submenu')
-		 * )));
-		 * /**/
 
 		/** @var \Solo\Model\Manage $model */
 		$model = $this->getModel();
@@ -90,7 +147,7 @@ class Html extends \Solo\View\Html
 		$filters  = $this->_getFilters();
 		$ordering = $this->_getOrdering();
 
-		$this->list = $model->getStatisticsListWithMeta(false, $filters, $ordering);
+		$this->items = $model->getStatisticsListWithMeta(false, $filters, $ordering);
 
 		$containerClone               = clone $this->getContainer();
 		$containerClone['mvc_config'] = array(
@@ -100,30 +157,31 @@ class Html extends \Solo\View\Html
 		);
 
 		/** @var Profiles $profileModel */
-		$profileModel        = Model::getInstance(null, 'Profiles', $containerClone);
-		$this->profiles      = $profileModel->get(true);
-		$this->profileList   = array();
-		$this->profileList[] = Select::option('', '&mdash;');
+		$profileModel         = Model::getInstance(null, 'Profiles', $containerClone);
+		$this->profiles       = $profileModel->get(true);
+		$this->profilesList   = array();
+		$this->profilesList[] = Select::option('', '&mdash;');
 
 		if (!empty($this->profiles))
 		{
 			foreach ($this->profiles as $profile)
 			{
-				$this->profileList[] = Select::option($profile->id, $profile->description);
+				$this->profilesList[] = Select::option($profile->id, $profile->description);
 			}
 		}
 
 		$this->pagination = $model->getPagination($filters);
 
+		// Date format
+		$dateFormat       = $this->container->appConfig->get('dateformat', '');
+		$dateFormat       = trim($dateFormat);
+		$this->dateFormat = !empty($dateFormat) ? $dateFormat : Text::_('DATE_FORMAT_LC4');
+
+		// Time zone options
+		$this->useLocalTime   = $this->container->appConfig->get('localtime', '1') == 1;
+		$this->timeZoneFormat = $this->container->appConfig->get('timezonetext', 'T');
+
 		$this->enginesPerProfile = $model->getPostProcessingEnginePerProfile();
-
-		$scripting         = Factory::getEngineParamsProvider()->loadScripting();
-		$this->backupTypes = array();
-
-		foreach ($scripting['scripts'] as $key => $data)
-		{
-			$this->backupTypes[$key] = Text::_($data['text']);
-		}
 
 		$buttons = array(
 			'view'        => array(
@@ -178,6 +236,7 @@ class Html extends \Solo\View\Html
 		}
 		elseif (!AKEEBABACKUP_PRO)
 		{
+			unset($buttons['restore']);
 			unset($buttons['discover']);
 			unset($buttons['s3import']);
 		}
@@ -197,6 +256,9 @@ class Html extends \Solo\View\Html
 				$toolbar->addButtonFromDefinition($button);
 			}
 		}
+
+		// Should I show the prompt for the configuration wizard?
+		$this->promptForBackupRestoration = Platform::getInstance()->get_platform_configuration_option('show_howtorestoremodal', 1);
 
 		// "Show warning first" download button.
 		$confirmationText = Escape::escapeJS(Text::_('COM_AKEEBA_BUADMIN_LOG_DOWNLOAD_CONFIRM'));
@@ -246,17 +308,12 @@ JS;
 		return true;
 	}
 
-	public function onBeforeRestorePoints()
-	{
-		return $this->onBeforeMain();
-	}
-
 	public function onBeforeShowComment()
 	{
 		$model = $this->getModel();
 
-		$this->recordId = $model->getState('id', -1, 'int');
-		$this->record   = Platform::getInstance()->get_statistics($this->recordId);
+		$this->record_id = $model->getState('id', -1, 'int');
+		$this->record    = Platform::getInstance()->get_statistics($this->record_id);
 
 		$buttons = array(
 			array(
@@ -341,24 +398,6 @@ JS;
 			);
 		}
 
-		if ($task == 'restorePoints')
-		{
-			$filters[] = array(
-				'field'   => 'tag',
-				'operand' => '=',
-				'value'   => 'restorepoint'
-			);
-		}
-		else
-		{
-			$filters[] = array(
-				'field'   => 'tag',
-				'operand' => '<>',
-				'value'   => 'restorepoint'
-			);
-		}
-
-
 		if (empty($filters))
 		{
 			$filters = null;
@@ -375,6 +414,152 @@ JS;
 		);
 
 		return $order;
+	}
+
+	/**
+	 * Translates the internal backup type (e.g. cli) to a human readable string
+	 *
+	 * @param   string  $recordType  The internal backup type
+	 *
+	 * @return  string
+	 */
+	public function translateBackupType($recordType)
+	{
+		static $backup_types = null;
+
+		if (!is_array($backup_types))
+		{
+			// Load a mapping of backup types to textual representation
+			$scripting    = Factory::getEngineParamsProvider()->loadScripting();
+			$backup_types = [];
+			foreach ($scripting['scripts'] as $key => $data)
+			{
+				$backup_types[$key] = Text::_($data['text']);
+			}
+		}
+
+		if (array_key_exists($recordType, $backup_types))
+		{
+			return $backup_types[$recordType];
+		}
+
+		return '&ndash;';
+	}
+
+	/**
+	 * Get the start time and duration of a backup record
+	 *
+	 * @param   array  $record  A backup record
+	 *
+	 * @return  array  array(startTimeAsString, durationAsString)
+	 */
+	protected function getTimeInformation($record)
+	{
+		$utcTimeZone = new DateTimeZone('UTC');
+		$startTime   = new Date($record['backupstart'], $utcTimeZone);
+		$endTime     = new Date($record['backupend'], $utcTimeZone);
+
+		$duration = $endTime->toUnix() - $startTime->toUnix();
+
+		if ($duration > 0)
+		{
+			$seconds  = $duration % 60;
+			$duration = $duration - $seconds;
+
+			$minutes  = ($duration % 3600) / 60;
+			$duration = $duration - $minutes * 60;
+
+			$hours    = $duration / 3600;
+			$duration = sprintf('%02d', $hours) . ':' . sprintf('%02d', $minutes) . ':' . sprintf('%02d', $seconds);
+		}
+		else
+		{
+			$duration = '';
+		}
+
+		$tz      = $this->container->appConfig->get('timezone', 'UTC');
+		$user    = $this->container->userManager->getUser();
+		$user_tz = $user->getParameters()->get('timezone', null);
+
+		if (!empty($user_tz))
+		{
+			$tz = $user_tz;
+		}
+
+		$tzObject = new DateTimeZone($tz);
+		$startTime->setTimezone($tzObject);
+
+		$timeZoneSuffix = '';
+
+		if (!empty($this->timeZoneFormat))
+		{
+			$timeZoneSuffix = $startTime->format($this->timeZoneFormat, $this->useLocalTime);
+		}
+
+		return [
+			$startTime->format($this->dateFormat, $this->useLocalTime),
+			$duration,
+			$timeZoneSuffix,
+		];
+	}
+
+	/**
+	 * Get the class and icon for the backup status indicator
+	 *
+	 * @param   array  $record  A backup record
+	 *
+	 * @return  array  array(class, icon)
+	 */
+	protected function getStatusInformation($record)
+	{
+		$statusClass = '';
+
+		switch ($record['meta'])
+		{
+			case 'ok':
+				$statusIcon  = 'akion-checkmark';
+				$statusClass = 'akeeba-label--green';
+				break;
+			case 'pending':
+				$statusIcon  = 'akion-play';
+				$statusClass = 'akeeba-label--orange';
+				break;
+			case 'fail':
+				$statusIcon  = 'akion-android-cancel';
+				$statusClass = 'akeeba-label--red';
+				break;
+			case 'remote':
+				$statusIcon  = 'akion-cloud';
+				$statusClass = 'akeeba-label--teal';
+				break;
+			default:
+				$statusIcon  = 'akion-trash-a';
+				$statusClass = 'akeeba-label--grey';
+				break;
+		}
+
+		return [$statusClass, $statusIcon];
+	}
+
+	/**
+	 * Get the profile name for the backup record (or "–" if the profile no longer exists)
+	 *
+	 * @param   array  $record  A backup record
+	 *
+	 * @return  string
+	 */
+	protected function getProfileName($record)
+	{
+		$profileName = '&mdash;';
+
+		if (isset($this->profiles[$record['profile_id']]))
+		{
+			$profileName = $this->escape($this->profiles[$record['profile_id']]->description);
+
+			return $profileName;
+		}
+
+		return $profileName;
 	}
 
 	/**
@@ -405,18 +590,6 @@ JS;
 
 			case 'cli':
 				$originIcon = 'akion-ios-paper-outline';
-				break;
-
-			case 'xmlrpc':
-				$originIcon = 'akion-code';
-				break;
-
-			case 'restorepoint':
-				$originIcon = 'akion-refresh';
-				break;
-
-			case 'lazy':
-				$originIcon = 'akion-cube';
 				break;
 
 			default:
