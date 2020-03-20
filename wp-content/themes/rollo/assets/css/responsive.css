@@ -1568,7 +1568,7 @@
 /* fix 27.01 */
 @media (max-width: 1540.8px) {
 	.prodslider .catalog-productbox__pic {
-	height: 140px;
+	height: auto;
 }
 .prodslider .catalog-productbox__text .title, .prodslider .catalog-productbox__text .price {
     font-size: 14px;

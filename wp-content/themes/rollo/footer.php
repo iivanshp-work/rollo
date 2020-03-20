@@ -81,6 +81,7 @@ $main_page_id = pll_get_post(2, pll_current_language('slug'));
 
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/jquery.min.js"></script>
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/slick.min.js"></script>
+<script src="<? echo get_template_directory_uri() . '/assets/' ?>js/slick-lightbox.js"></script>
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/jquery.formstyler.min.js"></script>
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/jquery.inputmask.min.js"></script>
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/jquery.parallax.min.js"></script>

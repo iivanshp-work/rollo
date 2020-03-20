@@ -23,13 +23,13 @@
 define('DB_NAME', 'rollo_netua20');
 
 /** MySQL database username */
-define('DB_USER', 'rollo_netua20');
+define('DB_USER', 'root');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'z~Fk6(2Dp3');
+define('DB_PASSWORD', 'root');
 
 /** MySQL hostname */
-define('DB_HOST', 'rollo.mysql.tools');
+define('DB_HOST', 'localhost');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8mb4');
@@ -78,6 +78,9 @@ $table_prefix = 'wp_';
 * @link https://codex.wordpress.org/Debugging_in_WordPress
 */
 define( 'WP_DEBUG', false );
+
+define( 'WP_HOME', 'http://rollo.me' );
+define( 'WP_SITEURL', 'http://rollo.me' );
 
 /* That's all, stop editing! Happy publishing. */
 

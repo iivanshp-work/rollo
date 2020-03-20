@@ -56,8 +56,8 @@
 						</div>
                     
 						<div class="filter__box">
-							<p class="filter__title"><?php pll_e("Колір"); ?></p>
-							<div class="filter__lists filter__colors">
+							<p class="filter__title rotatearrow"><?php pll_e("Колір"); ?></p>
+							<div class="filter__lists filter__colors" style="display: none;">
 								<?php dynamic_sidebar( 'prod-filtr-color' ); ?>
 							</div>
 						</div>

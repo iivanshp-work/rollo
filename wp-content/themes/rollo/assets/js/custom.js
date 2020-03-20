@@ -14,6 +14,11 @@ $(document).ready(function () {
         $('[data-product_attribute="' + type + '"]').val(id).trigger('change');
     });
 
+    if ($('[data-pa-type].selected_variation').length) {
+        $('[data-pa-type].selected_variation').click().trigger('click');
+        recalculatePrice();
+    }
+
     $(document).on('change', '[data-product-color-popup]', function(e){
         $('[data-product_attribute="pa_kolory-modeli"]').val($(this).val()).trigger('change');
     });
@@ -35,6 +40,7 @@ $(document).ready(function () {
     });
 
     $(document).on('change', '[data-product_attribute].recalculate_price', function(e){
+        console.log('recalculate');
         recalculatePrice();
     });
 
@@ -221,8 +227,9 @@ $(document).ready(function () {
     });
 
     if ($('form.woocommerce-checkout').length) {
-        $('input#billing_email').inputmask({
+        /*$('input#billing_email').inputmask({
             mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]",
+            placeholder: " ",
             greedy: false,
             onBeforePaste: function (pastedValue, opts) {
                 pastedValue = pastedValue.toLowerCase();
@@ -236,7 +243,7 @@ $(document).ready(function () {
             }
         });
 
-        $("input#billing_phone").inputmask({ "mask": "(999) 999-9999" });
+        $(".phone-input").inputmask({ mask: "(999) 999-9999", placeholder: " "});*/
     }
 });
 
@@ -268,6 +275,7 @@ function recalculatePrice() {
                 titleClass = '.postid-'+product_id+' .page-linetitle';
             }
             imageClass = '.product-topsect__pic>div';
+            varImagesClass = '.product-topsect__pic .var_images';
             $(priceClass).append('<span class="loader"></span>');
             $(priceClass2).append('<span class="loader"></span>');
         },
@@ -284,6 +292,17 @@ function recalculatePrice() {
                 $(titleClass).html(data.title);
                 if (data.image) {
                     $(imageClass).html(data.image);
+                }
+                $(varImagesClass).hide();
+                if (data.product_images && data.product_images.length) {
+                    let imagesHtml = '';
+                    $.each( data.product_images, function ( key, image ) {
+                        imagesHtml += '<div><a href="' + image.large + '" target="_blank" class="thumbnail"><img src="' + image.thumb + '" alt=""></a></div>';
+                    });
+                    if (imagesHtml){
+                        $(varImagesClass).html(imagesHtml).show();
+                        $(varImagesClass).slickLightbox();
+                    }
                 }
             }
         },

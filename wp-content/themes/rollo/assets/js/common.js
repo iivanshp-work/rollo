@@ -185,7 +185,7 @@ $(document).ready(function () {
     });
 
     // colors slider
-    $('.colors-slider').slick({
+    /*$('.colors-slider').slick({
         slidesToShow: 9,
         slidesToScroll: 1,
         nextArrow: '<button type="button" class="slick-next"></button>',
@@ -218,7 +218,7 @@ $(document).ready(function () {
                 }
             }
         ]
-    });
+    });*/
 
     // products btns
     $('.left-right span').click(function () {

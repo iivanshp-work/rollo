@@ -23,6 +23,15 @@ $id = $post->ID;
 $product = wc_get_product($id);
 $productAttributes = $product->get_attributes();
 
+$selectedVariationProduct = null;
+$selectedVariationColor = isset($_REQUEST['attribute_pa_kolory-modeli']) ? trim($_REQUEST['attribute_pa_kolory-modeli']) : '';
+if ($selectedVariationColor) {
+    $attributes = [];
+    $attributes['attribute_pa_kolory-modeli'] = $selectedVariationColor;
+    $selectedVariationID = custom_find_matching_product_variation(new \WC_Product($product->get_id()), $attributes);
+    $selectedVariationProduct = wc_get_product($selectedVariationID);
+}
+
 get_header( '' ); ?>
 
   <main>
@@ -40,7 +49,9 @@ get_header( '' ); ?>
               <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/prtrig.svg" alt="">
                 <?php
                 $image = '';
-                if ( $product->get_image_id() ) {
+                if ( $selectedVariationProduct && $selectedVariationProduct->get_image_id() ) {
+                    $image = wp_get_attachment_image_url($selectedVariationProduct->get_image_id(), 'large');
+                } else if ( $product->get_image_id() ) {
                     //$image = wp_get_attachment_image($product->get_image_id(), 'medium_large');
                     $image = wp_get_attachment_image_url($product->get_image_id(), 'large');
                 }
@@ -51,16 +62,43 @@ get_header( '' ); ?>
                       <img src="<? echo $image; ?>" class="" alt="">
                   </div>
                 <?php endif; ?>
+                <div class="var_images" style="display: none;">
+                </div>
             </div>
           </div>
           <div class="col-lg-6 offset-lg-1">
             <form id="product_form" class="post-<?php echo $product->get_id(); ?>">
               <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
               <div class="product-topsect__descr">
-                <p class="page-linetitle"><?php echo $product->get_name(); ?></p>
+                <p class="page-linetitle">
+                    <?php
+                    $name = $product->get_name();
+                    if ($selectedVariationProduct && $selectedVariationProduct->get_name()) {
+                        $name = $selectedVariationProduct->get_name();
+                    }
+                    echo $name;
+                    ?>
+                </p>
                 <div class="colors-slidersect">
                     <?php
                     $availableColorsIDS = isset($productAttributes['pa_kolory-modeli']) ? $productAttributes['pa_kolory-modeli']->get_options() : null;
+                    $availableVariations = $product->get_available_variations();
+                    if (!empty($availableVariations)) {
+                        $availableColorsIDSNew = [];
+                        foreach($availableVariations as $availableVariation) {
+                            if (isset($availableVariation['attributes']['attribute_pa_kolory-modeli'])) {
+                                $value = $availableVariation['attributes']['attribute_pa_kolory-modeli'];
+                                $term_obj = get_term_by('slug', $value, "pa_kolory-modeli");
+                                if ($term_obj && $term_obj->term_id) {
+                                    $availableColorsIDSNew[] = $term_obj->term_id;
+                                }
+                            }
+                        }
+                        $availableColorsIDS = !empty($availableColorsIDSNew) ? $availableColorsIDSNew : null;
+                    }
+
+                    //test($product->get_available_variations());
+
                     $availableColors = [];
                     if ($availableColorsIDS) {
                         foreach($availableColorsIDS as $availableColorsID) {
@@ -88,7 +126,7 @@ get_header( '' ); ?>
                       <div class="colors-slider">
                           <?php foreach($availableColors as $availableColor): ?>
                             <div>
-                              <div class="colorbox" data-pa-type="pa_kolory-modeli" data-id="<?php echo $availableColor->slug; ?>" title="<?php echo $availableColor->name; ?>">
+                              <div class="colorbox <?php if($selectedVariationColor && $selectedVariationColor == $availableColor->slug): ?> selected_variation <?php endif; ?>" data-pa-type="pa_kolory-modeli" data-id="<?php echo $availableColor->slug; ?>" title="<?php echo $availableColor->name; ?>">
                                   <?php if ($availableColor->mini_image): ?>
                                       <span style="background-size: contain;background-image: url('<?php echo $availableColor->mini_image; ?>');background-color: <?php echo $availableColor->color ? $availableColor->color : '#fff'; ?>;"></span>
                                   <?php else: ?>
@@ -172,33 +210,56 @@ get_header( '' ); ?>
                     <?php
                     $availableManSidesIDS = isset($productAttributes['pa_storona-upravlinnya']) ? $productAttributes['pa_storona-upravlinnya']->get_options() : null;
                     $availableManSides = [];
+                    $primaryMainSideId = 214;// right side
+                    $primaryMainSide = null;
                     if ($availableManSidesIDS) {
                         foreach($availableManSidesIDS as $availableManSidesID) {
                             $term_obj = get_term( $availableManSidesID, 'pa_storona-upravlinnya');
                             if ($term_obj) {
+                                if ($term_obj && $term_obj->term_id == $primaryMainSideId) {
+                                    $primaryMainSide = $term_obj->slug;
+                                }
                                 $availableManSides[$availableManSidesID] = $term_obj;
                             }
                         }
                     }
+                    if (!$primaryMainSide && !empty($availableManSides)) {
+                        $availableManSide = reset($availableManSides);
+                        $primaryMainSide = $availableManSide->slug;
+                    }
                     $availableSysColorsIDS = isset($productAttributes['pa_kolory-systemy']) ? $productAttributes['pa_kolory-systemy']->get_options() : null;
                     $availableSysColors = [];
+
+                    if ($availableSysColorsIDS) {
+                        $sortOrderSysColors = [211, 212, 246, 247];
+                        $availableSysColorsIDS = array_intersect($sortOrderSysColors, $availableSysColorsIDS);
+                    }
+                    $primaryMainSysColorId = 211;// white color
+                    $primaryMainSysColor = null;
                     if ($availableSysColorsIDS) {
                         foreach($availableSysColorsIDS as $availableSysColorsID) {
                             $term_obj = get_term( $availableSysColorsID, 'pa_kolory-systemy');
                             if ($term_obj) {
+                                if ($term_obj && $term_obj->term_id == $primaryMainSysColorId) {
+                                    $primaryMainSysColor = $term_obj->slug;
+                                }
                                 $availableSysColors[$availableSysColorsID] = $term_obj;
                                 $availableSysColors[$availableSysColorsID]->color = get_field('hex_color', $term_obj);
                             }
                         }
+                    }
+                    if (!$primaryMainSysColor && !empty($availableSysColors)) {
+                        $availableSysColor = reset($availableSysColors);
+                        $primaryMainSysColor = $availableSysColor->slug;
                     }
                     ?>
                     <?php if(!empty($availableManSides)): ?>
                       <div class="settblock">
                         <p class="title"><?php echo pll__('Сторона управління');?></p>
                         <div class="left-right">
-                          <input class="" data-product_attribute="pa_storona-upravlinnya" type="hidden" name="product_attribute[pa_storona-upravlinnya]" value="">
+                          <input class="" data-product_attribute="pa_storona-upravlinnya" type="hidden" name="product_attribute[pa_storona-upravlinnya]" value="<?php echo $primaryMainSide; ?>">
                             <?php foreach($availableManSides as $availableManSide): ?>
-                              <span data-pa-type="pa_storona-upravlinnya" data-id="<?php echo $availableManSide->slug; ?>" title="<?php echo pll__($availableManSide->name); ?>" <?php if(!isset($manSideActive)): $manSideActive= 1?>class="active"<?php endif;?>><?php echo pll__($availableManSide->name); ?></span>
+                              <span data-pa-type="pa_storona-upravlinnya" data-id="<?php echo $availableManSide->slug; ?>" title="<?php echo pll__($availableManSide->name); ?>" <?php if($availableManSide->slug == $primaryMainSide):?>class="active"<?php endif;?>><?php echo pll__($availableManSide->name); ?></span>
                             <?php endforeach; ?>
                         </div>
                       </div>
@@ -207,9 +268,9 @@ get_header( '' ); ?>
                       <div class="settblock">
                         <p class="title"><?php echo pll__('Кольори системи');?></p>
                         <div class="systems-color">
-                          <input class="recalculate_price" data-product_attribute="pa_kolory-systemy" type="hidden" name="product_attribute[pa_kolory-systemy]" value="">
+                          <input class="recalculate_price" data-product_attribute="pa_kolory-systemy" type="hidden" name="product_attribute[pa_kolory-systemy]" value="<?php echo $primaryMainSysColor; ?>">
                             <?php foreach($availableSysColors as $availableSysColor): ?>
-                              <div data-pa-type="pa_kolory-systemy" data-id="<?php echo $availableSysColor->slug; ?>" title="<?php echo pll__($availableSysColor->name); ?>" <?php if(!isset($sysColorActive)): $sysColorActive= 1?>class="active"<?php endif;?>>
+                              <div data-pa-type="pa_kolory-systemy" data-id="<?php echo $availableSysColor->slug; ?>" title="<?php echo pll__($availableSysColor->name); ?>" <?php if($availableSysColor->slug == $primaryMainSysColor): ?>class="active"<?php endif;?>>
                                 <span style="background-color: <?php echo $availableSysColor->color ? $availableSysColor->color : '#fff'; ?>;"></span>
                               </div>
                             <?php endforeach; ?>

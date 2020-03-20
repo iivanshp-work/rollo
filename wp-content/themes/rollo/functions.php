@@ -193,6 +193,7 @@ add_action( 'widgets_init', 'rollo_widgets_init' );
 function rollo_scripts() {
     wp_enqueue_style( 'rollo-style', get_stylesheet_uri() );
     wp_enqueue_style('rollo-style-slick', get_template_directory_uri() . '/assets/css/slick.css');
+    wp_enqueue_style('rollo-style-slicklightbox', get_template_directory_uri() . '/assets/css/slick-lightbox.css');
     wp_enqueue_style('rollo-style-bootstrap-grid.min', get_template_directory_uri() . '/assets/css/bootstrap-grid.min.css');
     wp_enqueue_style('rollo-style-jquery.formstyler', get_template_directory_uri() . '/assets/css/jquery.formstyler.css');
     wp_enqueue_style('rollo-style-jquery.formstyler.theme', get_template_directory_uri() . '/assets/css/jquery.formstyler.theme.css');
@@ -735,6 +736,7 @@ function recalculate_product_price() {
     $attributes = [];
 
     $title = $image = '';
+    $productImages = [];
     if ($product_id) {
         if (isset($product_attributes['pa_kolory-modeli'])) {
             $attributes['attribute_pa_kolory-modeli'] = $product_attributes['pa_kolory-modeli'];
@@ -756,6 +758,17 @@ function recalculate_product_price() {
             $image = wp_get_attachment_image($variant->get_image_id(), 'medium_large');
         } else if ( $product->get_image_id() ) {
             $image = wp_get_attachment_image($product->get_image_id(), 'medium_large');
+        }
+        $fields = ['_var_image_1', '_var_image_2', '_var_image_3'];
+        foreach ($fields as $field) {
+            $varImage = get_post_meta($variant->get_id(), $field, true);
+            if ($varImage) {
+                $varImage = [
+                    'thumb' => wp_get_attachment_image_url($varImage),
+                    'large' => wp_get_attachment_image_url($varImage, 'large')
+                ];
+                $productImages[] = $varImage;
+            }
         }
 
         $width = isset($product_attributes['width']) ? $product_attributes['width'] : 0;
@@ -785,7 +798,8 @@ function recalculate_product_price() {
         'price' => wc_price($price),
         'product_id' => $variant->get_id(),
         'title' => $title,
-        'image' => $image
+        'image' => $image,
+        'product_images' => $productImages
     ]);
     wp_die();
 }
@@ -943,8 +957,15 @@ function ajax_add_to_cart() {
     $product_attributes = isset($_POST['product_attribute']) ? $_POST['product_attribute'] : [];
     $attributes = [];
     if ($product_id) {
-        if (isset($product_attributes['pa_kolory-modeli'])) {
+        if (isset($product_attributes['pa_kolory-modeli']) && $product_attributes['pa_kolory-modeli']) {
             $attributes['attribute_pa_kolory-modeli'] = $product_attributes['pa_kolory-modeli'];
+        }
+        if (!isset($attributes['attribute_pa_kolory-modeli'])) {
+            echo json_encode([
+                'has_error' => true,
+                'error_message' => pll__('Виберіть колір моделі.')
+            ]);
+            wp_die();
         }
         /*$var =  (new \WC_Product_Data_Store_CPT())->find_matching_product_variation( new \WC_Product($product_id), $attributes);*/
         $variation_id = custom_find_matching_product_variation(new \WC_Product($product_id), $attributes);
@@ -1307,25 +1328,80 @@ function variation_settings_fields( $loop, $variation_data, $variation ) {
     $html .=        '<img src="' .  (get_post_meta( $variation->ID, '_mini_image', true ) ?  esc_url( wp_get_attachment_thumb_url( get_post_meta( $variation->ID, '_mini_image', true ) ) ) : esc_url( wc_placeholder_img_src() )) . '" />';
     $html .=        '<input type="hidden" name="_mini_image[' . $variation->ID . ']" class="upload_image_id" value="' . get_post_meta( $variation->ID, '_mini_image', true ) . '" />';
     $html .=     '</a>';
+    $html .= '</p><br><br>';
+    $html .=  '<p class="form-row upload_image">';
+    $html .=     '<a href="#" class="upload_image_button ' . (get_post_meta( $variation->ID, '_var_image_1', true ) ? 'remove' : '') . ' ">';
+    $html .=        '<img src="' .  (get_post_meta( $variation->ID, '_var_image_1', true ) ?  esc_url( wp_get_attachment_thumb_url( get_post_meta( $variation->ID, '_var_image_1', true ) ) ) : esc_url( wc_placeholder_img_src() )) . '" />';
+    $html .=        '<input type="hidden" name="_var_image_1[' . $variation->ID . ']" class="upload_image_id" value="' . get_post_meta( $variation->ID, '_var_image_1', true ) . '" />';
+    $html .=     '</a>';
+    $html .= '</p>';
+    $html .=  '<p class="form-row upload_image">';
+    $html .=     '<a href="#" class="upload_image_button ' . (get_post_meta( $variation->ID, '_var_image_2', true ) ? 'remove' : '') . ' ">';
+    $html .=        '<img src="' .  (get_post_meta( $variation->ID, '_var_image_2', true ) ?  esc_url( wp_get_attachment_thumb_url( get_post_meta( $variation->ID, '_var_image_2', true ) ) ) : esc_url( wc_placeholder_img_src() )) . '" />';
+    $html .=        '<input type="hidden" name="_var_image_2[' . $variation->ID . ']" class="upload_image_id" value="' . get_post_meta( $variation->ID, '_var_image_2', true ) . '" />';
+    $html .=     '</a>';
+    $html .= '</p>';
+    $html .=  '<p class="form-row upload_image">';
+    $html .=     '<label>Фото товару</label>';
+    $html .=     '<a href="#" class="upload_image_button ' . (get_post_meta( $variation->ID, '_var_image_3', true ) ? 'remove' : '') . ' ">';
+    $html .=        '<img src="' .  (get_post_meta( $variation->ID, '_var_image_3', true ) ?  esc_url( wp_get_attachment_thumb_url( get_post_meta( $variation->ID, '_var_image_3', true ) ) ) : esc_url( wc_placeholder_img_src() )) . '" />';
+    $html .=        '<input type="hidden" name="_var_image_3[' . $variation->ID . ']" class="upload_image_id" value="' . get_post_meta( $variation->ID, '_var_image_3', true ) . '" />';
+    $html .=     '</a>';
     $html .= '</p>';
     echo $html;
 }
 add_action( 'woocommerce_product_after_variable_attributes', 'variation_settings_fields', 10, 3 );
 
 function save_variation_settings_fields( $post_id ) {
-    $text_field = $_POST['_mini_image'][ $post_id ];
-    if( ! empty( $text_field ) ) {
-        update_post_meta( $post_id, '_mini_image', esc_attr( $text_field ) );
+    $fields = ['_mini_image', '_var_image_1', '_var_image_2', '_var_image_3'];
+    foreach ($fields as $field) {
+        $text_field = $_POST[$field][$post_id];
+        if (!empty($text_field)) {
+            update_post_meta($post_id, $field, esc_attr($text_field));
+        }
     }
 }
 add_action( 'woocommerce_save_product_variation', 'save_variation_settings_fields', 10, 2 );
 
 
 function load_variation_settings_fields( $variations ) {
-    $variations['_mini_image'] = get_post_meta( $variations[ 'variation_id' ], '_mini_image', true );
+    $fields = ['_mini_image', '_var_image_1', '_var_image_2', '_var_image_3'];
+    foreach ($fields as $field) {
+        $variations[$field] = get_post_meta($variations['variation_id'], $field, true);
+    }
     return $variations;
 }
 add_filter( 'woocommerce_available_variation', 'load_variation_settings_fields' );
+
+function the_posts_variations( $posts, $query = false ) {
+    $koloryModeli = isset($_REQUEST['filter_kolory-modeli']) ? trim($_REQUEST['filter_kolory-modeli']) : null;
+    if ($koloryModeli && $posts) {
+        $koloryModeli = explode(',', $koloryModeli);
+        $postsNew = [];
+        foreach ($posts as $post) {
+            if ($post->post_type != 'product') continue;
+            $variant = null;
+            foreach($koloryModeli as $kolorModeli) {
+                $attributes = [];
+                $attributes['attribute_pa_kolory-modeli'] = $kolorModeli;
+                /*$var =  (new \WC_Product_Data_Store_CPT())->find_matching_product_variation( new \WC_Product($product_id), $attributes);*/
+                $varID = custom_find_matching_product_variation(new \WC_Product($post->ID), $attributes);
+                if ($varID) {
+                    //if exist variant used it
+                    //$variant = wc_get_product($varID);
+                    $variant = get_post($varID);
+                    $postsNew[] = $variant;
+                }
+            }
+            if (!$variant) {
+                $postsNew[] = $post;
+            }
+        }
+        $posts = $postsNew;
+    }
+    return $posts;
+}
+add_action( 'the_posts', 'the_posts_variations', 15, 2 );
 
 /**
  * Custom fields
@@ -1773,6 +1849,7 @@ pll_register_string("Спосіб доставки", "Спосіб достав�
 pll_register_string("Відгуки", "Відгуки");
 pll_register_string("Вартість / шт.", "Вартість / шт.");
 pll_register_string("Додати розмір", "Додати розмір");
+pll_register_string("Виберіть колір моделі.", "Виберіть колір моделі.");
 
 // fix for checkout update localization
 add_filter('woocommerce_ajax_get_endpoint',  function ($result, $request){

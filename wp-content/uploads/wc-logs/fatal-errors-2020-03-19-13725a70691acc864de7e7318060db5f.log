@@ -1,0 +1,30 @@
+2020-03-19T06:10:33+00:00 CRITICAL Uncaught Exception: Не вірний товар. in D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\data-stores\class-wc-product-data-store-cpt.php:163
+Stack trace:
+#0 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\class-wc-data-store.php(159): WC_Product_Data_Store_CPT->read(Object(WC_Product))
+#1 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\abstracts\abstract-wc-product.php(135): WC_Data_Store->read(Object(WC_Product))
+#2 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\functions.php(1389): WC_Product->__construct(664)
+#3 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\class-wp-hook.php(288): the_posts_variations(Array, Object(WP_Query))
+#4 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\plugin.php(249): WP_Hook->apply_filters(Array, Array)
+#5 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\class-wp-query.php(3160): apply_filters_ref_array('the_posts', Array)
+#6 D:\PROGRAMS\OpenSer у D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\data-stores\class-wc-product-data-store-cpt.php доступно 163
+
+2020-03-19T06:10:53+00:00 CRITICAL Uncaught Exception: Не вірний товар. in D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\data-stores\class-wc-product-data-store-cpt.php:163
+Stack trace:
+#0 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\class-wc-data-store.php(159): WC_Product_Data_Store_CPT->read(Object(WC_Product))
+#1 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\abstracts\abstract-wc-product.php(135): WC_Data_Store->read(Object(WC_Product))
+#2 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\functions.php(1389): WC_Product->__construct(664)
+#3 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\class-wp-hook.php(288): the_posts_variations(Array, Object(WP_Query))
+#4 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\plugin.php(249): WP_Hook->apply_filters(Array, Array)
+#5 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\class-wp-query.php(3160): apply_filters_ref_array('the_posts', Array)
+#6 D:\PROGRAMS\OpenSer у D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\data-stores\class-wc-product-data-store-cpt.php доступно 163
+
+2020-03-19T06:11:52+00:00 CRITICAL Uncaught Exception: Не вірний товар. in D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\data-stores\class-wc-product-data-store-cpt.php:163
+Stack trace:
+#0 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\class-wc-data-store.php(159): WC_Product_Data_Store_CPT->read(Object(WC_Product))
+#1 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\abstracts\abstract-wc-product.php(135): WC_Data_Store->read(Object(WC_Product))
+#2 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\functions.php(1390): WC_Product->__construct(664)
+#3 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\class-wp-hook.php(288): the_posts_variations(Array, Object(WP_Query))
+#4 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\plugin.php(249): WP_Hook->apply_filters(Array, Array)
+#5 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\class-wp-query.php(3160): apply_filters_ref_array('the_posts', Array)
+#6 D:\PROGRAMS\OpenSer у D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce\includes\data-stores\class-wc-product-data-store-cpt.php доступно 163
+
