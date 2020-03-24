@@ -1,0 +1,10 @@
+2020-03-22T10:20:03+00:00 CRITICAL Uncaught Error: Call to undefined method PhpOffice\PhpSpreadsheet\Style\Font::getAlignment() in D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\functions.php:1523
+Stack trace:
+#0 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\class-wp-hook.php(288): export_orders_to_xlsx('')
+#1 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\class-wp-hook.php(312): WP_Hook->apply_filters(NULL, Array)
+#2 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-includes\plugin.php(478): WP_Hook->do_action(Array)
+#3 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-admin\admin.php(170): do_action('admin_init')
+#4 D:\PROGRAMS\OpenServer\domains\rollo.me\wp-admin\edit.php(10): require_once('D:\\PROGRAMS\\Ope...')
+#5 {main}
+  thrown у D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\functions.php доступно 1523
+
