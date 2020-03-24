@@ -1403,6 +1403,313 @@ function the_posts_variations( $posts, $query = false ) {
 }
 add_action( 'the_posts', 'the_posts_variations', 15, 2 );
 
+
+/*Export orders to xlsx start */
+add_action('admin_footer', 'export_orders_to_xlsx_btn');
+function export_orders_to_xlsx_btn() {
+    $screen = get_current_screen();
+    if ( $screen->id != "edit-shop_order" )   // Only add to users.php page
+        return;
+    ?>
+    <script type="text/javascript">
+        jQuery(document).ready( function($)
+        {
+            $('.tablenav.top .clear, .tablenav.bottom .clear').before('<form action="#" method="POST"><input type="hidden" id="mytheme_export_xlsx" name="mytheme_export_xlsx" value="1" /><input class="button button-primary user_export_button" style="" type="submit" value="<?php esc_attr_e('Експорт XLSX', 'mytheme');?>" /></form>');
+        });
+    </script>
+    <?php
+}
+add_action('admin_init', 'export_orders_to_xlsx');
+
+function export_orders_to_xlsx() {
+    if (!empty($_POST['mytheme_export_xlsx'])) {
+        if (current_user_can('manage_options')) {
+            if ( defined('CBXPHPSPREADSHEET_PLUGIN_NAME') && file_exists( CBXPHPSPREADSHEET_ROOT_PATH . 'lib/vendor/autoload.php' ) ) {
+                //Include PHPExcel
+                require_once( CBXPHPSPREADSHEET_ROOT_PATH . 'lib/vendor/autoload.php' );
+                //now take instance
+                $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+                $fields = [
+                    "ID" => "Номер",
+                    "date" => "Дата",
+                    "name" => "ПІБ",
+                    "phone" => "Телефон",
+                    "email" => "Email",
+                    "address" => "Адреса",
+                    "shipping_method" => "Спосіб доставки",
+                    "payment_method" => "Оплата",
+                    "product_name" => "Назва товару",
+                    "quantity" => "Кількість",
+                    "total" => "Сума",
+                    "status" => "Статус",
+                ];
+
+                $args = array(
+                    'paginate' => false,
+                    'limit' => -1,
+                );
+                $orders = wc_get_orders($args);
+                $records = [];
+                if ($orders) {
+                    foreach ($orders as $order) {
+                        $record = [];
+                        $record['ID'] = $order->get_id();
+                        $record['date'] = date("d.m.Y H:i", strtotime($order->get_date_created()));
+                        $record['name'] = $order->get_formatted_billing_full_name();
+                        $record['phone'] = $order->get_billing_phone();
+                        $record['email'] = $order->get_billing_email();
+                        $address = '';
+                        if ($order->get_billing_address_1()) {
+                            $address .= $order->get_billing_address_1() . ' ';
+                        }
+                        if ($order->get_billing_city()) {
+                            $address .= $order->get_billing_city() . ' ';
+                        }
+                        if ($order->get_billing_state()) {
+                            $address .= '(' . $order->get_billing_state() . ' обл.) ';
+                        }
+                        if ($order->get_billing_postcode()) {
+                            $address .= ', ' . $order->get_billing_postcode() . ' ';
+                        }
+                        $record['address'] = trim($address);
+                        $record['shipping_method'] = $order->get_shipping_method();
+                        $record['payment_method'] = $order->get_payment_method_title();
+                        //TODO
+                        $orderItems = $order->get_items();
+                        $countItems = $orderItems ? count($order->get_items()) : 0;
+                        $orderTitle = "";
+                        if ($orderItems) {
+                            foreach($orderItems as $orderItem) {
+                                if ($countItems > 1) {
+                                    $orderTitle .= $orderItem->get_name() . " - " . $orderItem->get_quantity() .  "шт.\n";
+                                } else {
+                                    $orderTitle .= $orderItem->get_name();
+                                }
+                            }
+                        }
+                        $record['product_name'] = $orderTitle;
+                        $record['quantity'] = $order->get_item_count();
+                        $record['total'] = strip_tags($order->get_formatted_order_total());
+                        $record['status'] = wc_get_order_status_name($order->get_status());
+                        $records[] = $record;
+                    }
+                }
+
+                // filename
+                $filename = 'rollo-orders-export-' . time();
+                // Create new Spreadsheet object
+                $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+                // Set document properties
+                $spreadsheet->getProperties()
+                    ->setCreator('Rollo')
+                    ->setLastModifiedBy('Rollo')
+                    ->setTitle('Rollo Orders Export')
+                    ->setSubject($filename)
+                    ->setDescription($filename);
+                // Scheduler Spreadsheet Start
+                $worksheet = $spreadsheet->setActiveSheetIndex(0);
+                // Rename worksheet to Scheduler
+                $spreadsheet->getActiveSheet()->setTitle('Rollo Orders Export');
+                //add column titles to spreadsheet
+                $r = 1;
+                $c = 0;
+                foreach ($fields as $item => $label) {
+                    $c++;
+                    $worksheet->setCellValueByColumnAndRow($c, $r, $label)
+                        ->getStyleByColumnAndRow($c, $r)
+                        ->getFont()
+                        ->setBold(true);
+                    $worksheet->getColumnDimensionByColumn($c)->setAutoSize(true);
+                }
+                if (!empty($records)) {
+                    //add order items to spreadsheet
+                    $r = 2;
+                    foreach($records as $record) {
+                        $c = 0;
+                        foreach ($fields as $item => $label) {
+                            $c++;
+                            $worksheet->setCellValueByColumnAndRow($c, $r, $record[$item])
+                                ->getStyleByColumnAndRow($c, $r)
+                                ->getFont()
+                                ->setBold(false);
+                            $worksheet->getColumnDimensionByColumn($c)->setAutoSize(true);
+                        }
+                        $worksheet->getRowDimension($r)->setCollapsed(false);
+
+                        $r++;
+                    }
+                }
+                // General Settings for saving
+                // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+                $spreadsheet->setActiveSheetIndex(0);
+                // Redirect output to a clientвЂ™s web browser (Xlsx)
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                header('Content-Disposition: attachment; filename="' . $filename . '.xlsx"');
+                header('Cache-Control: max-age=0');
+                // If you're serving to IE 9, then the following may be needed
+                header('Cache-Control: max-age=1');
+                // If you're serving to IE over SSL, then the following may be needed
+                header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+                header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // always modified
+                header('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+                header('Pragma: public'); // HTTP/1.0
+                $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+                $writer->save('php://output');
+                exit();
+            }
+        }
+    }
+}
+/*Export orders to xlsx end */
+
+add_action('woocommerce_u_poshta_shipping_method', 'woocommerce_u_poshta_shipping_method');
+
+function woocommerce_u_poshta_shipping_method($checkout) {
+    global $wpdb;
+    $areas = translateAreas($wpdb->get_results("SELECT * FROM wc_ukr_shipping_np_areas", ARRAY_A));
+    $options = [];
+    if ($areas) {
+        foreach ($areas as $area) {
+            $options[$area['ref']] = $area['description'];
+        }
+    }
+    $defaultOption = '71508131-9b87-11de-822f-000c2965ae0e';
+    define('WC_UKRPOSHTA_SHIPPING_NAME', 'ukrposhta_shipping');
+    ?>
+    <div id="<?= WC_UKRPOSHTA_SHIPPING_NAME; ?>_fields" class="wc-shipping-ukrposhta-fields">
+        <div id="ukrposhta-poshta-shipping-info">
+          <?php
+          //Region
+          woocommerce_form_field(WC_UKRPOSHTA_SHIPPING_NAME . '_area', [
+            'type' => 'select',
+            'options' => $options,
+            'input_class' => [
+              'wc-ukr-shipping-select'
+            ],
+            'label' => '',
+            'default' => $defaultOption
+          ]);
+
+          //City
+          woocommerce_form_field(WC_UKRPOSHTA_SHIPPING_NAME . '_city', [
+            'type' => 'text',
+            'input_class' => [
+              'wc-ukr-shipping-text'
+            ],
+            'label' => '',
+            'default' => '',
+            'placeholder' => pll__('Введіть населений пункт'),
+          ]);
+
+          //Warehouse
+          woocommerce_form_field(WC_UKRPOSHTA_SHIPPING_NAME . '_postalcode', [
+            'type' => 'text',
+            'input_class' => [
+              'wc-ukr-shipping-text'
+            ],
+            'label' => '',
+            'default' => '',
+            'placeholder' => pll__('Введіть поштовий індекс'),
+          ]);
+
+          ?>
+        </div>
+    </div>
+    <?php
+}
+
+add_action('woocommerce_checkout_process', 'woocommerce_u_poshta_shipping_method_validate_fields', 10, 2);
+
+function woocommerce_u_poshta_shipping_method_validate_fields() {
+    if ( ! defined('WC_UKRPOSHTA_SHIPPING_NAME')) {
+        define('WC_UKRPOSHTA_SHIPPING_NAME', 'ukrposhta_shipping');
+    }
+    if (isset($_POST['shipping_method'])) {
+        if (preg_match('/^u_poshta_shipping_method/i', $_POST['shipping_method'][0])) {
+
+            if (( ! $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_area'] ||
+                  ! $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_city'] ||
+                  ! $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_postalcode']
+                )) {
+                wc_add_notice(pll__('Вкажіть всі дані відділення Укрпошти.'), 'error');
+            }
+        }
+    }
+}
+
+add_action('woocommerce_checkout_create_order', 'woocommerce_u_poshta_shipping_method_create_order', 10, 2);
+
+function woocommerce_u_poshta_shipping_method_create_order($order) {
+    if ( ! defined('WC_UKRPOSHTA_SHIPPING_NAME')) {
+        define('WC_UKRPOSHTA_SHIPPING_NAME', 'ukrposhta_shipping');
+    }
+    global $wpdb;
+
+    $order->set_shipping_address_1('');
+    $order->set_billing_address_1('');
+    $order->set_shipping_address_2('');
+    $order->set_billing_address_2('');
+    if (isset($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_area']) && $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_area']) {
+        $npArea = $wpdb->get_row("SELECT description FROM wc_ukr_shipping_np_areas WHERE ref = '" . esc_attr($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_area']) . "'", ARRAY_A);
+        if ($npArea) {
+            $order->set_shipping_state($npArea['description']);
+            $order->set_billing_state($npArea['description']);
+        }
+    }
+
+    if (isset($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_city']) && $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_city']) {
+        $city = sanitize_text_field(trim($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_city']));
+        $order->set_shipping_city($city);
+        $order->set_billing_city($city);
+    }
+    if (isset($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_postalcode']) && $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_postalcode']) {
+        $postalcode = sanitize_text_field(trim($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_postalcode']));
+        $order->set_shipping_postcode($postalcode);
+        $order->set_billing_postcode($postalcode);
+    }
+}
+
+function translateAreas($areas)
+{
+    $areaTranslates = [
+        '71508128-9b87-11de-822f-000c2965ae0e' => 'АРК',
+        '71508129-9b87-11de-822f-000c2965ae0e' => 'Винницкая',
+        '7150812a-9b87-11de-822f-000c2965ae0e' => 'Волынская',
+        '7150812b-9b87-11de-822f-000c2965ae0e' => 'Днепропетровская',
+        '7150812c-9b87-11de-822f-000c2965ae0e' => 'Донецкая',
+        '7150812d-9b87-11de-822f-000c2965ae0e' => 'Житомирская',
+        '7150812e-9b87-11de-822f-000c2965ae0e' => 'Закарпатская',
+        '7150812f-9b87-11de-822f-000c2965ae0e' => 'Запорожская',
+        '71508130-9b87-11de-822f-000c2965ae0e' => 'Ивано-Франковская',
+        '71508131-9b87-11de-822f-000c2965ae0e' => 'Киевская',
+        '71508132-9b87-11de-822f-000c2965ae0e' => 'Кировоградская',
+        '71508133-9b87-11de-822f-000c2965ae0e' => 'Луганская',
+        '71508134-9b87-11de-822f-000c2965ae0e' => 'Львовская',
+        '71508135-9b87-11de-822f-000c2965ae0e' => 'Николаевская',
+        '71508136-9b87-11de-822f-000c2965ae0e' => 'Одесская',
+        '71508137-9b87-11de-822f-000c2965ae0e' => 'Полтавская',
+        '71508138-9b87-11de-822f-000c2965ae0e' => 'Ровенская',
+        '71508139-9b87-11de-822f-000c2965ae0e' => 'Сумская',
+        '7150813a-9b87-11de-822f-000c2965ae0e' => 'Тернопольская',
+        '7150813b-9b87-11de-822f-000c2965ae0e' => 'Харьковская',
+        '7150813c-9b87-11de-822f-000c2965ae0e' => 'Херсонская',
+        '7150813d-9b87-11de-822f-000c2965ae0e' => 'Хмельницкая',
+        '7150813e-9b87-11de-822f-000c2965ae0e' => 'Черкасская',
+        '7150813f-9b87-11de-822f-000c2965ae0e' => 'Черновицкая',
+        '71508140-9b87-11de-822f-000c2965ae0e' => 'Черниговская'
+    ];
+
+    if (apply_filters('wc_ukr_shipping_language', get_option('wc_ukr_shipping_np_lang', 'ru')) === 'ru') {
+        foreach ($areas as &$area) {
+            if (isset($areaTranslates[ $area['ref'] ])) {
+                $area['description'] = $areaTranslates[ $area['ref'] ];
+            }
+        }
+    }
+
+    return $areas;
+}
+
 /**
  * Custom fields
  */
@@ -1850,6 +2157,15 @@ pll_register_string("Відгуки", "Відгуки");
 pll_register_string("Вартість / шт.", "Вартість / шт.");
 pll_register_string("Додати розмір", "Додати розмір");
 pll_register_string("Виберіть колір моделі.", "Виберіть колір моделі.");
+
+pll_register_string("Інформація по замовленню:", "Інформація по замовленню:");
+pll_register_string("фурнітура", "фурнітура");
+pll_register_string("Сума замовлення:", "Сума замовлення:");
+pll_register_string("Адреса:", "Адреса:");
+pll_register_string("Отримувач:", "Отримувач:");
+pll_register_string("Введіть населений пункт", "Введіть населений пункт");
+pll_register_string("Введіть поштовий індекс", "Введіть поштовий індекс");
+pll_register_string("Вкажіть відділення Укрпошти.", "Вкажіть відділення Укрпошти.Вкажіть відділення Укрпошти.");
 
 // fix for checkout update localization
 add_filter('woocommerce_ajax_get_endpoint',  function ($result, $request){

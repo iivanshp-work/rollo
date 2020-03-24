@@ -79,6 +79,23 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                                 $index =  $i;
                                 $formatted_destination =  WC()->countries->get_formatted_address( $package['destination'], ', ' );
                                 $has_calculated_shipping =  WC()->customer->has_calculated_shipping();
+                                if (!empty($available_methods)) {
+                                    $available_methods_sort = [
+                                        "nova_poshta_shipping:1",
+                                        "u_poshta_shipping_method",
+                                        "local_pickup:2",
+                                    ];
+                                    $available_methods_tmp = [];
+                                    foreach ($available_methods_sort as $sort_item) {
+                                        foreach($available_methods as $key_item => $item) {
+                                            if ($sort_item == $key_item) {
+                                                $available_methods_tmp[$key_item] = $item;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    $available_methods = $available_methods_tmp;
+                                }
                                 ?>
                               <ul class="shipping-available_methods">
                                   <?php foreach ( $available_methods as $method ) : ?>
@@ -90,6 +107,9 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
                                         do_action( 'woocommerce_after_shipping_rate', $method, $index );
                                         if ($method->method_id == 'nova_poshta_shipping') {
                                             do_action( 'woocommerce_before_order_notes', $checkout );
+                                        }
+                                        if ($method->id == 'u_poshta_shipping_method') {
+                                            do_action( 'woocommerce_u_poshta_shipping_method', $checkout );
                                         }
                                         ?>
                                     </li>

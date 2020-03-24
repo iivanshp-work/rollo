@@ -4300,6 +4300,35 @@ header.woocommerce-Address-title.title h3 {
 #nova-poshta-shipping-info  .select2-container--default .select2-selection--single .select2-selection__arrow b{
     display: none;
 }
+
+#ukrposhta-poshta-shipping-info .form-row {
+    margin-bottom: 24px;
+    position: relative;
+}
+#ukrposhta-poshta-shipping-info .select2-container--default .select2-selection--single {
+    border: 1px solid #ACBBB6;
+    border-radius: 0;
+    height: 40px;
+}
+#ukrposhta-poshta-shipping-info .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 40px;
+}
+#ukrposhta-poshta-shipping-info .select2-container--default .select2-selection--single .select2-selection__arrow {
+    border-left: 0;
+    background: url(../image/arrow-filter.svg) no-repeat center center;
+    background-size: 14px;
+    height: 38px;
+    top: 0;
+    right: 0;
+    width: 34px;
+}
+#ukrposhta-poshta-shipping-info .select2 {
+    width: 100%!important;
+}
+#ukrposhta-poshta-shipping-info .select2-container--default .select2-selection--single .select2-selection__arrow b{
+    display: none;
+}
+
 body.woocommerce-checkout .select2-container--default .select2-results__option--highlighted[aria-selected],
 body.woocommerce-checkout .select2-container--default .select2-results__option--highlighted[data-selected] {
     background-color: #188288;
@@ -4358,6 +4387,7 @@ a.ywsl-social {
     max-width: 100%;
     max-height: 100%;
     height: auto;
+    width: auto;
 }
 
 
@@ -4401,4 +4431,30 @@ a.ywsl-social {
 }
 .slick-lightbox .slick-next {
     background-image: url(../image/icon/slider-arrright-white.svg);
+}
+.woocommerce-view-order .order_info_line {
+    margin-top: 0;
+}
+.woocommerce-view-order .order_info_line * {
+    color: #000;
+    background: none;
+    text-transform: lowercase;
+}
+.woocommerce-view-order h2 {
+    margin: 1.4em 0px;
+    font-size: 1.4em;
+}
+
+.woocommerce-view-order h2 * {
+    display: inline;
+    margin: 0;
+    font-weight: 300;
+}
+.woocommerce-view-order .woocommerce-table__product-name {
+    font-size: 1.3em;
+    font-weight: 300;
+    padding: 0.5em 0;
+}
+.woocommerce-view-order .woocommerce-table__product-name a {
+    font-weight: 400;
 }

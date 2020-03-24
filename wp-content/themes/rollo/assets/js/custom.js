@@ -312,3 +312,33 @@ function recalculatePrice() {
         }
     });
 }
+
+
+/*checkout custom fields for ukrposhta*/
+$(document).ready(function () {
+    if ($('body').hasClass('woocommerce-checkout')){
+        let isUkrPoshtaShippingSelected = function(){
+            let currentShipping = $('.shipping_method').length > 1 ?
+                $('.shipping_method:checked').val() :
+                $('.shipping_method').val();
+            return currentShipping && currentShipping.match(/^u_poshta_shipping_method/i);
+        };
+
+        let selectShipping = function(){
+            if(isUkrPoshtaShippingSelected()){
+                $('#ukrposhta_shipping_fields').css('display', 'block');
+                $('.woocommerce-shipping-fields').css('display', 'none');
+            }else{
+                $('#ukrposhta_shipping_fields').css('display', 'none');
+                $('.woocommerce-shipping-fields').css('display', 'block');
+            }
+        };
+
+        $(document).on('change', '[name*="shipping_method"]', function(e){
+            selectShipping();
+        });
+
+        $('#ukrposhta_shipping_fields').css('display', 'none');
+        selectShipping();
+    }
+});
