@@ -784,6 +784,10 @@ function recalculate_product_price() {
             'standard_sizes' => get_field('standard_sizes', $product->get_id()),
         ];
         $product_attributes['sizes'] = $sizesData;
+        $product_attributes['calculate_price_type'] = get_field('calculate_price_type', $product->get_id());
+        $product_attributes['box_price'] = get_field('box_price', $product->get_id());
+        $product_attributes['mechanism_price_type_1'] = get_field('mechanism_price_type_1', $product->get_id());
+        $product_attributes['mechanism_price_type_2'] = get_field('mechanism_price_type_2', $product->get_id());
         $price = calculatePrice($basePrice, $product_attributes);
 
     } else {
@@ -809,17 +813,7 @@ add_action('wp_ajax_nopriv_recalculate_price', 'recalculate_product_price');
 
 function calculatePrice($basePrice = 0, $attributes = []) {
     $price = $basePrice;
-    $additinalPriceAttributes = ['pa_kolory-systemy'];
-    foreach($additinalPriceAttributes as $additinalPriceAttribute) {
-        if (isset($attributes[$additinalPriceAttribute])) {
-            $term_obj = get_term_by('slug', $attributes[$additinalPriceAttribute], $additinalPriceAttribute);
-            $additinalPrice = get_field('additinal_price', $term_obj);
-            $additinalPrice = $additinalPrice ? $additinalPrice : 0;
-            $price += $additinalPrice;
-        }
-    }
-    $width = isset($attributes['width']) ? $attributes['width'] : 0;
-    $height = isset($attributes['height']) ? $attributes['height'] : 0;
+
     if (isset($attributes['sizes']['standard_sizes']) && !empty($attributes['sizes']['standard_sizes']) && is_array($attributes['sizes']['standard_sizes'])) {
         foreach($attributes['sizes']['standard_sizes'] as $size) {
             if (isset($size['price']) && isset($size['width']) && isset($size['height']) && $size['width'] == $width && $size['height'] == $height) {
@@ -829,8 +823,27 @@ function calculatePrice($basePrice = 0, $attributes = []) {
         }
     }
 
-    if ($width && $height) {
-        $price = calculatePriceFunction($price, $width, $height);
+    $width = isset($attributes['width']) ? $attributes['width'] : 0;
+    $height = isset($attributes['height']) ? $attributes['height'] : 0;
+    $calculatePriceType = isset($attributes['calculate_price_type']) ? trim($attributes['calculate_price_type']) : '';
+    if ($calculatePriceType) {
+        $method = 'calculatePriceFunction' . ucfirst($calculatePriceType);
+        $price = $method($price, $width, $height, $attributes);
+    } else {
+        //default price calculation start
+        $additinalPriceAttributes = ['pa_kolory-systemy'];
+        foreach ($additinalPriceAttributes as $additinalPriceAttribute) {
+            if (isset($attributes[$additinalPriceAttribute])) {
+                $term_obj = get_term_by('slug', $attributes[$additinalPriceAttribute], $additinalPriceAttribute);
+                $additinalPrice = get_field('additinal_price', $term_obj);
+                $additinalPrice = $additinalPrice ? $additinalPrice : 0;
+                $price += $additinalPrice;
+            }
+        }
+        if ($width && $height) {
+            $price = calculatePriceFunction($price, $width, $height);
+        }
+        //default price calculation end
     }
     return $price;
 }
@@ -850,11 +863,139 @@ function calculatePriceFunction($price, $width, $height) {
 
     if ($width > 1800) {
         $price += 250;
-    } else if ($width > 1300  && $height <= 1800) {
+    } else if ($width > 1300  && $width <= 1800) {
         $price += 150;
     } else {
         $price += 75;
     }
+    return $price;
+}
+/*
+ * calculatePriceFunctionType1
+//Тканинні ролети
+//Формула: ((Вартість тканини х (Ширина/1000)) + Умова 2) + Умова 3
+//Вартість тканини - ціна, яку ми вказуємо як вартість варіації.
+//Ширина - вводить клієнт в поп-ап вікні, ділю на 1000 щоб перевести з міліметрів в метри погонні.
+//Умова 1 - Якщо ширина менше 500, тоді рахуємо як 500, якщо більше тоді значення яке ввів клієнт.
+//Умова 2 - Якщо висота менше 1650 тоді 0, від 1650 до 2300 тоді 40%, від 2300 до 2500 тоді 60%, від 2500 до 2800 тоді 80%.
+//Умова 3 - Якщо ширина менше 1250 тоді [48], від 1250 до 1800 тоді [108], від 1800 до 2800 тоді [220].
+//Вартість тканини і значення в квадратних дужках (Умова 3) можуть змінюватись залежно від партії товару.
+*/
+function calculatePriceFunctionType1($price, $width, $height, $attributes = []) {
+    if ($width < 500) {
+        $width = 500;
+    }
+    $price = $price * ($width / 1000);
+    if ($height >= 2500) {
+        $price = $price + (0.8 * $price);
+    } else if ($height >= 2300  && $height < 2500) {
+        $price = $price + (0.6 * $price);
+    } else if ($height >= 1650  && $height < 2300) {
+        $price = $price + (0.4 * $price);
+    }
+    $mechanism_price_type_1 = isset($attributes['mechanism_price_type_1']) ? $attributes['mechanism_price_type_1'] : null;
+    if ($width >= 1800 && isset($mechanism_price_type_1['price_1800_2800'])) {
+        $price += $mechanism_price_type_1['price_1800_2800'];
+    } else if ($width >= 1250  && $width < 1800 && isset($mechanism_price_type_1['price_1250_1800'])) {
+        $price += $mechanism_price_type_1['price_1250_1800'];
+    } elseif (isset($mechanism_price_type_1['price_0_1250'])) {
+        $price += $mechanism_price_type_1['price_0_1250'];
+    }
+    return $price;
+}
+/*
+//День-Ніч
+//Формула: (Вартість тканини х ((Ширина/1000) х (Висота/1000))) + Умова 2
+//Вартість тканини - ціна, яку ми вказуємо як вартість варіації.
+//Ширина і Висота - вводить клієнт в поп-ап вікні, ділю на 1000 щоб перевести з міліметрів в метри квадратні.
+//Умова 1 - Якщо ширина менше 500, тоді рахуємо як 500, якщо більше тоді значення яке ввів клієнт.
+//Умова 2 - Якщо ширина менше 1250 тоді [0], від 1250 до 1800 тоді [115], від 1800 до 2500 тоді [170].
+//Вартість тканини і значення в квадратних дужках (Умова 2) можуть змінюватись залежно від партії товару.
+*/
+function calculatePriceFunctionType2($price, $width, $height, $attributes = []) {
+    if ($width < 500) {
+        $width = 500;
+    }
+    $price = $price * ($width / 1000) * ($height / 1000);
+    $mechanism_price_type_2 = isset($attributes['mechanism_price_type_2']) ? $attributes['mechanism_price_type_2'] : null;
+    if ($width >= 1800 && isset($mechanism_price_type_2['price_1800_2500'])) {
+        $price += $mechanism_price_type_2['price_1800_2500'];
+    } else if ($width >= 1250  && $width < 1800 && isset($mechanism_price_type_2['price_1250_1800'])) {
+        $price += $mechanism_price_type_2['price_1250_1800'];
+    } elseif (isset($mechanism_price_type_2['price_0_1250'])) {
+        $price += $mechanism_price_type_2['price_0_1250'];
+    }
+    return $price;
+}
+/*
+//Вертикальні жалюзі
+//Формула: Вартість тканини х ((Ширина/1000) х (Висота/1000))
+//Вартість тканини - ціна, яку ми вказуємо як вартість варіації.
+//Ширина і Висота - вводить клієнт в поп-ап вікні, ділю на 1000 щоб перевести з міліметрів в метри квадратні.
+//Тільки вартість тканини може змінюватись залежно від партії товару, додаткових умов немає.
+*/
+function calculatePriceFunctionType3($price, $width, $height, $attributes = []) {
+    $price = $price * ($width / 1000) * ($height / 1000);
+    return $price;
+}
+/*
+//Плісе
+//Формула: Вартість тканини х ((Ширина/1000) х (Висота/1000))
+//Вартість тканини - ціна, яку ми вказуємо як вартість варіації.
+//Ширина і Висота - вводить клієнт в поп-ап вікні, ділю на 1000 щоб перевести з міліметрів в метри квадратні.
+//Умова 1 - Якщо площа (Ширина/1000) х (Висота/1000) менше ніж 0,7 тоді рахуємо як 0,7.
+//Тільки вартість тканини може змінюватись залежно від партії товару.
+*/
+function calculatePriceFunctionType4($price, $width, $height, $attributes = []) {
+    $area = ($width / 1000) * ($height / 1000);
+    if ($area < 0.7) {
+        $area = 0.7;
+    }
+    $price = $price * $area;
+    return $price;
+}
+/*
+//Тканинні ролети у коробі
+//Формула: ((Вартість тканини х (Ширина/1000)) + Умова 2) + (Вартість короба х (Ширина/1000))
+//Вартість тканини - ціна, яку ми вказуємо як вартість варіації.
+//Вартість короба - ціна короба як додаткової фурнітури, такого поля ще немає.
+//Ширина - вводить клієнт в поп-ап вікні, ділю на 1000 щоб перевести з міліметрів в метри погонні.
+//Умова 1 - Якщо ширина менше 500, тоді рахуємо як 500, якщо більше тоді значення яке ввів клієнт.
+//Умова 2 - Якщо висота менше 1650 тоді 0, від 1650 до 2300 тоді 40%, від 2300 до 2500 тоді 60%, від 2800 до 2800 тоді 80%.
+//Тільки вартість може змінюватись залежно від партії товару.
+*/
+function calculatePriceFunctionType5($price, $width, $height, $attributes = []) {
+    if ($width < 500) {
+        $width = 500;
+    }
+    $price = $price * ($width / 1000);
+    if ($height >= 2500) {
+        $price = $price + (0.8 * $price);
+    } else if ($height >= 2300  && $height < 2500) {
+        $price = $price + (0.6 * $price);
+    } else if ($height >= 1650  && $height < 2300) {
+        $price = $price + (0.4 * $price);
+    }
+    $box_price = isset($attributes['box_price']) ? $attributes['box_price'] : 0;
+    $price = $price + $box_price * ($width / 1000);
+    return $price;
+}
+/*
+//День-Ніч у коробі
+//Формула: (Вартість тканини х ((Ширина/1000) х (Висота/1000))) + (Вартість короба х (Ширина/1000))
+//Вартість тканини - ціна, яку ми вказуємо як вартість варіації.
+//Вартість короба - ціна короба як додаткової фурнітури, такого поля ще немає.
+//Ширина і Висота - вводить клієнт в поп-ап вікні, ділю на 1000 щоб перевести з міліметрів в метри погонні.
+//Умова 1 - Якщо ширина менше 500, тоді рахуємо як 500, якщо більше тоді значення яке ввів клієнт.
+//Тільки вартість може змінюватись залежно від партії товару.
+*/
+function calculatePriceFunctionType6($price, $width, $height, $attributes = []) {
+    if ($width < 500) {
+        $width = 500;
+    }
+    $price = $price * ($width / 1000) * ($height / 1000);
+    $box_price = isset($attributes['box_price']) ? $attributes['box_price'] : 0;
+    $price = $price + $box_price * ($width / 1000);
     return $price;
 }
 
@@ -993,6 +1134,10 @@ function ajax_add_to_cart() {
             'standard_sizes' => get_field('standard_sizes', $product->get_id()),
         ];
         $product_attributes['sizes'] = $sizesData;
+        $product_attributes['calculate_price_type'] = get_field('calculate_price_type', $product->get_id());
+        $product_attributes['box_price'] = get_field('box_price', $product->get_id());
+        $product_attributes['mechanism_price_type_1'] = get_field('mechanism_price_type_1', $product->get_id());
+        $product_attributes['mechanism_price_type_2'] = get_field('mechanism_price_type_2', $product->get_id());
         $price = calculatePrice($basePrice, $product_attributes);
 
     } else {
@@ -2096,6 +2241,273 @@ if( function_exists('acf_add_local_field_group') ):
         'active' => true,
         'description' => '',
     ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5e802c38a9bab',
+        'title' => 'Формула розрахунку',
+        'fields' => array(
+            array(
+                'key' => 'field_5e802c4f5e344',
+                'label' => 'Формула розрахунку',
+                'name' => 'calculate_price_type',
+                'type' => 'select',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'choices' => array(
+                    'type1' => 'Формула 1 (Тканинні ролети)',
+                    'type2' => 'Формула 2 (День-Ніч)',
+                    'type3' => 'Формула 3 (Вертикальні жалюзі)',
+                    'type4' => 'Формула 4 (Плісе)',
+                    'type5' => 'Формула 5 (Тканинні ролети у коробі)',
+                    'type6' => 'Формула 6 (День-Ніч у коробі)',
+                ),
+                'default_value' => array(
+                ),
+                'allow_null' => 1,
+                'multiple' => 0,
+                'ui' => 0,
+                'return_format' => 'value',
+                'ajax' => 0,
+                'placeholder' => '',
+            ),
+            array(
+                'key' => 'field_5e802da85e345',
+                'label' => 'Вартість короба',
+                'name' => 'box_price',
+                'type' => 'number',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_5e802c4f5e344',
+                            'operator' => '==',
+                            'value' => 'type5',
+                        ),
+                    ),
+                    array(
+                        array(
+                            'field' => 'field_5e802c4f5e344',
+                            'operator' => '==',
+                            'value' => 'type6',
+                        ),
+                    ),
+                ),
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => 0,
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'min' => 0,
+                'max' => '',
+                'step' => '',
+            ),
+            array(
+                'key' => 'field_5e802ec55e347',
+                'label' => 'Вартість механізму',
+                'name' => 'mechanism_price_type_1',
+                'type' => 'group',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_5e802c4f5e344',
+                            'operator' => '==',
+                            'value' => 'type1',
+                        ),
+                    ),
+                ),
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'layout' => 'block',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_5e802fa35e348',
+                        'label' => 'Ширина менше 1250',
+                        'name' => 'price_0_1250',
+                        'type' => 'number',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'default_value' => 48,
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'min' => 0,
+                        'max' => '',
+                        'step' => '',
+                    ),
+                    array(
+                        'key' => 'field_5e802fea5e349',
+                        'label' => 'Ширина від 1250 до 1800',
+                        'name' => 'price_1250_1800',
+                        'type' => 'number',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'default_value' => 108,
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'min' => 0,
+                        'max' => '',
+                        'step' => '',
+                    ),
+                    array(
+                        'key' => 'field_5e80301a5e34a',
+                        'label' => 'Ширина від 1800 до 2800',
+                        'name' => 'price_1800_2800',
+                        'type' => 'number',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'default_value' => 220,
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'min' => 0,
+                        'max' => '',
+                        'step' => '',
+                    ),
+                ),
+            ),
+            array(
+                'key' => 'field_5e8030975e34b',
+                'label' => 'Вартість механізму',
+                'name' => 'mechanism_price_type_2',
+                'type' => 'group',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_5e802c4f5e344',
+                            'operator' => '==',
+                            'value' => 'type2',
+                        ),
+                    ),
+                ),
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'layout' => 'block',
+                'sub_fields' => array(
+                    array(
+                        'key' => 'field_5e8030b85e34c',
+                        'label' => 'Ширина менше 1250',
+                        'name' => 'price_0_1250',
+                        'type' => 'number',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'default_value' => 0,
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'min' => 0,
+                        'max' => '',
+                        'step' => '',
+                    ),
+                    array(
+                        'key' => 'field_5e8030e95e34d',
+                        'label' => 'Ширина від 1250 до 1800',
+                        'name' => 'price_1250_1800',
+                        'type' => 'number',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'default_value' => 115,
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'min' => 0,
+                        'max' => '',
+                        'step' => '',
+                    ),
+                    array(
+                        'key' => 'field_5e8031f85e34e',
+                        'label' => 'Ширина від 1800 до 2500',
+                        'name' => 'price_1800_2500',
+                        'type' => 'number',
+                        'instructions' => '',
+                        'required' => 0,
+                        'conditional_logic' => 0,
+                        'wrapper' => array(
+                            'width' => '',
+                            'class' => '',
+                            'id' => '',
+                        ),
+                        'default_value' => 170,
+                        'placeholder' => '',
+                        'prepend' => '',
+                        'append' => '',
+                        'min' => 0,
+                        'max' => '',
+                        'step' => '',
+                    ),
+                ),
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'product',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
 
 endif;
 
