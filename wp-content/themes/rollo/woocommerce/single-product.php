@@ -232,7 +232,11 @@ get_header( '' ); ?>
 
                     if ($availableSysColorsIDS) {
                         $sortOrderSysColors = [211, 212, 246, 247];
+                        $baseAvailableSysColorsIDS = $availableSysColorsIDS;
                         $availableSysColorsIDS = array_intersect($sortOrderSysColors, $availableSysColorsIDS);
+                        if (empty($availableSysColorsIDS)) {
+                            $availableSysColorsIDS = $baseAvailableSysColorsIDS;
+                        }
                     }
                     $primaryMainSysColorId = 211;// white color
                     $primaryMainSysColor = null;

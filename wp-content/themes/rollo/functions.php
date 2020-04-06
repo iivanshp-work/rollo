@@ -814,6 +814,9 @@ add_action('wp_ajax_nopriv_recalculate_price', 'recalculate_product_price');
 function calculatePrice($basePrice = 0, $attributes = []) {
     $price = $basePrice;
 
+    $width = isset($attributes['width']) ? $attributes['width'] : 0;
+    $height = isset($attributes['height']) ? $attributes['height'] : 0;
+
     if (isset($attributes['sizes']['standard_sizes']) && !empty($attributes['sizes']['standard_sizes']) && is_array($attributes['sizes']['standard_sizes'])) {
         foreach($attributes['sizes']['standard_sizes'] as $size) {
             if (isset($size['price']) && isset($size['width']) && isset($size['height']) && $size['width'] == $width && $size['height'] == $height) {
@@ -823,8 +826,6 @@ function calculatePrice($basePrice = 0, $attributes = []) {
         }
     }
 
-    $width = isset($attributes['width']) ? $attributes['width'] : 0;
-    $height = isset($attributes['height']) ? $attributes['height'] : 0;
     $calculatePriceType = isset($attributes['calculate_price_type']) ? trim($attributes['calculate_price_type']) : '';
     if ($calculatePriceType) {
         $method = 'calculatePriceFunction' . ucfirst($calculatePriceType);
