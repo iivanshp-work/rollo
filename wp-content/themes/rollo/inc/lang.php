@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Translate string 
+ * Translate string
  */
 pll_register_string("Товари", "Товари");
 pll_register_string("Інформація", "Інформація");
@@ -16,7 +16,7 @@ pll_register_string("Колір", "Колір");
 pll_register_string("Затемнення", "Затемнення");
 pll_register_string("Фактура", "Фактура");
 pll_register_string("Малюнок", "Малюнок");
-pll_register_string("Виробник", "МалюВиробникнок");
+pll_register_string("Виробник", "Виробник");
 pll_register_string("наступний", "наступний");
 pll_register_string("Особистий кабінет", "Особистий кабінет");
 

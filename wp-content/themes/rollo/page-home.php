@@ -2,9 +2,9 @@
 
 /**
  * The template for displaying all pages
- 
+
  Template Name: Home page
- 
+
  *
  * This is the template that displays all pages by default.
  * Please note that this is the WordPress construct of pages
@@ -67,7 +67,7 @@ get_header();
                 <? $taxonomy     = 'product_cat';
                 $show_count   = 0;      // 1 for yes, 0 for no
                 $pad_counts   = 0;      // 1 for yes, 0 for no
-                $hierarchical = 1;      // 1 for yes, 0 for no 
+                $hierarchical = 1;      // 1 for yes, 0 for no
                 $title        = '';
                 $empty        = 0;
                 $args = array(

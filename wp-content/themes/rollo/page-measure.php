@@ -26,7 +26,7 @@ get_header();
                         <div class="embed-responsive">
                             <!-- <iframe class="embed-responsive-item"
                                 src="https://www.youtube.com/embed/6GFvUCcljkM"></iframe> -->
-                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/GOuIbofpsvE"
+                            <iframe class="embed-responsive-item" src=""
                                 frameborder="0"
                                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen></iframe>

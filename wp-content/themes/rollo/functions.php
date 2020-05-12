@@ -789,7 +789,9 @@ function recalculate_product_price() {
         $product_attributes['mechanism_price_type_1'] = get_field('mechanism_price_type_1', $product->get_id());
         $product_attributes['mechanism_price_type_2'] = get_field('mechanism_price_type_2', $product->get_id());
         $price = calculatePrice($basePrice, $product_attributes);
-
+        /*if ($_SERVER["REMOTE_ADDR"] == '93.175.198.183') {
+            test([$price, $width, $height, $basePrice, $product_attributes]);
+        }*/
     } else {
         echo json_encode([
             'has_error' => true,
@@ -1111,7 +1113,7 @@ function ajax_add_to_cart() {
         if (!isset($attributes['attribute_pa_kolory-modeli'])) {
             echo json_encode([
                 'has_error' => true,
-                'error_message' => pll__('Виберіть колір моделі.')
+                'error_message' => pll__('Виберіть колір моделі')
             ]);
             wp_die();
         }
@@ -1797,6 +1799,7 @@ function woocommerce_u_poshta_shipping_method_create_order($order) {
     }
     global $wpdb;
     if (isset($_POST['shipping_method'][0]) && preg_match('/^u_poshta_shipping_method/i', $_POST['shipping_method'][0])) {
+
         $order->set_shipping_address_1('');
         $order->set_billing_address_1('');
         $order->set_shipping_address_2('');
@@ -1820,6 +1823,7 @@ function woocommerce_u_poshta_shipping_method_create_order($order) {
             $order->set_billing_postcode($postalcode);
         }
     }
+
 }
 
 function translateAreas($areas)
