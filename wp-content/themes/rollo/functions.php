@@ -817,10 +817,23 @@ function calculatePrice($basePrice = 0, $attributes = []) {
     $width = isset($attributes['width']) ? $attributes['width'] : 0;
     $height = isset($attributes['height']) ? $attributes['height'] : 0;
 
+    $generalAdditionPrice = 0;
+    //general additional price start
+    $additinalPriceAttributes = ['pa_kolory-systemy'];
+    foreach ($additinalPriceAttributes as $additinalPriceAttribute) {
+        if (isset($attributes[$additinalPriceAttribute])) {
+            $term_obj = get_term_by('slug', $attributes[$additinalPriceAttribute], $additinalPriceAttribute);
+            $additinalPrice = get_field('additinal_price', $term_obj);
+            $additinalPrice = $additinalPrice ? $additinalPrice : 0;
+            $generalAdditionPrice += $additinalPrice;
+        }
+    }
+    //general additional price end
     if (isset($attributes['sizes']['standard_sizes']) && !empty($attributes['sizes']['standard_sizes']) && is_array($attributes['sizes']['standard_sizes'])) {
         foreach($attributes['sizes']['standard_sizes'] as $size) {
             if (isset($size['price']) && isset($size['width']) && isset($size['height']) && $size['width'] == $width && $size['height'] == $height) {
                 $price = $size['price'];
+                $price += $generalAdditionPrice;
                 return $price;
             }
         }
@@ -830,17 +843,10 @@ function calculatePrice($basePrice = 0, $attributes = []) {
     if ($calculatePriceType) {
         $method = 'calculatePriceFunction' . ucfirst($calculatePriceType);
         $price = $method($price, $width, $height, $attributes);
+        $price += $generalAdditionPrice;
     } else {
         //default price calculation start
-        $additinalPriceAttributes = ['pa_kolory-systemy'];
-        foreach ($additinalPriceAttributes as $additinalPriceAttribute) {
-            if (isset($attributes[$additinalPriceAttribute])) {
-                $term_obj = get_term_by('slug', $attributes[$additinalPriceAttribute], $additinalPriceAttribute);
-                $additinalPrice = get_field('additinal_price', $term_obj);
-                $additinalPrice = $additinalPrice ? $additinalPrice : 0;
-                $price += $additinalPrice;
-            }
-        }
+        $price += $generalAdditionPrice;
         if ($width && $height) {
             $price = calculatePriceFunction($price, $width, $height);
         }
@@ -1790,28 +1796,29 @@ function woocommerce_u_poshta_shipping_method_create_order($order) {
         define('WC_UKRPOSHTA_SHIPPING_NAME', 'ukrposhta_shipping');
     }
     global $wpdb;
-
-    $order->set_shipping_address_1('');
-    $order->set_billing_address_1('');
-    $order->set_shipping_address_2('');
-    $order->set_billing_address_2('');
-    if (isset($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_area']) && $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_area']) {
-        $npArea = $wpdb->get_row("SELECT description FROM wc_ukr_shipping_np_areas WHERE ref = '" . esc_attr($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_area']) . "'", ARRAY_A);
-        if ($npArea) {
-            $order->set_shipping_state($npArea['description']);
-            $order->set_billing_state($npArea['description']);
+    if (isset($_POST['shipping_method'][0]) && preg_match('/^u_poshta_shipping_method/i', $_POST['shipping_method'][0])) {
+        $order->set_shipping_address_1('');
+        $order->set_billing_address_1('');
+        $order->set_shipping_address_2('');
+        $order->set_billing_address_2('');
+        if (isset($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_area']) && $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_area']) {
+            $npArea = $wpdb->get_row("SELECT description FROM wc_ukr_shipping_np_areas WHERE ref = '" . esc_attr($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_area']) . "'", ARRAY_A);
+            if ($npArea) {
+                $order->set_shipping_state($npArea['description']);
+                $order->set_billing_state($npArea['description']);
+            }
         }
-    }
 
-    if (isset($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_city']) && $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_city']) {
-        $city = sanitize_text_field(trim($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_city']));
-        $order->set_shipping_city($city);
-        $order->set_billing_city($city);
-    }
-    if (isset($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_postalcode']) && $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_postalcode']) {
-        $postalcode = sanitize_text_field(trim($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_postalcode']));
-        $order->set_shipping_postcode($postalcode);
-        $order->set_billing_postcode($postalcode);
+        if (isset($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_city']) && $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_city']) {
+            $city = sanitize_text_field(trim($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_city']));
+            $order->set_shipping_city($city);
+            $order->set_billing_city($city);
+        }
+        if (isset($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_postalcode']) && $_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_postalcode']) {
+            $postalcode = sanitize_text_field(trim($_POST[WC_UKRPOSHTA_SHIPPING_NAME . '_postalcode']));
+            $order->set_shipping_postcode($postalcode);
+            $order->set_billing_postcode($postalcode);
+        }
     }
 }
 
