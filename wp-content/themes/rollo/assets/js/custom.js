@@ -23,6 +23,25 @@ $(document).ready(function () {
         $('[data-product_attribute="pa_kolory-modeli"]').val($(this).val()).trigger('change');
     });
 
+    $(document).on('click', '[data-pa-type-popup]', function(e){
+        let type = $(this).data('pa-type-popup');
+        let id = $(this).data('id');
+        let obj = $(this);
+        obj.parent().parent().find('.active').removeClass('active');
+        obj.addClass('active');
+
+        let mainObj = $('[data-pa-type="' + type + '"][data-id="' + id + '"]');
+        mainObj.parent().parent().find('.active').removeClass('active');
+        mainObj.addClass('active');
+
+        $('[data-product_attribute="' + type + '"]').val(id).trigger('change');
+        $(this).parents('.modal-section').fadeOut();
+
+        setTimeout(function(){
+            obj.parent().parent().find('.active').removeClass('active');
+        }, 1000);
+    });
+
     $(document).on('click', '[data-product-standard-sizes]', function(e){
         let width = $(this).data('width');
         let height = $(this).data('height');
@@ -107,7 +126,12 @@ $(document).ready(function () {
             success: function(data) {
                 wrapper.find('.error').remove();
                 if (data.has_error) {
-                    $(titleClass).after('<div class="error">' + data.error_message + '</div>');
+                    if (data.show_select_color_popup != undefined) {
+                        $('.modal-section-available-colors').fadeIn();
+                    } else {
+                        $(titleClass).after('<div class="error">' + data.error_message + '</div>');
+                    }
+
                 } else {
                     //redirect to checkout;
                     window.location = data.redirect_link;
@@ -245,6 +269,37 @@ $(document).ready(function () {
 
         $(".phone-input").inputmask({ mask: "(999) 999-9999", placeholder: " "});*/
     }
+
+    $(document).on('keypress', '[data-range-input]', function(key) {
+        if(key.charCode < 48 || key.charCode > 57) return false;
+    });
+    $(document).on('change', '[data-range-input]', function(e) {
+        let obj = $(this);
+        let value = parseInt(obj.val());
+        let valueInit = parseInt(obj.val());
+        let step = parseInt(obj.attr('step'));
+        let min = parseInt(obj.attr('min'));
+        let max = parseInt(obj.attr('max'));
+        if (value < min) {
+            value = min;
+        }
+        if (value > max) {
+            value = max;
+        }
+        if ((value % step) !== 0) {
+            value = Math.round(value / step) * step;
+        }
+        if (valueInit != value) {
+            obj.val(value);
+        }
+
+        var widthrange = $('.widthrangeinput').val();
+        var heighthrange = $('.heightrangeinput').val();
+        if ($('[data-product_attribute="width"]').length && widthrange && heighthrange) {
+            $('[data-product_attribute="width"]').val(widthrange).trigger('change');
+            $('[data-product_attribute="height"]').val(heighthrange).trigger('change');
+        }
+    });
 });
 
 function recalculatePrice() {
@@ -303,6 +358,10 @@ function recalculatePrice() {
                         $(varImagesClass).html(imagesHtml).show();
                         $(varImagesClass).slickLightbox();
                     }
+                }
+                let oneClickBuySelector = '.single_add_to_cart_button';
+                if ($(oneClickBuySelector).length) {
+                    $(oneClickBuySelector).attr('data-variation_id', data.variant_id).data('variation_id', data.variant_id);
                 }
             }
         },

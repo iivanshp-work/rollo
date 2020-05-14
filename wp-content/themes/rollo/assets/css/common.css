@@ -4472,3 +4472,178 @@ a.ywsl-social {
 .woocommerce-view-order .woocommerce-table__product-name a {
     font-weight: 400;
 }
+
+.modal-section-available-colors .modal-sizeset {
+    background-color: #F6F8F7;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.modal-section-available-colors .title {
+    text-align: center;
+    font-size: 24px;
+    margin-top: -10px;
+}
+.modal-section-available-colors .colors-slider {
+    text-align: center;
+    margin: 0;
+}
+
+@media(max-width:767.8px) {
+    .modal-section-available-colors .colors-slider {
+        overflow: scroll;
+        max-height: 70vh;
+    }
+    .modal-section-available-colors .title {
+        font-size: 20px;
+    }
+}
+.rangeslider-sect {
+    margin-top: 20px;
+}
+.rangebox-new {
+    text-align: center;
+}
+.rangebox-new p {
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+.rangebox-new [data-range-input] {
+    border: 1px solid #ACBBB6;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 22px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    width: 100px;
+    -webkit-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.15);
+    box-shadow: inset 0px 0px 5px 0px rgba(0,0,0,0.15);
+}
+@media(max-width:767.8px) {
+    .rangebox-new [data-range-input] {
+        font-size: 20px;
+        padding: 15px 8px;
+    }
+}
+
+.prwhitebtn.single_add_to_cart_button {
+    font-size: 18px;
+    border: none;
+}
+.colors-slidersect .bottbox .kst {
+    padding: 0;
+}
+.colors-slidersect .price {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    font-size: 52px;
+    line-height: 140%;
+    color: #182328;
+    margin-top: 35px;
+}
+.colors-slidersect .price .woocommerce-Price-currencySymbol {
+    font-size: 30px;
+}
+#buyoneclick_form_order .inpinline-field {
+    flex-direction: column;
+    align-items: flex-start;
+}
+#formOrderOneClick input[type="email"],
+#buyoneclick_form_order input[type="tel"],
+#buyoneclick_form_order input[type="text"] {
+    max-width: 550px;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #ACBBB6;
+    box-sizing: border-box;
+    font-weight: 300;
+    font-size: 16px;
+    font-family: 'Roboto Condensed', sans-serif;
+    padding-left: 10px;
+}
+
+#buyoneclick_form_order .buyButtonOkForm {
+    height: 46px;
+    line-height: 46px;
+    font-size: 16px;
+}
+
+#buyoneclick_form_order p.title {
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+    font-size: 24px;
+    margin-top: -10px;
+}
+
+#formOrderOneClick label {
+    font-size: 14px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+#formOrderOneClick .close_order {
+    width: 18px;
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    cursor: pointer;
+}
+#formOrderOneClick .popummessage {
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    padding: 40px;
+    width: 100% !important;
+    min-width: 290px;
+    max-width: 698px;
+}
+
+@media (max-width: 1540.8px){
+    #formOrderOneClick .popummessage{
+        width: 600px !important;
+        padding: 30px 40px;
+    }
+}
+
+@media(max-width:767.8px) {
+    #formOrderOneClick .popummessage {
+        width: 90% !important;
+    }
+}
+
+@media(max-width:575.8px){
+    #formOrderOneClick .popummessage {
+        border-radius: 8px;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        -o-border-radius: 8px;
+    }
+}
+#formOrderOneClick .popummessage .title {
+    font-family: 'Roboto Condensed', sans-serif;
+    text-align: center;
+    font-size: 24px;
+}
+
+#formOrderOneClick .form-message-result ul {
+    background: initial;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 140%;
+    color: #DD4B39;
+    padding: 0px;
+    padding-left: 15px;
+    margin-top: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+}

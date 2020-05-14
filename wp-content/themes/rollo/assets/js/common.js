@@ -235,8 +235,8 @@ $(document).ready(function () {
     });
 
     // modal
-    $('.prwhitebtn').click(function () {
-        $('.modal-section').fadeIn();
+    $('.prwhitebtn-open-popup').click(function () {
+        $('.modal-section-diff-sizes').fadeIn();
     });
 
     $('.modal-cancel').click(function () {
@@ -264,27 +264,29 @@ $(document).ready(function () {
         // if ($(".sizelist__boxnew .sizelist__row").length == 0) {
         //     $(".settblock.new-size").hide();
         // }
+        $('.widthrangeinput').val('');
+        $('.heightrangeinput').val('');
     });
 
 
     $('.modalbtn').click(function () {
-        var widthrange = $('.widthrange').html();
-        var heighthrange = $('.heighthrange').html();
-        console.log(widthrange);
-        console.log(heighthrange);
+        var widthrange = $('.widthrangeinput').val();
+        var heighthrange = $('.heightrangeinput').val();
 
-        $('.newswidth text').html(widthrange);
-        $('.newsheight text').html(heighthrange);
+        if (widthrange && heighthrange){
+            $('.newswidth text').html(widthrange);
+            $('.newsheight text').html(heighthrange);
 
-        /* CHANGES RELATED TO WC PRODUCTS added if below */
-        if ($('[data-product_attribute="width"]').length) {
-            $('[data-product_attribute="width"]').val(widthrange).trigger('change');
-            $('[data-product_attribute="height"]').val(heighthrange).trigger('change');
+            /* CHANGES RELATED TO WC PRODUCTS added if below */
+            if($('[data-product_attribute="width"]').length){
+                $('[data-product_attribute="width"]').val(widthrange).trigger('change');
+                $('[data-product_attribute="height"]').val(heighthrange).trigger('change');
+            }
+
+            /* CHANGES RELATED TO WC PRODUCTS added comment below */
+            //$('.sizelist').addClass('littheight');
+            $(".settblock.new-size, .sizelist__boxnew .sizelist__row").show();
         }
-
-        /* CHANGES RELATED TO WC PRODUCTS added comment below */
-        //$('.sizelist').addClass('littheight');
-        $(".settblock.new-size, .sizelist__boxnew .sizelist__row").show();
     });
 
     // header search
@@ -348,7 +350,7 @@ if ($('*').is('#map')) {
 
 
 
-if ($('*').is('.modal-sizeset')) {
+/*if ($('*').is('.modal-sizeset')) {
     $(function () {
 
         var $document = $(document);
@@ -389,7 +391,6 @@ if ($('*').is('.modal-sizeset')) {
 
             // Callback function
             onSlideEnd: function (position, value) {
-                /* CHANGES RELATED TO WC PRODUCTS */
                 var widthrange = $('.widthrange').html();
                 var heighthrange = $('.heighthrange').html();
                 if ($('[data-product_attribute="width"]').length) {
@@ -401,4 +402,4 @@ if ($('*').is('.modal-sizeset')) {
         });
 
     });
-}
+}*/

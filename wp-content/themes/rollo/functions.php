@@ -788,10 +788,19 @@ function recalculate_product_price() {
         $product_attributes['box_price'] = get_field('box_price', $product->get_id());
         $product_attributes['mechanism_price_type_1'] = get_field('mechanism_price_type_1', $product->get_id());
         $product_attributes['mechanism_price_type_2'] = get_field('mechanism_price_type_2', $product->get_id());
-        $price = calculatePrice($basePrice, $product_attributes);
-        /*if ($_SERVER["REMOTE_ADDR"] == '93.175.198.183') {
-            test([$price, $width, $height, $basePrice, $product_attributes]);
-        }*/
+
+        $hasAdditionalPriceAttributes = false;
+        $additinalPriceAttributes = ['pa_kolory-systemy'];
+        foreach ($additinalPriceAttributes as $additinalPriceAttribute) {
+            if (isset($product_attributes[$additinalPriceAttribute])) {
+                $hasAdditionalPriceAttributes = true;
+            }
+        }
+        if (($width && $height) || $hasAdditionalPriceAttributes) {
+            $price = calculatePrice($basePrice, $product_attributes);
+        } else {
+            $price = $basePrice;
+        }
     } else {
         echo json_encode([
             'has_error' => true,
@@ -803,6 +812,7 @@ function recalculate_product_price() {
         'has_error' => false,
         'price' => wc_price($price),
         'product_id' => $variant->get_id(),
+        'variant_id' => isset($var) && $var ? $var : 0,
         'title' => $title,
         'image' => $image,
         'product_images' => $productImages
@@ -820,6 +830,7 @@ function calculatePrice($basePrice = 0, $attributes = []) {
     $height = isset($attributes['height']) ? $attributes['height'] : 0;
 
     $generalAdditionPrice = 0;
+    $hasGeneralAdditionPrice = false;
     //general additional price start
     $additinalPriceAttributes = ['pa_kolory-systemy'];
     foreach ($additinalPriceAttributes as $additinalPriceAttribute) {
@@ -828,8 +839,15 @@ function calculatePrice($basePrice = 0, $attributes = []) {
             $additinalPrice = get_field('additinal_price', $term_obj);
             $additinalPrice = $additinalPrice ? $additinalPrice : 0;
             $generalAdditionPrice += $additinalPrice;
+            $hasGeneralAdditionPrice = true;
         }
     }
+
+    if (!($width && $height) && $hasGeneralAdditionPrice) {
+        $price += $generalAdditionPrice;
+        return $price;
+    }
+
     //general additional price end
     if (isset($attributes['sizes']['standard_sizes']) && !empty($attributes['sizes']['standard_sizes']) && is_array($attributes['sizes']['standard_sizes'])) {
         foreach($attributes['sizes']['standard_sizes'] as $size) {
@@ -1113,7 +1131,8 @@ function ajax_add_to_cart() {
         if (!isset($attributes['attribute_pa_kolory-modeli'])) {
             echo json_encode([
                 'has_error' => true,
-                'error_message' => pll__('Виберіть колір моделі')
+                'error_message' => pll__('Виберіть колір моделі'),
+                'show_select_color_popup' => true,
             ]);
             wp_die();
         }
@@ -1147,8 +1166,19 @@ function ajax_add_to_cart() {
         $product_attributes['box_price'] = get_field('box_price', $product->get_id());
         $product_attributes['mechanism_price_type_1'] = get_field('mechanism_price_type_1', $product->get_id());
         $product_attributes['mechanism_price_type_2'] = get_field('mechanism_price_type_2', $product->get_id());
-        $price = calculatePrice($basePrice, $product_attributes);
 
+        $hasAdditionalPriceAttributes = false;
+        $additinalPriceAttributes = ['pa_kolory-systemy'];
+        foreach ($additinalPriceAttributes as $additinalPriceAttribute) {
+            if (isset($product_attributes[$additinalPriceAttribute])) {
+                $hasAdditionalPriceAttributes = true;
+            }
+        }
+        if (($width && $height) || $hasAdditionalPriceAttributes) {
+            $price = calculatePrice($basePrice, $product_attributes);
+        } else {
+            $price = $basePrice;
+        }
     } else {
         echo json_encode([
             'has_error' => true,
@@ -2581,6 +2611,14 @@ pll_register_string("Відгуки", "Відгуки");
 pll_register_string("Вартість / шт.", "Вартість / шт.");
 pll_register_string("Додати розмір", "Додати розмір");
 pll_register_string("Виберіть колір моделі.", "Виберіть колір моделі.");
+pll_register_string("Виберіть колір тканини", "Виберіть колір тканини");
+pll_register_string("Замовити в 1 клік", "Замовити в 1 клік");
+pll_register_string("Вам потрібно дати згоду", "Вам потрібно дати згоду");
+pll_register_string("<strong>Опис</strong> - обов'язкове поле.", "<strong>Опис</strong> - обов'язкове поле.");
+pll_register_string("<strong>Телефон</strong> - обов'язкове поле.", "<strong>Телефон</strong> - обов'язкове поле.");
+pll_register_string("<strong>Ім’я та прізвище</strong> - обов'язкове поле.", "<strong>Ім’я та прізвище</strong> - обов'язкове поле.");
+pll_register_string("<strong>Email</strong> - обов'язкове поле.", "<strong>Email</strong> - обов'язкове поле.");
+pll_register_string("Дякуємо. Ваше замовлення було отриман", "Дякуємо. Ваше замовлення було отриман");
 
 pll_register_string("Інформація по замовленню:", "Інформація по замовленню:");
 pll_register_string("фурнітура", "фурнітура");

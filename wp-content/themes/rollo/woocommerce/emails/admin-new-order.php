@@ -44,10 +44,10 @@ if ($order->get_billing_email()) {
 }
 
 echo "<span style='display: inline-block; margin: 20px 5px 20px 0;font-size: 18px;'>Доставка:</span>";
-echo "<strong style='font-size: 18px;'><i>" . $order->get_shipping_method() . "</i></strong>";
+echo "<strong style='font-size: 18px;'><i>" . ($order->get_shipping_method() ? $order->get_shipping_method() : '-') . "</i></strong>";
 echo "<br>";
 
-$shippingMethodId = reset( $order->get_items( 'shipping' ))->get_method_id();
+$shippingMethodId = $order->get_items( 'shipping' ) ? reset( $order->get_items( 'shipping' ))->get_method_id() : null;
 if ($shippingMethodId == 'u_poshta_shipping_method') {
     if ($order->get_shipping_city()) {
         echo "<span style='display: inline-block;margin: 2px 0;'><i>Населений пункт: </i><strong>" . $order->get_shipping_city() . "</strong></span><br>";
@@ -82,7 +82,7 @@ if ($order_items_count) {
     echo '<style>th, td{border: 1px solid black;}</style>';
     echo '<table style="width:100%;text-align: center;border-collapse: collapse;border: 1px solid black;margin: 30px 0 10px;">';
     echo '<tr style="text-align: center;font-size: 12px;"><td style="">Артикул</td><td>Назва товару</td><td>Колір системи</td><td>Розмір</td><td>Сторона</td><td>Ціна</td><td>Кількість</td><td>Сума</td></tr>';
-    foreach($order_items as $order_item) {
+    foreach($order_items as $order_item_id => $order_item) {
         $product = wc_get_product($order_item->get_product_id());
         $variation = wc_get_product($order_item->get_variation_id());
         $standardSizes = $product ? get_field('standard_sizes', $product->get_id()) : [];
@@ -130,7 +130,14 @@ if ($order_items_count) {
             $attribute['storona-upravlinnya'] = ' - ';
         }
         $attribute['product_price'] = $order_item->get_meta("_product_price") ? $order_item->get_meta("_product_price") : 0;
-
+        if (!$attribute['product_price']) {
+            try {
+                $order_item_price = wc_get_order_item_meta($order_item_id, '_product_price');
+            } catch (Exception $e) {
+                $order_item_price = 0;
+            }
+            $attribute['product_price'] = $order_item_price;
+        }
         echo '<tr style="font-size: 16px;">';
         echo '<td style="padding: 10px;">' . $attribute['sku'] . '</td>';
         echo '<td style="padding: 10px;">' . $order_item->get_name() . '</td>';
@@ -148,7 +155,7 @@ if ($order_items_count) {
 echo "<span style='width: 100%;display: inline-block;'>";
 echo "<span style='width: 50%;display: inline-block;'>";
 echo "<span style='display: inline-block; margin: 20px 5px 20px 0;font-size: 18px;'>Оплата:</span>";
-echo "<strong style='font-size: 18px;'><i>" . $order->get_payment_method_title() . "</i></strong>";
+echo "<strong style='font-size: 18px;'><i>" . ($order->get_payment_method_title() ? $order->get_payment_method_title() : '-') . "</i></strong>";
 echo "</span>";
 echo "<span style='width: 50%;display: inline-block;text-align: right;'>";
 echo "<span style='display: inline-block; margin: 20px 5px 20px 0;font-size: 18px;'>Сума замовлення:</span>";

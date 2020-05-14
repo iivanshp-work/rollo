@@ -24,6 +24,7 @@ $product = wc_get_product($id);
 $productAttributes = $product->get_attributes();
 
 $selectedVariationProduct = null;
+$selectedVariationID = 0;
 $selectedVariationColor = isset($_REQUEST['attribute_pa_kolory-modeli']) ? trim($_REQUEST['attribute_pa_kolory-modeli']) : '';
 if ($selectedVariationColor) {
     $attributes = [];
@@ -140,26 +141,16 @@ get_header( '' ); ?>
                   <p class="descr">
                       <?php echo $product->get_short_description(); ?>
                   </p>
-                  <div class="bottbox">
-                      <span class="price" id="price"><?php echo wc_price(calculate_product_price($product->get_id())); ?></span>
-                      <?php if ($product->is_in_stock()): ?>
-                        <div class="kst">
-                          <span><?php echo pll__('Кількість');?></span>
-                          <div class="incard__num">
-                            <div class="input-group">
-                              <input type="button" value="" class="button-minus"
-                                     data-field="quantity">
-                              <input type="text" step="1" max="<?php echo $product->get_stock_quantity() ? $product->get_stock_quantity() : 100; ?>" value="1" name="quantity"
-                                     class="quantity-field">
-                              <input type="button" value="" class="button-plus" data-field="quantity">
-                            </div>
+                  <div>
+                      <?php echo '<div style="display: none;" class="hidden">' . do_shortcode(' [viewBuyButton]') . '</div>'; ?>
+                      <div class="row">
+                          <div class="col-xl-6 col-lg-7 col-md-6 col-sm-6">
+                              <button type="button" class="prwhitebtn single_add_to_cart_button clickBuyButton button21 button alt ld-ext-left" data-visible-one-click-buy="" data-variation_id="<?php echo $selectedVariationID; ?>" data-productid="<?php echo $product->get_id(); ?>">
+                                  <span> <?php echo pll__('Замовити в 1 клік');?></span>
+                                  <div style="font-size:14px" class="ld ld-ring ld-cycle"></div>
+                              </button>
                           </div>
-                        </div>
-                      <?php else:?>
-                        <div class="kst">
-                          <span class="stock out-of-stock"><?php echo esc_html( apply_filters( 'woocommerce_out_of_stock_message', __( 'This product is currently out of stock and unavailable.', 'woocommerce' ) ) ); ?></span>
-                        </div>
-                      <?php endif;?>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -281,18 +272,41 @@ get_header( '' ); ?>
                         </div>
                       </div>
                     <?php endif; ?>
+                    <div class="colors-slidersect">
+                        <div class="bottbox">
+                            <?php if ($product->is_in_stock()): ?>
+                                <div class="kst">
+                                    <span><?php echo pll__('Кількість');?></span>
+                                    <div class="incard__num">
+                                        <div class="input-group">
+                                            <input type="button" value="" class="button-minus"
+                                                   data-field="quantity">
+                                            <input type="text" step="1" max="<?php echo $product->get_stock_quantity() ? $product->get_stock_quantity() : 100; ?>" value="1" name="quantity"
+                                                   class="quantity-field">
+                                            <input type="button" value="" class="button-plus" data-field="quantity">
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php else:?>
+                                <div class="kst" s>
+                                    <span class="stock out-of-stock"><?php echo esc_html( apply_filters( 'woocommerce_out_of_stock_message', __( 'This product is currently out of stock and unavailable.', 'woocommerce' ) ) ); ?></span>
+                                </div>
+                            <?php endif;?>
+                        </div>
+                        <span class="price" id="price"><?php echo wc_price(calculate_product_price($product->get_id())); ?></span>
+                    </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <?php
                     $notStandardSizes = get_field('not_standard_sizes', $product->get_id());
                     ?>
                     <?php if (!empty($standardSizes) && !empty($notStandardSizes)): ?>
-                      <span class="prwhitebtn">
-                                            <span>
-                                              <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shape-size-interface-symbol.svg" alt="icon">
-                                              <?php echo pll__('Інший розмір вікон');?>
-                                            </span>
-                                        </span>
+                      <span class="prwhitebtn prwhitebtn-open-popup">
+                          <span>
+                              <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shape-size-interface-symbol.svg" alt="icon">
+                              <?php echo pll__('Інший розмір вікон');?>
+                          </span>
+                      </span>
                     <?php endif; ?>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -443,8 +457,32 @@ if (!isset($notStandardSizes)) {
     $notStandardSizes = get_field('not_standard_sizes', $product->get_id());
 }
 ?>
+<?php if(!empty($availableColors)): ?>
+    <div class="modal-section modal-section-available-colors">
+        <div class="align-block">
+            <div class="modal-sizeset">
+                <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/cancel.svg" alt="cancel" class="modal-cancel">
+                <p class="title"><?php echo pll__('Виберіть колір тканини'); ?></p>
+
+                <div class="colors-slider">
+                    <?php foreach($availableColors as $availableColor): ?>
+                        <div>
+                            <div class="colorbox <?php if($selectedVariationColor && $selectedVariationColor == $availableColor->slug): ?> selected_variation <?php endif; ?>" data-pa-type-popup="pa_kolory-modeli" data-id="<?php echo $availableColor->slug; ?>" title="<?php echo $availableColor->name; ?>">
+                                <?php if ($availableColor->mini_image): ?>
+                                    <span style="background-size: contain;background-image: url('<?php echo $availableColor->mini_image; ?>');background-color: <?php echo $availableColor->color ? $availableColor->color : '#fff'; ?>;"></span>
+                                <?php else: ?>
+                                    <span style="background-color: <?php echo $availableColor->color ? $availableColor->color : '#fff'; ?>;"></span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 <?php if (!empty($standardSizes) && !empty($notStandardSizes)): ?>
-  <div class="modal-section">
+  <div class="modal-section modal-section-diff-sizes">
     <div class="align-block">
       <div class="modal-sizeset">
         <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/cancel.svg" alt="cancel" class="modal-cancel">
@@ -458,16 +496,14 @@ if (!isset($notStandardSizes)) {
           <?php endif; ?>
 
         <div class="rangeslider-sect">
-          <div>
-            <div class="rangebox">
-              <p class="range__title"><?php echo pll__('Ширина');?></p>
-              <input type="range" min="<?php echo isset($notStandardSizes['width']['min_width']) ? $notStandardSizes['width']['min_width'] : 150;?>" max="<?php echo isset($notStandardSizes['width']['max_width']) ? $notStandardSizes['width']['max_width'] : 2800;?>" value="700" step="5" data-rangeslider>
-              <output class="widthrange"></output>
+          <div class="row">
+            <div class="rangebox-new col-sm-6 col-6 col-md-4 offset-0 offset-sm-0 offset-md-2">
+                <input class="widthrangeinput" type="text" min="<?php echo isset($notStandardSizes['width']['min_width']) ? $notStandardSizes['width']['min_width'] : 150;?>" max="<?php echo isset($notStandardSizes['width']['max_width']) ? $notStandardSizes['width']['max_width'] : 2800;?>" value="" step="5" data-range-input>
+                <p class="range__title"><?php echo pll__('Ширина');?></p>
             </div>
-            <div class="rangebox">
-              <p class="range__title"><?php echo pll__('Висота');?></p>
-              <input type="range" min="<?php echo isset($notStandardSizes['height']['min_height']) ? $notStandardSizes['height']['min_height'] : 1000;?>" max="<?php echo isset($notStandardSizes['height']['max_height']) ? $notStandardSizes['height']['max_height'] : 2800;?>" value="1200" step="5" data-rangeslider>
-              <output class="heighthrange"></output>
+            <div class="rangebox-new col-sm-6 col-6 col-md-4">
+                <input class="heightrangeinput" type="text" min="<?php echo isset($notStandardSizes['height']['min_height']) ? $notStandardSizes['height']['min_height'] : 1000;?>" max="<?php echo isset($notStandardSizes['height']['max_height']) ? $notStandardSizes['height']['max_height'] : 2800;?>" value="" step="5" data-range-input>
+                <p class="range__title"><?php echo pll__('Висота');?></p>
             </div>
           </div>
         </div>
