@@ -1204,9 +1204,16 @@ function ajax_add_to_cart() {
         ]);
         wp_die();
     }
+    $args = [
+        'prod_id' => $product_id,
+        'var_id' => $variation_id,
+
+    ];
+    $html = wc_get_template_html('single-product/add_to_cart_popup.php', $args, "", get_template_directory_uri() . "/woocommerce/");
     echo json_encode([
         'has_error' => false,
         'redirect_link' => esc_url((pll_current_language() == 'uk' ? '' : '/ru') . '/checkout/'),
+        'html' => $html
     ]);
     wp_die();
 }
@@ -2618,7 +2625,10 @@ pll_register_string("<strong>Опис</strong> - обов'язкове поле.
 pll_register_string("<strong>Телефон</strong> - обов'язкове поле.", "<strong>Телефон</strong> - обов'язкове поле.");
 pll_register_string("<strong>Ім’я та прізвище</strong> - обов'язкове поле.", "<strong>Ім’я та прізвище</strong> - обов'язкове поле.");
 pll_register_string("<strong>Email</strong> - обов'язкове поле.", "<strong>Email</strong> - обов'язкове поле.");
-pll_register_string("Дякуємо. Ваше замовлення було отриман", "Дякуємо. Ваше замовлення було отриман");
+pll_register_string("Дякуємо. Ваше замовлення було отримано.", "Дякуємо. Ваше замовлення було отримано.");
+pll_register_string("Моя корзина", "Моя корзина");
+pll_register_string("Продовжити покупки", "Продовжити покупки");
+pll_register_string("Додатково", "Додатково");
 
 pll_register_string("Інформація по замовленню:", "Інформація по замовленню:");
 pll_register_string("фурнітура", "фурнітура");

@@ -235,15 +235,17 @@ $(document).ready(function () {
     });
 
     // modal
-    $('.prwhitebtn-open-popup').click(function () {
+    var $document = $(document);
+
+    $document.on('click', '.prwhitebtn-open-popup', function (e) {
         $('.modal-section-diff-sizes').fadeIn();
     });
 
-    $('.modal-cancel').click(function () {
+    $document.on('click', '.modal-cancel, .modal-cancel-btn', function (e) {
         $(this).parents('.modal-section').fadeOut();
     });
 
-    $('.modal-section').click(function (event) {
+    $document.on('click', '.modal-section', function (e) {
         if (!$(event.target).closest(".modal-sizeset").length) {
             $('.modal-section').fadeOut();
         }
