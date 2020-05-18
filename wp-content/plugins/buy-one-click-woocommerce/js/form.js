@@ -20,7 +20,7 @@ jQuery(document).ready(function () {
     });
     //Доп сообщение
 
-    jQuery(document).on('click', '#formOrderOneClick .popummessage .close_message, #formOrderOneClick .overlay_message', function () {
+    jQuery(document).on('click', '#formOrderOneClick .popummessage .close_order, #formOrderOneClick .popummessage .close_message, #formOrderOneClick .overlay_message', function () {
         jQuery('#formOrderOneClick .popummessage, #formOrderOneClick .overlay_message').css({'opacity': '0', 'visibility': 'hidden'});
 
     });

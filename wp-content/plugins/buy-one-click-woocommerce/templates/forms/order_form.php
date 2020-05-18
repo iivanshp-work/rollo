@@ -90,7 +90,7 @@ if (!defined('ABSPATH')) {
         ?>
         <div class = "overlay_message" title = "<?php _e('Notification', 'coderun-oneclickwoo'); ?>"></div>
         <div class = "popummessage">
-            <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/cancel.svg" alt="cancel" class="close_order close_message">
+            <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/cancel.svg" alt="cancel" class="close_order">
             <p class="title"><?php echo pll__("Дякуємо. Ваше замовлення було отримано."); ?></p>
         </div>
         <?php
