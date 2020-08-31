@@ -140,6 +140,8 @@ $(document).ready(function () {
         $('.forgotpasstab, .regtab').hide();
         $('.logintab').show();
     });
+    var countProducts = parseInt($('.prodslider').data('count-products'));
+    if (countProducts > 8) countProducts = 8;
     // product slider
     var countProducts = parseInt($('.prodslider').data('count-products'));
     if (countProducts > 8) countProducts = 8;
