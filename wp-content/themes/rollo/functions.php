@@ -661,7 +661,7 @@ function test($var = null, $exit = 1)
     return true;
 }
 
-function custom_find_matching_product_variation( $product, $match_attributes = array() ) {
+function custom_find_matching_product_variation( $product, $match_attributes = array(), $multiple = false ) {
     global $wpdb;
 
     $meta_attribute_names = array();
@@ -710,6 +710,7 @@ function custom_find_matching_product_variation( $product, $match_attributes = a
      *
      * Note: Not all meta fields will be set which is why we check existance.
      */
+    $multipleMatches = [];
     foreach ( $sorted_meta as $variation_id => $variation ) {
         $match = false;
 
@@ -721,11 +722,20 @@ function custom_find_matching_product_variation( $product, $match_attributes = a
         }
 
         if ( true === $match ) {
-            return $variation_id;
+            if (!$multiple) {
+                return $variation_id;
+            } else {
+                $multipleMatches[] = $variation_id;
+            }
         }
     }
 
-    return 0;
+    if (!$multiple) {
+        return 0;
+    } else {
+        return $multipleMatches;
+    }
+
 }
 
 function recalculate_product_price() {
@@ -1568,7 +1578,7 @@ function load_variation_settings_fields( $variations ) {
 add_filter( 'woocommerce_available_variation', 'load_variation_settings_fields' );
 
 function the_posts_variations( $posts, $query = false ) {
-    $koloryModeli = isset($_REQUEST['filter_kolory-modeli']) ? trim($_REQUEST['filter_kolory-modeli']) : null;
+    $koloryModeli = isset($_REQUEST['filter_kolory-modeli-main']) ? trim($_REQUEST['filter_kolory-modeli-main']) : null;
     if ($koloryModeli && $posts) {
         $koloryModeli = explode(',', $koloryModeli);
         $postsNew = [];
@@ -1577,14 +1587,18 @@ function the_posts_variations( $posts, $query = false ) {
             $variant = null;
             foreach($koloryModeli as $kolorModeli) {
                 $attributes = [];
-                $attributes['attribute_pa_kolory-modeli'] = $kolorModeli;
+                $attributes['attribute_pa_kolory-modeli-main'] = $kolorModeli;
                 /*$var =  (new \WC_Product_Data_Store_CPT())->find_matching_product_variation( new \WC_Product($product_id), $attributes);*/
-                $varID = custom_find_matching_product_variation(new \WC_Product($post->ID), $attributes);
-                if ($varID) {
-                    //if exist variant used it
-                    //$variant = wc_get_product($varID);
-                    $variant = get_post($varID);
-                    $postsNew[] = $variant;
+                $varIDs = custom_find_matching_product_variation(new \WC_Product($post->ID), $attributes, true);
+                if (!empty($varIDs)) {
+                    foreach ($varIDs as $varID) {
+                        if ($varID) {
+                            //if exist variant used it
+                            //$variant = wc_get_product($varID);
+                            $variant = get_post($varID);
+                            $postsNew[] = $variant;
+                        }
+                    }
                 }
             }
             if (!$variant) {
