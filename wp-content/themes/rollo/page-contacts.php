@@ -41,7 +41,7 @@ get_header();
                                 <p class="title">
                                     <? echo $mail['mail-title']; ?>
                                 </p>
-                                <a href="rollomarketplaces@gmail.com" class="descr">
+                                <a href="mailto:info@rollo.lviv.ua" class="descr">
                                     <? echo $mail['mail-description']; ?></a>
                             </div>
                             <div class="cont-info">
@@ -69,10 +69,10 @@ get_header();
     <section class="whowe">
         <div class="container">
             <p class="whowe__title"><?php the_field('title'); ?></p>
-            <p><?php 	
+            <p><?php
             while ( have_posts() ) :
-                the_post(); 
-                the_content(); 
+                the_post();
+                the_content();
             endwhile;
             ?></p>
         </div>

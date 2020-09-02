@@ -661,7 +661,7 @@ function test($var = null, $exit = 1)
     return true;
 }
 
-function custom_find_matching_product_variation( $product, $match_attributes = array(), $multiple = false ) {
+function custom_find_matching_product_variation( $product, $match_attributes = array() ) {
     global $wpdb;
 
     $meta_attribute_names = array();
@@ -710,7 +710,6 @@ function custom_find_matching_product_variation( $product, $match_attributes = a
      *
      * Note: Not all meta fields will be set which is why we check existance.
      */
-    $multipleMatches = [];
     foreach ( $sorted_meta as $variation_id => $variation ) {
         $match = false;
 
@@ -722,20 +721,11 @@ function custom_find_matching_product_variation( $product, $match_attributes = a
         }
 
         if ( true === $match ) {
-            if (!$multiple) {
-                return $variation_id;
-            } else {
-                $multipleMatches[] = $variation_id;
-            }
+            return $variation_id;
         }
     }
 
-    if (!$multiple) {
-        return 0;
-    } else {
-        return $multipleMatches;
-    }
-
+    return 0;
 }
 
 function recalculate_product_price() {
@@ -886,24 +876,24 @@ function calculatePrice($basePrice = 0, $attributes = []) {
 }
 
 function calculatePriceFunction($price, $width, $height) {
-    if ($width < 400) {
-        $width = 400;
+    if ($width < 500) {
+        $width = 500;
     }
     $price = $price * ($width/1000);
     if ($height > 2500) {
         $price = $price + (0.8 * $price);
     } else if ($height > 2300  && $height <= 2500) {
         $price = $price + (0.6 * $price);
-    } else if ($height > 1750  && $height <= 2300) {
+    } else if ($height > 1950  && $height <= 2300) {
         $price = $price + (0.4 * $price);
     }
 
     if ($width > 1800) {
-        $price += 250;
-    } else if ($width > 1300  && $width <= 1800) {
-        $price += 150;
+        $price += 280;
+    } else if ($width > 1250  && $width <= 1800) {
+        $price += 115;
     } else {
-        $price += 75;
+        $price += 45;
     }
     return $price;
 }
@@ -972,6 +962,9 @@ function calculatePriceFunctionType2($price, $width, $height, $attributes = []) 
 //Тільки вартість тканини може змінюватись залежно від партії товару, додаткових умов немає.
 */
 function calculatePriceFunctionType3($price, $width, $height, $attributes = []) {
+	if ($height <1600) {
+        $height = 1600;
+    }
     $price = $price * ($width / 1000) * ($height / 1000);
     return $price;
 }
@@ -1575,7 +1568,7 @@ function load_variation_settings_fields( $variations ) {
 add_filter( 'woocommerce_available_variation', 'load_variation_settings_fields' );
 
 function the_posts_variations( $posts, $query = false ) {
-    $koloryModeli = isset($_REQUEST['filter_kolory-modeli-main']) ? trim($_REQUEST['filter_kolory-modeli-main']) : null;
+    $koloryModeli = isset($_REQUEST['filter_kolory-modeli']) ? trim($_REQUEST['filter_kolory-modeli']) : null;
     if ($koloryModeli && $posts) {
         $koloryModeli = explode(',', $koloryModeli);
         $postsNew = [];
@@ -1584,18 +1577,14 @@ function the_posts_variations( $posts, $query = false ) {
             $variant = null;
             foreach($koloryModeli as $kolorModeli) {
                 $attributes = [];
-                $attributes['attribute_pa_kolory-modeli-main'] = $kolorModeli;
+                $attributes['attribute_pa_kolory-modeli'] = $kolorModeli;
                 /*$var =  (new \WC_Product_Data_Store_CPT())->find_matching_product_variation( new \WC_Product($product_id), $attributes);*/
-                $varIDs = custom_find_matching_product_variation(new \WC_Product($post->ID), $attributes, true);
-                if (!empty($varIDs)) {
-                    foreach ($varIDs as $varID) {
-                        if ($varID) {
-                            //if exist variant used it
-                            //$variant = wc_get_product($varID);
-                            $variant = get_post($varID);
-                            $postsNew[] = $variant;
-                        }
-                    }
+                $varID = custom_find_matching_product_variation(new \WC_Product($post->ID), $attributes);
+                if ($varID) {
+                    //if exist variant used it
+                    //$variant = wc_get_product($varID);
+                    $variant = get_post($varID);
+                    $postsNew[] = $variant;
                 }
             }
             if (!$variant) {

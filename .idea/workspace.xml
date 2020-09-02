@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8ea36600-2844-4646-a129-4b583d7c24db" name="Default Changelist" comment="" />
+    <list default="true" id="8ea36600-2844-4646-a129-4b583d7c24db" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/uploads/wc-logs/geolocation-2020-08-31-19496ce0dd09d27de06748c2546debeb.log" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/uploads/wc-logs/geolocation-2020-08-31-19496ce0dd09d27de06748c2546debeb.log" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,8 +43,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/functions.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="1589" column="9" selection-start-line="1589" selection-start-column="9" selection-end-line="1589" selection-end-column="9" />
+            <state relative-caret-position="412">
+              <caret line="1603" column="9" selection-start-line="1603" selection-start-column="9" selection-end-line="1603" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -86,8 +89,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>modal-sizeset {</find>
-      <find>cart</find>
       <find>function</find>
       <find>template</find>
       <find>add_to_c</find>
@@ -116,6 +117,8 @@
       <find>close_message</find>
       <find>close_order</find>
       <find>#formOrderOneClick .popum</find>
+      <find>rollo-admin</find>
+      <find>custom_find_matching_product_variation</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -136,7 +139,6 @@
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woo-ukrposhta</dir>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\wc-ukr-shipping</dir>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\js</dir>
-      <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes</dir>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins</dir>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\assets\css</dir>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\woocommerce</dir>
@@ -144,6 +146,7 @@
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\inc</dir>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\assets</dir>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\buy-one-click-woocommerce</dir>
+      <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -197,12 +200,12 @@
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/assets/css/common.css" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js" />
         <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/functions.php" />
-        <option value="$PROJECT_DIR$/wp-content/themes/rollo/functions.php" />
         <option value="$PROJECT_DIR$/wp-content/plugins/buy-one-click-woocommerce/js/form.js" />
         <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/plugins/buy-one-click-woocommerce/js/form.js" />
         <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/plugins/buy-one-click-woocommerce/templates/forms/order_form.php" />
         <option value="$PROJECT_DIR$/wp-content/plugins/buy-one-click-woocommerce/templates/forms/order_form.php" />
         <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.blade.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/rollo/functions.php" />
       </list>
     </option>
   </component>
@@ -218,6 +221,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -264,7 +268,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -357,18 +360,19 @@
       <workItem from="1589514181593" duration="11695000" />
       <workItem from="1589546565374" duration="452000" />
       <workItem from="1589792583217" duration="1921000" />
-      <workItem from="1598912324700" duration="846000" />
+      <workItem from="1598912324700" duration="3168000" />
+      <workItem from="1598990994480" duration="596000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="259350000" />
+    <option name="totallyTimeSpent" value="262268000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49839228" visible="true" weight="0.23827533" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49839228" visible="true" weight="0.24205749" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24962178" />
       <window_info id="npm" order="2" sideWeight="0.5016077" side_tool="true" weight="0.24659607" />
       <window_info id="Favorites" order="3" sideWeight="0.5016077" side_tool="true" weight="0.24659607" />
@@ -845,6 +849,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/css/responsive.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7260">
+          <caret line="363" column="18" selection-start-line="363" selection-start-column="5" selection-end-line="363" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="15" selection-start-line="15" selection-end-line="15" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1280">
@@ -859,10 +877,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/css/responsive.css">
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/buy-one-click-woocommerce/templates/forms/order_form.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7260">
-          <caret line="363" column="18" selection-start-line="363" selection-start-column="5" selection-end-line="363" selection-end-column="18" />
+        <state relative-caret-position="320">
+          <caret line="18" column="79" selection-start-line="18" selection-start-column="79" selection-end-line="18" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
         </state>
       </provider>
     </entry>
@@ -887,31 +912,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="15" selection-start-line="15" selection-end-line="15" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/plugins/buy-one-click-woocommerce/templates/forms/order_form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="18" column="79" selection-start-line="18" selection-start-column="79" selection-end-line="18" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/functions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="1589" column="9" selection-start-line="1589" selection-start-column="9" selection-end-line="1589" selection-end-column="9" />
+        <state relative-caret-position="412">
+          <caret line="1603" column="9" selection-start-line="1603" selection-start-column="9" selection-end-line="1603" selection-end-column="9" />
         </state>
       </provider>
     </entry>
