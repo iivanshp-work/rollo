@@ -176,7 +176,7 @@
                                     <? endwhile;    ?>
                                 </ul>
                             </li>
-                            <li><a href="<?php echo esc_url(home_url('/')); ?>blog">Блог</a></li>
+                            <li><a href="<?php echo esc_url(home_url('/')); ?>blog/">Блог</a></li>
                             <li>
                                 <span><?php pll_e("Про нас"); ?></span>
                                 <ul class="submenu sub_about">

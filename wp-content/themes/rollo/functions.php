@@ -248,6 +248,8 @@ if ( class_exists( 'WooCommerce' ) ) {
 require get_template_directory() . '/inc/woo-func.php';
 require get_template_directory() . '/inc/lang.php';
 
+remove_action('wp_head', 'wp_generator');
+
 ////////////*************/////////////
 /**
  * Хлебные крошки для WordPress (breadcrumbs)
@@ -2655,6 +2657,8 @@ pll_register_string("Отримувач:", "Отримувач:");
 pll_register_string("Введіть населений пункт", "Введіть населений пункт");
 pll_register_string("Введіть поштовий індекс", "Введіть поштовий індекс");
 pll_register_string("Вкажіть відділення Укрпошти.", "Вкажіть відділення Укрпошти.Вкажіть відділення Укрпошти.");
+
+pll_register_string("Оформити замовлення", "Оформити замовлення");
 
 // fix for checkout update localization
 add_filter('woocommerce_ajax_get_endpoint',  function ($result, $request){
