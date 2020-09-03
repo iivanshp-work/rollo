@@ -492,4 +492,9 @@ $(document).ready(function () {
         $('#ukrposhta_shipping_fields').css('display', 'none');
         selectShipping();
     }
+
+    $('.filter-switcher').click(function () {
+        $(this).toggleClass('rotatearrow');
+        $(this).next('.filter').slideToggle();
+    });
 });

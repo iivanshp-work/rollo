@@ -1558,17 +1558,65 @@ function variation_settings_fields( $loop, $variation_data, $variation ) {
 }
 add_action( 'woocommerce_product_after_variable_attributes', 'variation_settings_fields', 10, 3 );
 
-function save_variation_settings_fields( $post_id ) {
+function save_variation_settings_fields( $variation_id, $i ) {
     $fields = ['_mini_image', '_var_image_1', '_var_image_2', '_var_image_3'];
     foreach ($fields as $field) {
-        $text_field = $_POST[$field][$post_id];
+        $text_field = $_POST[$field][$variation_id];
         if (!empty($text_field)) {
-            update_post_meta($post_id, $field, esc_attr($text_field));
+            update_post_meta($variation_id, $field, esc_attr($text_field));
         }
     }
+    update_post_meta($variation_id, '_test_field', 'test_field2');
+
+    $variant = wc_get_product($variation_id);
+    $variant_product_attributes = $variant->get_attributes();
+    if (isset($variant_product_attributes['pa_kolory-modeli']) && $variant_product_attributes['pa_kolory-modeli'] && isset($variant_product_attributes['pa_kolory-modeli-main']) && $variant_product_attributes['pa_kolory-modeli-main']) {
+        $term_obj = get_term_by('slug', $variant_product_attributes['pa_kolory-modeli'], "pa_kolory-modeli");
+        if ($term_obj && $term_obj->term_id) {
+            $variant_name = $variant->get_name() . ' - ' . $term_obj->name;
+            $variant->set_name($variant_name);
+        }
+    }
+    $variation_post_title = $variant->get_name();
+    $variation_post_title .= ' s';
+
+    wp_update_post( [
+        'ID' => $variation_id,
+        'post_title' => $variation_post_title,
+    ] );
+
+    clean_post_cache( $variation_id );
+
 }
 add_action( 'woocommerce_save_product_variation', 'save_variation_settings_fields', 10, 2 );
 
+function woocommerce_product_variation_title_action( $variation_id ) {
+    $variant = wc_get_product($variation_id);
+    $variant_product_attributes = $variant->get_attributes();
+    if (isset($variant_product_attributes['pa_kolory-modeli']) && $variant_product_attributes['pa_kolory-modeli'] && isset($variant_product_attributes['pa_kolory-modeli-main']) && $variant_product_attributes['pa_kolory-modeli-main']) {
+        $term_obj = get_term_by('slug', $variant_product_attributes['pa_kolory-modeli'], "pa_kolory-modeli");
+        if ($term_obj && $term_obj->term_id) {
+            $variant_name = $variant->get_name() . ' - ' . $term_obj->name;
+            $variant->set_name($variant_name);
+        }
+    }
+    $variation_post_title = $variant->get_name();
+    wp_update_post( [
+        'ID' => $variation_id,
+        'post_title' => $variation_post_title,
+    ] );
+};
+function filter_woocommerce_product_variation_title( $rtrim, $product, $title_base, $title_suffix ) {
+    $variant_product_attributes = $product->get_attributes();
+    if (isset($variant_product_attributes['pa_kolory-modeli']) && $variant_product_attributes['pa_kolory-modeli'] && isset($variant_product_attributes['pa_kolory-modeli-main']) && $variant_product_attributes['pa_kolory-modeli-main']) {
+        $term_obj = get_term_by('slug', $variant_product_attributes['pa_kolory-modeli'], "pa_kolory-modeli");
+        if ($term_obj && $term_obj->term_id) {
+            $rtrim .= ' - ' . $term_obj->name;
+        }
+    }
+    return $rtrim;
+};
+add_filter( 'woocommerce_product_variation_title', 'filter_woocommerce_product_variation_title', 10, 4 );
 
 function load_variation_settings_fields( $variations ) {
     $fields = ['_mini_image', '_var_image_1', '_var_image_2', '_var_image_3'];
@@ -2659,6 +2707,7 @@ pll_register_string("Введіть поштовий індекс", "Введі�
 pll_register_string("Вкажіть відділення Укрпошти.", "Вкажіть відділення Укрпошти.Вкажіть відділення Укрпошти.");
 
 pll_register_string("Оформити замовлення", "Оформити замовлення");
+pll_register_string("Фільтри", "Фільтри");
 
 // fix for checkout update localization
 add_filter('woocommerce_ajax_get_endpoint',  function ($result, $request){
@@ -2669,3 +2718,25 @@ add_filter('woocommerce_ajax_get_endpoint',  function ($result, $request){
     test([pll__('Особисті дані'), pll_current_language()]);
 }*/
 /* CHANGES RELATED TO WC PRODUCTS END */
+
+// filter to remove product-category from url
+// and replace 'holovna' to '.' and permalink setting for 'base category url' field
+/*add_filter('request', function( $vars ) {
+    global $wpdb;
+
+    if( ! empty( $vars['pagename'] ) || ! empty( $vars['category_name'] ) || ! empty( $vars['name'] ) || ! empty( $vars['attachment'] ) ) {
+        $slug = ! empty( $vars['pagename'] ) ? $vars['pagename'] : ( ! empty( $vars['name'] ) ? $vars['name'] : ( !empty( $vars['category_name'] ) ? $vars['category_name'] : $vars['attachment'] ) );
+        $exists = $wpdb->get_var( $wpdb->prepare( "SELECT t.term_id FROM $wpdb->terms t LEFT JOIN $wpdb->term_taxonomy tt ON tt.term_id = t.term_id WHERE tt.taxonomy = 'product_cat' AND t.slug = %s" ,array( $slug )));
+        if( $exists ){
+            $old_vars = $vars;
+            $vars = array('product_cat' => $slug );
+            if ( !empty( $old_vars['paged'] ) || !empty( $old_vars['page'] ) )
+                $vars['paged'] = ! empty( $old_vars['paged'] ) ? $old_vars['paged'] : $old_vars['page'];
+            if ( !empty( $old_vars['orderby'] ) )
+                $vars['orderby'] = $old_vars['orderby'];
+            if ( !empty( $old_vars['order'] ) )
+                $vars['order'] = $old_vars['order'];
+        }
+    }
+    return $vars;
+});*/

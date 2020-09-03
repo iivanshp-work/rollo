@@ -339,7 +339,8 @@ get_header( '' ); ?>
                 <?php foreach($relatedProducts as $relatedProduct): ?>
                   <?php
                     $product_slug = $relatedProduct->get_slug();
-                    $product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/product/' . $product_slug . '/');
+                    //$product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/product/' . $product_slug . '/');
+                    $product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/' . $product_slug . '/');
                   ?>
                   <div>
                     <div class="catalog-productbox">

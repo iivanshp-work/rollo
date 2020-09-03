@@ -45,6 +45,7 @@
 			<div class="row">
             <?php   if (! is_search() ) {?>
 				<div class="col-filter">
+                    <div class="filter-switcher"><?php pll_e("Фільтри"); ?></div>
 					<div class="filter">
                     
 						<div class="filter__box">

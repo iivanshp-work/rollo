@@ -43,7 +43,8 @@ defined( 'ABSPATH' ) || exit;
                         $product_slug = $_product->get_slug();
                       }
                     }
-                    $product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/product/' . $product_slug);
+                    //$product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/product/' . $product_slug);
+                    $product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/' . $product_slug . '/');
                     $product_id = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
                     $attributes = isset($cart_item['attributes']) ? $cart_item['attributes'] : [];
                     $descAttributes = ['pa_storona-upravlinnya' => pll__('сторона управління'), 'pa_kolory-systemy' => pll__('колір системи')];
@@ -122,7 +123,8 @@ defined( 'ABSPATH' ) || exit;
                         <?php foreach($crossSellProducts as $relatedProduct): ?>
                           <?php
                           $product_slug = $relatedProduct->get_slug();
-                          $product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/product/' . $product_slug);
+                          //$product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/product/' . $product_slug);
+                          $product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/' . $product_slug . '/');
                           ?>
                               <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6">
                                   <div class="catalog-productbox">

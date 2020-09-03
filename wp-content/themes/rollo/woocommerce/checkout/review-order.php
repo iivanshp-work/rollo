@@ -31,7 +31,8 @@ defined( 'ABSPATH' ) || exit;
                 $product_slug = $_product->get_slug();
             }
         }
-        $product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/product/' . $product_slug);
+        //$product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/product/' . $product_slug);
+        $product_slug = esc_url((pll_current_language() == 'uk' ? '' : '/ru') .  '/' . $product_slug . '/');
         $product_id = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
         $attributes = isset($cart_item['attributes']) ? $cart_item['attributes'] : [];
         $descAttributes = ['pa_storona-upravlinnya' => pll__('сторона управління'), 'pa_kolory-systemy' => pll__('колір системи')];
