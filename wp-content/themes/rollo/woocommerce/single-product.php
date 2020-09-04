@@ -71,7 +71,7 @@ get_header( '' ); ?>
             <form id="product_form" class="post-<?php echo $product->get_id(); ?>">
               <input type="hidden" name="product_id" value="<?php echo $product->get_id(); ?>">
               <div class="product-topsect__descr">
-                <p class="page-linetitle">
+                <h1 class="page-linetitle">
                     <?php
                     $name = $product->get_name();
                     if ($selectedVariationProduct && $selectedVariationProduct->get_name()) {
@@ -79,7 +79,7 @@ get_header( '' ); ?>
                     }
                     echo $name;
                     ?>
-                </p>
+                </h1>
                 <div class="colors-slidersect">
                     <?php
                     $availableColorsIDS = isset($productAttributes['pa_kolory-modeli']) ? $productAttributes['pa_kolory-modeli']->get_options() : null;
@@ -334,7 +334,7 @@ get_header( '' ); ?>
       <?php if (!empty($relatedProducts)): ?>
         <section class=" product__slider product-block">
           <div class="container">
-            <h3><?php echo pll__('Можливо вас зацікавлять');?></h3>
+            <div class="h2"><?php echo pll__('Можливо вас зацікавлять');?></div>
             <div class="prodslider row" data-count-products="<?php echo count($relatedProducts); ?>">
                 <?php foreach($relatedProducts as $relatedProduct): ?>
                   <?php
@@ -379,7 +379,7 @@ get_header( '' ); ?>
         <div class="row">
             <?php if($desc && $descImage): ?>
               <div class="col-lg-6 col-md-6">
-                <h3><?php if ($custom_description_text){ echo $custom_description_text; } else { echo pll__('Опис'); }?></h3>
+                <h2><?php if ($custom_description_text){ echo $custom_description_text; } else { echo pll__('Опис'); }?></h2>
                 <p><?php echo wpautop($desc); ?></p>
               </div>
               <div class="col-lg-5 offset-lg-1  col-md-6">
@@ -387,7 +387,7 @@ get_header( '' ); ?>
               </div>
             <?php elseif($desc): ?>
               <div class="col-lg-12 col-md-12">
-                  <h3><?php if ($custom_description_text){ echo $custom_description_text; } else { echo pll__('Опис'); }?></h3>
+                  <h2><?php if ($custom_description_text){ echo $custom_description_text; } else { echo pll__('Опис'); }?></h2>
                 <p><?php echo wpautop($desc); ?></p>
               </div>
             <?php elseif($descImage): ?>
@@ -405,7 +405,7 @@ get_header( '' ); ?>
           <div class="container">
             <div class="row">
               <div class="col-lg-5">
-                <h3><?php if ($custom_reviews_text){ echo $custom_reviews_text; } else { echo pll__('Відгуки'); }?></h3>
+                <h2><?php if ($custom_reviews_text){ echo $custom_reviews_text; } else { echo pll__('Відгуки'); }?></h2>
                   <?php if ($product->get_review_count()): ?>
                       <?php
                       $args = array ('post_id' => $product->get_id(), 'status'=>'approve');

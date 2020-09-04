@@ -13,7 +13,7 @@ get_header();
     </div>
         <div class="fabric-topsect">
             <div class="container">
-                <p class="page-linetitle"><?php the_title(); ?></p>
+                <h1 class="page-linetitle"><?php the_title(); ?></h1>
             </div>
         </div>
         <section class="measure__accordeon conditions__accordeon">
@@ -59,7 +59,7 @@ get_header();
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <?php
                     } else {
                 ?>

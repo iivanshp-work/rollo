@@ -17,9 +17,11 @@ get_header();
         </div>
     </div>
     <section class="blog-page">
+
         <div class="container">
+            <h1 class="page-linetitle" style="margin-top: 0;"><?php pll_e("Блог")?></h1>
             <div class="row">
-                <?php $num_post = 0; if ( have_posts() ) : 
+                <?php $num_post = 0; if ( have_posts() ) :
             while ( have_posts() ) :
                 the_post();
                 $num_post++;
@@ -59,7 +61,7 @@ get_header();
                     </a>
                 </div>
                 <?
-                        
+
                     break;
 
                     default:

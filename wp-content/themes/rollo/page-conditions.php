@@ -13,7 +13,7 @@ get_header();
     </div>
         <section class="condition-topsect">
             <div class="container">
-                <p class="page-linetitle"><?php the_title(); ?></p>
+                <h1 class="page-linetitle"><?php the_title(); ?></h1>
                 <p><? the_field("main-description"); ?></p>
             </div>
         </section>

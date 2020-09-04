@@ -14,7 +14,7 @@ get_header();
     <section class="contactsmap">
         <div class="abscont-title">
             <div class="container">
-                <p class="contact-form__title"><?php the_title(); ?></p>
+                <h1 class="contact-form__title"><?php the_title(); ?></h1>
             </div>
         </div>
         <div id="map"></div>

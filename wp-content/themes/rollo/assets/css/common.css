@@ -86,6 +86,11 @@ input:focus {
     font-size: 40px;
     line-height: 140%;
     color: #182328;
+
+    /*seo changes start*/
+    font-weight: initial;
+    margin: 1em 0;
+    /*seo changes end*/
 }
 
 .page-linetitle:before {
@@ -1053,7 +1058,7 @@ header.header .submenu li a:hover:after,
     text-align: center;
 }
 
-.buy-section__box h4 {
+.buy-section__box .h4 {
     font-size: 32px;
     line-height: 140%;
     color: #182328;
@@ -1126,12 +1131,18 @@ header.header .submenu li a:hover:after,
     -o-transform: rotate(180deg);
 }
 
-.whywe__text h3 {
+.whywe__text h1 {
     margin: 0 0 53px 0;
     position: relative;
+    /*seo changes start*/
+    font-size: 40px;
+    line-height: 140%;
+    color: #182328;
+    font-weight: normal;
+    /*seo changes end*/
 }
 
-.whywe__text h3:after {
+.whywe__text h1:after {
     content: "";
     display: inline-block;
     height: 2px;
@@ -2049,6 +2060,11 @@ footer.footer .footfig {
     color: #182328;
     margin: 0 0 34px 0;
     position: relative;
+
+    /*seo changes start*/
+    font-weight: initial;
+    /*margin: 1em 0;*/
+    /*seo changes end*/
 }
 
 .measure__title:before {
@@ -2345,6 +2361,11 @@ footer.footer .footfig {
     line-height: 140%;
     color: #182328;
     margin: 0 0 16px 0;
+
+    /*seo changes start*/
+    font-weight: initial;
+    /*margin: 1em 0;*/
+    /*seo changes end*/
 }
 
 .blogopen-page__date {
@@ -2561,6 +2582,10 @@ footer.footer .footfig {
     line-height: 140%;
     color: #182328;
     position: relative;
+    /*seo changes start*/
+    font-weight: initial;
+    margin: 1em 0;
+    /*seo changes end*/
 }
 
 .whowe {
@@ -3178,8 +3203,12 @@ footer.footer .footfig {
     border-top: 1px solid #E8EEEA;
 }
 
-.product-block h3 {
+.product-block h2, .product-block .h2 {
     margin: 0 0 32px 0;
+    font-size: 40px;
+    line-height: 140%;
+    color: #182328;
+    font-weight: normal;
 }
 
 .prodslider {

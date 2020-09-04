@@ -14,9 +14,9 @@
 		* @package WooCommerce/Templates
 		* @version 3.4.0
 	*/
-	
+
 	defined( 'ABSPATH' ) || exit;
-	
+
 	//get_header( 'shop' );
 	get_header();
 ?>
@@ -26,8 +26,16 @@
         <div class="container">
 			<? 	get_template_part( 'template-parts/bread'); ?>
 		</div>
+        <div class="container">
+        <?php
+        $category = get_term_by('slug', get_query_var('product_cat'), 'product_cat');
+        ?>
+        <?php if ($category) : ?>
+            <h1 class="page-linetitle" style="margin-bottom: 0;"><?php echo $category->name; ?></h1>
+        <?php endif; ?>
+        </div>
 	</div>
-	
+
 	<div class="filter-category">
 		<div class="container">
 			<div>
@@ -47,15 +55,15 @@
 				<div class="col-filter">
                     <div class="filter-switcher"><?php pll_e("Фільтри"); ?></div>
 					<div class="filter">
-                    
+
 						<div class="filter__box">
 							<p class="filter__title"><?php pll_e("Тип"); ?></p>
 							<div class="filter__lists radiostyled">
-								<?php  dynamic_sidebar( 'prod-filtr-1' ); ?>	
+								<?php  dynamic_sidebar( 'prod-filtr-1' ); ?>
 							</div>
-							
+
 						</div>
-                    
+
 						<div class="filter__box">
 							<p class="filter__title rotatearrow"><?php pll_e("Колір"); ?></p>
 							<div class="filter__lists filter__colors" style="display: none;">
@@ -78,25 +86,25 @@
 							<p class="filter__title"><?php pll_e("Малюнок"); ?></p>
 							<div class="filter__lists radiostyled">
 								<?php dynamic_sidebar( 'prod-filtr-mal' ); ?>
-								
+
 							</div>
 						</div>
 						<div class="filter__box">
 							<p class="filter__title"><?php pll_e("Виробник"); ?></p>
 							<div class="filter__lists radiostyled">
 								<?php dynamic_sidebar( 'prod-filtr-vyr' ); ?>
-								
+
 							</div>
 						</div>
 					</div>
-					
-					
-					
+
+
+
                 </div>
             <? } ?>
 				<div class="col">
 					<div class="row products">
-						
+
 						<?
 							/**
 								* Hook: woocommerce_before_main_content.
@@ -107,26 +115,26 @@
 							*/
 							// do_action( 'woocommerce_before_main_content' );
 						?>
-						
+
 						<?php
-							
-							
+
+
 							if ( wc_get_loop_prop( 'total' ) ) {
 								while ( have_posts() ) {
 									the_post();
-									
+
 									/**
 										* Hook: woocommerce_shop_loop.
 									*/
 									do_action( 'woocommerce_shop_loop' );
 									wc_get_template_part( 'content', 'product' );
-									
+
 								}
 							}
-							
-							
+
+
 						?>
-						
+
 					</div>
 					<? $args = array(
 						'show_all'           => true,
@@ -138,7 +146,7 @@
 						'add_fragment'       => '',
 						'screen_reader_text' => __( 'Posts navigation' ),
 					);            ?>
-					
+
 					<div class="pagination shop-pag">
 						<ul class=" nostyle-list">
 							<? echo paginate_links( $args ); ?>
@@ -146,12 +154,19 @@
 					</div>
 				</div>
 			</div>
+            <?php if ($category && $category->description) : ?>
+                <div class="row">
+                    <div class="blogopen__content">
+                        <p><?php echo $category->description; ?></p>
+                    </div>
+                </div>
+            <?php endif; ?>
 		</div>
 	</section>
 </main>
 
 <?
-	
+
 	//get_footer( 'shop' );
 	get_footer();
-	
+

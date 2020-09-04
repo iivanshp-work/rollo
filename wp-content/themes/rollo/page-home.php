@@ -148,7 +148,7 @@ get_header();
             <div class="container">
                 <div class="buy-section__box">
                     <div class="buy-section__textblock">
-                        <h4><? the_field('buy_title'); ?></h4>
+                        <div class="h4"><? the_field('buy_title'); ?></div>
                         <p><? the_field('buy_title_sub'); ?></p>
                         <a href="<? $link = get_field('buy_title_link');
                                     echo $link['url'] ?>"> <? echo $link['title'] ?> </a>
@@ -170,7 +170,7 @@ get_header();
                 </div>
                 <div class="col-lg-7 offset-lg-1 col-md-7 col-sm-12">
                     <div class="whywe__text">
-                        <h3><? the_field('why_title'); ?></h3>
+                        <h1><? the_field('why_title'); ?></h1>
                         <?php
                         while (have_posts()) :
                             the_post();

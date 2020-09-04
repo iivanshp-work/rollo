@@ -2904,3 +2904,8 @@ function add_sale_discount_to_all_records() {
     }
 }
 //add_action('admin_init', 'add_sale_discount_to_all_records');
+// sendgrid api key - new
+//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
+
+// sendgrid api key - old
+//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

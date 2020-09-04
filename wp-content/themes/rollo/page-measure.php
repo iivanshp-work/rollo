@@ -19,7 +19,7 @@ get_header();
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <p class="measure__title"><?php the_title(); ?></p>
+                        <h1 class="measure__title"><?php the_title(); ?></h1>
                         <p class="measure__descr"><? the_field('main-decription'); ?></p>
                     </div>
                     <div class="col-lg-6">

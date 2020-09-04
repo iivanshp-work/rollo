@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit;
 
           <?php if ( $order->has_status( 'failed' ) ) : ?>
 
-          <p class="page-linetitle"><?php esc_html_e( 'Unfortunately your order cannot be processed as the originating bank/merchant has declined your transaction. Please attempt your purchase again.', 'woocommerce' ); ?></p>
+          <h1 class="page-linetitle"><?php esc_html_e( 'Unfortunately your order cannot be processed as the originating bank/merchant has declined your transaction. Please attempt your purchase again.', 'woocommerce' ); ?></h1>
 
             <p class="woocommerce-notice woocommerce-notice--error woocommerce-thankyou-order-failed-actions">
               <a href="<?php echo esc_url( $order->get_checkout_payment_url() ); ?>" class="button pay"><?php esc_html_e( 'Pay', 'woocommerce' ); ?></a>
@@ -46,7 +46,7 @@ defined( 'ABSPATH' ) || exit;
 
           <?php else : ?>
 
-          <p class="page-linetitle"><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', esc_html__( 'Thank you. Your order has been received.', 'woocommerce' ), $order ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
+          <h1 class="page-linetitle"><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', esc_html__( 'Thank you. Your order has been received.', 'woocommerce' ), $order ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h1>
 
             <ul class="nostyle-list woocommerce-order-overview woocommerce-thankyou-order-details order_details">
 

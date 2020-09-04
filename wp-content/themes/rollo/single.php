@@ -8,7 +8,7 @@
  */
 
 get_header();
-        
+
 while ( have_posts() ) :
 			the_post();
 ?>
@@ -21,13 +21,13 @@ while ( have_posts() ) :
     </div>
     <section class="blogopen-page">
         <div class="container">
-            <p class="blogopen-page__title">
+            <h1 class="blogopen-page__title">
                 <? the_title(); ?>
-            </p>
+            </h1>
             <p class="blogopen-page__date">
                 <? the_date(); ?>
             </p>
-			
+
             <img src="<? echo get_the_post_thumbnail_url( $id, 'full' ); ?>" alt="">
 
             <div class="blogopen__content">
