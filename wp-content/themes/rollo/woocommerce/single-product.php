@@ -370,6 +370,8 @@ get_header( '' ); ?>
       <?php endif; ?>
       <?php
       $descImage = get_field('description_image', $product->get_id());
+      $custom_description_text = get_field('custom_description_text', $product->get_id());
+      $custom_reviews_text = get_field('custom_reviews_text', $product->get_id());
       $desc = $product->get_description();
       ?>
     <section class="product-block product-text">
@@ -377,7 +379,7 @@ get_header( '' ); ?>
         <div class="row">
             <?php if($desc && $descImage): ?>
               <div class="col-lg-6 col-md-6">
-                <h3><?php echo pll__('Опис');?></h3>
+                <h3><?php if ($custom_description_text){ echo $custom_description_text; } else { echo pll__('Опис'); }?></h3>
                 <p><?php echo wpautop($desc); ?></p>
               </div>
               <div class="col-lg-5 offset-lg-1  col-md-6">
@@ -385,7 +387,7 @@ get_header( '' ); ?>
               </div>
             <?php elseif($desc): ?>
               <div class="col-lg-12 col-md-12">
-                <h3><?php echo pll__('Опис');?></h3>
+                  <h3><?php if ($custom_description_text){ echo $custom_description_text; } else { echo pll__('Опис'); }?></h3>
                 <p><?php echo wpautop($desc); ?></p>
               </div>
             <?php elseif($descImage): ?>
@@ -403,7 +405,7 @@ get_header( '' ); ?>
           <div class="container">
             <div class="row">
               <div class="col-lg-5">
-                <h3><?php echo pll__('Відгуки');?></h3>
+                <h3><?php if ($custom_reviews_text){ echo $custom_reviews_text; } else { echo pll__('Відгуки'); }?></h3>
                   <?php if ($product->get_review_count()): ?>
                       <?php
                       $args = array ('post_id' => $product->get_id(), 'status'=>'approve');

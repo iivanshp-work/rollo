@@ -2,16 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ea36600-2844-4646-a129-4b583d7c24db" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/filter.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/css/glassstyle.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/search-cat.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/search-cat.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/js/lightzoom.min.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/404.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/404.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/css/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/css/common.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/footer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/functions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/archive-product.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/archive-product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/checkout/review-order.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/checkout/review-order.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/content-product.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/content-product.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product/add_to_cart_popup.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product/add_to_cart_popup.php" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,17 +26,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="490">
-              <caret line="497" column="29" selection-start-line="497" selection-start-column="29" selection-end-line="497" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/common.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="39" selection-end-column="7" />
+            <state relative-caret-position="140">
+              <caret line="470" column="20" selection-start-line="470" selection-start-column="20" selection-end-line="470" selection-end-column="20" />
+              <folding>
+                <element signature="e#30#15716#0" />
+                <element signature="n#!!block;n#recalculatePrice#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -40,63 +39,74 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/archive-product.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
+            <state relative-caret-position="224">
               <caret line="47" column="47" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="47" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/filter.svg">
-          <provider selected="true" editor-type-id="images" />
+        <entry file="file://$PROJECT_DIR$/wp-content/plugins/advanced-custom-fields-pro/includes/acf-value-functions.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="292">
+              <caret line="225" column="24" selection-start-line="225" selection-start-column="24" selection-end-line="225" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp-content/plugins/advanced-custom-fields-pro/includes/acf-field-functions.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="128">
+              <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+            </state>
+          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/css/common.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-461">
-              <caret line="4808" column="14" selection-start-line="4808" selection-start-column="14" selection-end-line="4808" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/checkout/review-order.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="33" column="93" selection-start-line="33" selection-start-column="84" selection-end-line="33" selection-end-column="93" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product/add_to_cart_popup.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="126" column="101" selection-start-line="126" selection-start-column="101" selection-end-line="126" selection-end-column="101" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/exchange-filter.svg">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/functions.php">
-          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="476">
-              <caret line="2723" column="2" selection-start-line="2723" selection-start-column="2" selection-end-line="2723" selection-end-column="2" />
+              <caret line="4960" column="1" lean-forward="true" selection-start-line="4960" selection-start-column="1" selection-end-line="4960" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/inc/woocommerce.php">
+        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/functions.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="19" column="47" lean-forward="true" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="47" />
+            <state relative-caret-position="-1378">
+              <caret line="2817" column="101" selection-start-line="2817" selection-start-column="101" selection-end-line="2817" selection-end-column="101" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/header.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="172">
+              <caret line="246" column="41" selection-start-line="246" selection-start-column="41" selection-end-line="246" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/page-home.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="980">
+              <caret line="113" column="14" lean-forward="true" selection-start-line="63" selection-start-column="4" selection-end-line="113" selection-end-column="14" />
+              <folding>
+                <element signature="e#2374#4975#0#HTML" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/404.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="367">
+              <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
             </state>
           </provider>
         </entry>
@@ -105,36 +115,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>recalculate_product_price</find>
-      <find>$title</find>
-      <find>set_nam</find>
-      <find>title</find>
-      <find>-main</find>
-      <find>$variation_id</find>
-      <find>get_</find>
-      <find>post_excerpt</find>
-      <find>test</find>
-      <find>save_variations</find>
-      <find>save_variations(</find>
-      <find>woocommerce_save_product_variation</find>
-      <find>edit_product(</find>
-      <find>test($</find>
-      <find>fix for variation main color tit</find>
-      <find>('slug', $variant_product_attributes['pa_kolory-modeli'],</find>
-      <find>var</find>
-      <find>quantity</find>
-      <find>woocommerce_update_product</find>
-      <find>generate_product_title(</find>
-      <find>woocommerce_product_variation_title</find>
-      <find>woocommerce_update_product_variation</find>
-      <find>fix</find>
-      <find>col-filter</find>
-      <find>rotatearr</find>
-      <find>fill</find>
       <find>./image/icon</find>
       <find>hidden</find>
       <find>/product/</find>
       <find>product/</find>
+      <find>product-ca</find>
+      <find>custom.</find>
+      <find>common.css</find>
+      <find>pll</find>
+      <find>init</find>
+      <find>get_posts</find>
+      <find>function</find>
+      <find>function add</find>
+      <find>catalog-productbox__text</find>
+      <find>posts</find>
+      <find>function update</find>
+      <find>опис</find>
+      <find>update_meta</find>
+      <find>post_meta</find>
+      <find>acf_add_local_field_group</find>
+      <find>group_5f51bc7b64f9a</find>
+      <find>5f51bc8bd34d0</find>
+      <find>products-section</find>
+      <find>&lt;img</find>
+      <find>form</find>
+      <find>field_5f51bc8bd34d0</find>
+      <find>acf_update_value</find>
+      <find>Roboto Condense</find>
+      <find>media</find>
+      <find>image</find>
+      <find>place</find>
     </findStrings>
     <dirStrings>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins</dir>
@@ -155,13 +165,16 @@
         <option value="$PROJECT_DIR$/wp-content/plugins/woocommerce/includes/legacy/api/v3/class-wc-api-products.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/inc/woocommerce.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/archive-product.php" />
-        <option value="$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/filter.svg" />
-        <option value="$PROJECT_DIR$/wp-content/themes/rollo/assets/css/common.css" />
-        <option value="$PROJECT_DIR$/wp-content/themes/rollo/functions.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/checkout/review-order.php" />
-        <option value="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product/add_to_cart_popup.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/rollo/footer.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js" />
+        <option value="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/content-product.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/rollo/functions.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/rollo/404.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/rollo/assets/css/common.css" />
       </list>
     </option>
   </component>
@@ -210,7 +223,7 @@
               <item name="wp-content" type="462c0819:PsiDirectoryNode" />
               <item name="themes" type="462c0819:PsiDirectoryNode" />
               <item name="rollo" type="462c0819:PsiDirectoryNode" />
-              <item name="inc" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="rollo.me" type="b2602c69:ProjectViewProjectNode" />
@@ -218,7 +231,8 @@
               <item name="wp-content" type="462c0819:PsiDirectoryNode" />
               <item name="themes" type="462c0819:PsiDirectoryNode" />
               <item name="rollo" type="462c0819:PsiDirectoryNode" />
-              <item name="woocommerce" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="image" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="rollo.me" type="b2602c69:ProjectViewProjectNode" />
@@ -254,11 +268,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\assets\image\icon" />
+      <recent name="D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\assets\image" />
       <recent name="D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\assets\css" />
       <recent name="D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\assets\js" />
+      <recent name="D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\assets\image\icon" />
       <recent name="D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\woocommerce" />
-      <recent name="D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\woocommerce\single-product" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -334,16 +348,17 @@
       <workItem from="1598912324700" duration="3168000" />
       <workItem from="1598990994480" duration="596000" />
       <workItem from="1599052849822" duration="90000" />
+      <workItem from="1599163409723" duration="12918000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12014000" />
+    <option name="totallyTimeSpent" value="24932000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49839228" visible="true" weight="0.24583964" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49839228" visible="true" weight="0.20801815" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24962178" />
       <window_info id="npm" order="2" sideWeight="0.5016077" side_tool="true" weight="0.24659607" />
       <window_info id="Favorites" order="3" sideWeight="0.5016077" side_tool="true" weight="0.24659607" />
@@ -357,7 +372,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32730263" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32730263" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32852563" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32843137" />
       <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="12" weight="0.32852563" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -392,7 +407,7 @@
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
     <state x="676" y="291" width="620" height="522" key="find.popup" timestamp="1599052879757">
@@ -401,60 +416,6 @@
     <state x="676" y="291" width="620" height="522" key="find.popup/53.27.1867.1053@53.27.1867.1053" timestamp="1599052879757" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/email.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/fabric-icon.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/facebook-footer.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/facebook-icon.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/fb.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/google-plus.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/gps.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/green-arrow.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/instagram-footer.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/instagram-icon.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/logout.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/logout-hover.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/maps-and-flags.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/marker-map.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/mastercard.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/measuring-tape.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/menu-button.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/minus.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/minus-acc.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -526,63 +487,203 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/common.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
+        <state relative-caret-position="720">
           <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="39" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="497" column="29" selection-start-line="497" selection-start-column="29" selection-end-line="497" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/exchange-filter.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/filter.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/archive-product.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="47" column="47" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/css/common.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-461">
-          <caret line="4808" column="14" selection-start-line="4808" selection-start-column="14" selection-end-line="4808" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/checkout/review-order.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
+        <state relative-caret-position="380">
           <caret line="33" column="93" selection-start-line="33" selection-start-column="84" selection-end-line="33" selection-end-column="93" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product/add_to_cart_popup.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
+        <state relative-caret-position="2240">
           <caret line="126" column="101" selection-start-line="126" selection-start-column="101" selection-end-line="126" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/exchange-filter.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/inc/woocommerce.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="22" column="1" lean-forward="true" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/css/glassstyle.min.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/lightzoom.min.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DRa0.551/Tiny-Fast-jQuery-Image-Hover-Zoom-Plugin-Light-Zoom/lightzoom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/footer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="16" column="11" lean-forward="true" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/content-product.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="26" column="4" selection-start-line="26" selection-start-column="4" selection-end-line="26" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/archive-product.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="47" column="47" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/advanced-custom-fields-pro/includes/api/api-template.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="332">
+          <caret line="1028" column="21" lean-forward="true" selection-start-line="1028" selection-start-column="21" selection-end-line="1028" selection-end-column="21" />
+          <folding>
+            <element signature="n#get_field#0;n#!!top" />
+            <element signature="n#the_field#0;n#!!top" />
+            <element signature="n#get_field_object#0;n#!!top" />
+            <element signature="n#acf_maybe_get_field#0;n#!!top" />
+            <element signature="n#acf_maybe_get_sub_field#0;n#!!top" />
+            <element signature="n#get_fields#0;n#!!top" />
+            <element signature="n#get_field_objects#0;n#!!top" />
+            <element signature="n#have_rows#0;n#!!top" />
+            <element signature="n#the_row#0;n#!!top" />
+            <element signature="n#get_row#0;n#!!top" />
+            <element signature="n#get_row_index#0;n#!!top" />
+            <element signature="n#the_row_index#0;n#!!top" />
+            <element signature="n#get_row_sub_field#0;n#!!top" />
+            <element signature="n#get_row_sub_value#0;n#!!top" />
+            <element signature="n#reset_rows#0;n#!!top" />
+            <element signature="n#has_sub_field#0;n#!!top" />
+            <element signature="n#has_sub_fields#0;n#!!top" />
+            <element signature="n#get_sub_field#0;n#!!top" />
+            <element signature="n#the_sub_field#0;n#!!top" />
+            <element signature="n#get_sub_field_object#0;n#!!top" />
+            <element signature="n#get_row_layout#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/advanced-custom-fields-pro/includes/acf-field-functions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="373" column="82" lean-forward="true" selection-start-line="373" selection-start-column="6" selection-end-line="373" selection-end-column="82" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="470" column="20" selection-start-line="470" selection-start-column="20" selection-end-line="470" selection-end-column="20" />
+          <folding>
+            <element signature="e#30#15716#0" />
+            <element signature="n#!!block;n#recalculatePrice#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-includes/post.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="428">
+          <caret line="2014" column="6" lean-forward="true" selection-start-line="2003" selection-start-column="4" selection-end-line="2014" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/litt-product2.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/logtrig2.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/product.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/search-cat.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/page-home.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="980">
+          <caret line="113" column="14" lean-forward="true" selection-start-line="63" selection-start-column="4" selection-end-line="113" selection-end-column="14" />
+          <folding>
+            <element signature="e#2374#4975#0#HTML" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/woocommerce/includes/wc-template-functions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="2852" column="13" selection-start-line="2852" selection-start-column="13" selection-end-line="2852" selection-end-column="13" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="e#0#6#0" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="246" column="41" selection-start-line="246" selection-start-column="41" selection-end-line="246" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/plugins/advanced-custom-fields-pro/includes/acf-value-functions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="225" column="24" selection-start-line="225" selection-start-column="24" selection-end-line="225" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/404.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/css/common.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="4960" column="1" lean-forward="true" selection-start-line="4960" selection-start-column="1" selection-end-line="4960" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/functions.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="2723" column="2" selection-start-line="2723" selection-start-column="2" selection-end-line="2723" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/inc/woocommerce.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="19" column="47" lean-forward="true" selection-start-line="19" selection-start-column="29" selection-end-line="19" selection-end-column="47" />
+        <state relative-caret-position="-1378">
+          <caret line="2817" column="101" selection-start-line="2817" selection-start-column="101" selection-end-line="2817" selection-end-column="101" />
         </state>
       </provider>
     </entry>

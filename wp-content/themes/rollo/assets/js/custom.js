@@ -439,6 +439,7 @@ function recalculatePrice() {
                 $(titleClass).html(data.title);
                 if (data.image) {
                     $(imageClass).html(data.image);
+                    zoomImage();
                 }
                 $(varImagesClass).hide();
                 if (data.product_images && data.product_images.length) {
@@ -464,6 +465,12 @@ function recalculatePrice() {
     });
 }
 
+function zoomImage(){
+    $('.product-topsect__pic .prmainpic img').lightzoom({
+        glassSize: 200,
+        zoomPower: 8
+    });
+}
 
 /*checkout custom fields for ukrposhta*/
 $(document).ready(function () {
@@ -497,4 +504,6 @@ $(document).ready(function () {
         $(this).toggleClass('rotatearrow');
         $(this).next('.filter').slideToggle();
     });
+
+    zoomImage();
 });

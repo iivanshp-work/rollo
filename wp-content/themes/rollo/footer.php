@@ -87,6 +87,7 @@ $main_page_id = pll_get_post(2, pll_current_language('slug'));
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/jquery.parallax.min.js"></script>
 
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/rangeslider.min.js"></script>
+<script src="<? echo get_template_directory_uri() . '/assets/' ?>js/lightzoom.min.js"></script>
 
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/common.js"></script>
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/custom.js"></script>

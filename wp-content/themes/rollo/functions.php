@@ -199,6 +199,7 @@ function rollo_scripts() {
     wp_enqueue_style('rollo-style-jquery.formstyler.theme', get_template_directory_uri() . '/assets/css/jquery.formstyler.theme.css');
     /* CHANGES RELATED TO WC PRODUCTS */
     wp_enqueue_style('rollo-style-rangeslider', get_template_directory_uri() . '/assets/css/rangeslider.css');
+    wp_enqueue_style('rollo-style-glassstyle', get_template_directory_uri() . '/assets/css/glassstyle.min.css');
     wp_enqueue_style('rollo-style-common', get_template_directory_uri() . '/assets/css/common.css');
     wp_enqueue_style('rollo-style-responsive', get_template_directory_uri() . '/assets/css/responsive.css');
     wp_enqueue_style('rollo-style-font', "https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&display=swap&subset=cyrillic");
@@ -2624,6 +2625,111 @@ if( function_exists('acf_add_local_field_group') ):
         'description' => '',
     ));
 
+    acf_add_local_field_group(array(
+        'key' => 'group_5f51bc7b64f9a',
+        'title' => 'Знижка',
+        'fields' => array(
+            array(
+                'key' => 'field_5f51bc8bd34d0',
+                'label' => 'Знижка',
+                'name' => 'sale_discount',
+                'type' => 'text',
+                'instructions' => '&lt;span&gt;5%&lt;/span&gt; знижка	- текст в тезі &lt;span&gt; більшого шрифту',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'product',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
+    acf_add_local_field_group(array(
+        'key' => 'group_5f51b991eb18c',
+        'title' => 'Користувацькі заголовки',
+        'fields' => array(
+            array(
+                'key' => 'field_5f51b9f200e0a',
+                'label' => 'Опис',
+                'name' => 'custom_description_text',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+            ),
+            array(
+                'key' => 'field_5f51ba9400e0b',
+                'label' => 'Відгуки',
+                'name' => 'custom_reviews_text',
+                'type' => 'text',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'default_value' => '',
+                'placeholder' => '',
+                'prepend' => '',
+                'append' => '',
+                'maxlength' => '',
+            ),
+        ),
+        'location' => array(
+            array(
+                array(
+                    'param' => 'post_type',
+                    'operator' => '==',
+                    'value' => 'product',
+                ),
+            ),
+        ),
+        'menu_order' => 0,
+        'position' => 'normal',
+        'style' => 'default',
+        'label_placement' => 'top',
+        'instruction_placement' => 'label',
+        'hide_on_screen' => '',
+        'active' => true,
+        'description' => '',
+    ));
+
 
 endif;
 
@@ -2708,6 +2814,10 @@ pll_register_string("Вкажіть відділення Укрпошти.", "В
 
 pll_register_string("Оформити замовлення", "Оформити замовлення");
 pll_register_string("Фільтри", "Фільтри");
+pll_register_string("Знижка", "Знижка");
+pll_register_string("еххх...знову в нас тут виникли помилки", "еххх...знову в нас тут виникли помилки");
+pll_register_string("Пошук…", "Пошук…");
+pll_register_string("Шукати", "Шукати");
 
 // fix for checkout update localization
 add_filter('woocommerce_ajax_get_endpoint',  function ($result, $request){
@@ -2740,3 +2850,57 @@ add_filter('woocommerce_ajax_get_endpoint',  function ($result, $request){
     }
     return $vars;
 });*/
+
+//default sorting
+add_filter('woocommerce_default_catalog_orderby', 'custom_woocommerce_default_catalog_orderby');
+function custom_woocommerce_default_catalog_orderby( $sort_by ) {
+    return 'popularity';
+}
+//new sorting option - sale_discount
+function custom_wc_catalog_orderby( $sortby ) {
+    $sortby['sale_discount'] = pll__('Знижка');
+    return $sortby;
+}
+add_filter( 'woocommerce_default_catalog_orderby_options', 'custom_wc_catalog_orderby' );
+add_filter( 'woocommerce_catalog_orderby', 'custom_wc_catalog_orderby' );
+
+function add_postmeta_ordering_args( $sort_args ) {
+    $orderby_value = isset( $_GET['orderby'] ) ? wc_clean( $_GET['orderby'] ) : apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby' ) );
+    switch( $orderby_value ) {
+        case 'sale_discount':
+            $sort_args['orderby'] = 'meta_value';
+            $sort_args['order'] = 'desc';
+            $sort_args['meta_key'] = 'sale_discount';
+            break;
+    }
+    return $sort_args;
+}
+add_filter( 'woocommerce_get_catalog_ordering_args', 'add_postmeta_ordering_args' );
+
+
+function add_sale_discount_to_all_records() {
+    $args = array(
+        'numberposts'      => -1,
+        'category'         => 0,
+        'orderby'          => 'date',
+        'order'            => 'DESC',
+        'include'          => array(),
+        'exclude'          => array(),
+        'meta_key'         => '',
+        'meta_value'       => '',
+        'post_type'        => 'product',
+        'suppress_filters' => true,
+    );
+    $records = get_posts($args);
+    if ($records) {
+        foreach ($records as $record) {
+            $post_id = $record->ID;
+            $field_key = 'field_5f51bc8bd34d0';
+            //$field_key = 'sale_discount';
+            $value = get_field('sale_discount', $post_id);
+            update_post_meta($post_id, 'sale_discount', $value);
+            update_post_meta($post_id, '_sale_discount', $field_key);
+        }
+    }
+}
+//add_action('admin_init', 'add_sale_discount_to_all_records');

@@ -23,12 +23,19 @@
 	if ( empty( $product ) || ! $product->is_visible() ) {
 		return;
 	}
+	$productID = $product->get_parent_id() ? $product->get_parent_id() : $product->get_id();
+    $sale_discount = get_field('sale_discount', $productID);
 ?>
 <div class="col-xl-3 col-lg-4 col-md-6 <?php wc_product_class( '', $product ); ?>">
 	<div class="catalog-productbox">
 		<a href="<? the_permalink(); ?>">
 			<div class="catalog-productbox__pic">
 				<img src="<? echo get_the_post_thumbnail_url( $id, 'large' ); ?>" alt="product image">
+                <?php if ($sale_discount): ?>
+                    <div class="catalog-productbox__pic__sale_discount">
+                        <?php echo $sale_discount; ?>
+                    </div>
+                <?php endif; ?>
 			</div>
 		</a>
 		<div class="catalog-productbox__text">
