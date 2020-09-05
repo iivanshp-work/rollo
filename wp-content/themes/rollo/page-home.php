@@ -44,7 +44,7 @@ get_header();
         <div class="home-slider">
             <? while (have_rows('slajder')) : the_row();
                 $link = get_sub_field('posylannya'); ?>
-                <div style="background-image: url(<? the_sub_field('img'); ?>);">
+                <div style="background-image: url(<? the_sub_field('img'); ?>);background-color: #6b6b6d;">
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-xl-6 col-lg-8 col-9">

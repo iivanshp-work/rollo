@@ -2,80 +2,46 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ea36600-2844-4646-a129-4b583d7c24db" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/.htaccess" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/akant/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/akant/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/akant/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/akant/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/aksesuary/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/aksesuary/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/arabeska/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/arabeska/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/arabeska/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/arabeska/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/blekaut/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/blekaut/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/blekaut/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/blekaut/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/blog/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/blog/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/dmukhavky/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/dmukhavky/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/dmukhavky/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/dmukhavky/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/imagine/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/imagine/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/korobovi-systemy/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/korobovi-systemy/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/line/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/line/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/lon-korobovi-systemy/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/lon-korobovi-systemy/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/lon-korobovi-systemy/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/lon-korobovi-systemy/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/lon/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/lon/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-blekaut/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-blekaut/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-den-nich-kvity/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-den-nich-kvity/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-den-nich-kvity/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-den-nich-kvity/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-den-nich-magic/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-den-nich-magic/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-den-nich/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-den-nich/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-tkanynni-blackout/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-tkanynni-blackout/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-tkanynni-blackout/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-tkanynni-blackout/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-tkanynni/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-tkanynni/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/aksessuars/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/aksessuars/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/aksessuars/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/aksessuars/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/blog/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/blog/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/blog/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/blog/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/kak-zakazat/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/kak-zakazat/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/kak-zakazat/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/kak-zakazat/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/korobovye-systemy/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/korobovye-systemy/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/korobovye-systemy/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/korobovye-systemy/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolety-blekaut/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolety-blekaut/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolety-blekaut/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolety-blekaut/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolety-den-noch-secret/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolety-den-noch-secret/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolety-den-noch/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolety-den-noch/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolkty-tkanevye/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolkty-tkanevye/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzi-vertikal-nye/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzi-vertikal-nye/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzi-vertikal-nye/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzi-vertikal-nye/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzy-plyse/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzy-plyse/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzy-plyse/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzy-plyse/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/termo/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/termo/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/termo/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/termo/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/togo/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/togo/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/togo/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/togo/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/yak-zrobyty-zamovlennya/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/yak-zrobyty-zamovlennya/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhaliuzi-vertykalni-prestyzh/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhaliuzi-vertykalni-prestyzh/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhaliuzi-vertykalni-prestyzh/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhaliuzi-vertykalni-prestyzh/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhaliuzi-vertykalni/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhaliuzi-vertykalni/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhalyuzi-plise/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhalyuzi-plise/index.html_gzip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhalyuzi-vertikal-nye-klasik/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhalyuzi-vertikal-nye-klasik/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhalyuzi-vertikal-nye-klasik/index.html_gzip" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhalyuzi-vertikal-nye-klasik/index.html_gzip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/wp-rocket-config/rollo.me.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/wp-rocket-config/rollo.me.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/akant/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/akant/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/arabeska/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/arabeska/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/blekaut/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/blekaut/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/dmukhavky/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/dmukhavky/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/lon-korobovi-systemy/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/lon-korobovi-systemy/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-den-nich-kvity/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-den-nich-kvity/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-tkanynni-blackout/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/rolety-tkanynni-blackout/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/aksessuars/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/aksessuars/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/blog/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/blog/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/kak-zakazat/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/kak-zakazat/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/korobovye-systemy/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/korobovye-systemy/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolety-blekaut/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/rolety-blekaut/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzi-vertikal-nye/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzi-vertikal-nye/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzy-plyse/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/ru/zhalyuzy-plyse/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/termo/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/termo/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/togo/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/togo/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhaliuzi-vertykalni-prestyzh/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhaliuzi-vertykalni-prestyzh/index.html_gzip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhalyuzi-vertikal-nye-klasik/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/cache/wp-rocket/rollo.me/zhalyuzi-vertikal-nye-klasik/index.html_gzip" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -86,23 +52,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js">
+        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/page-home.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="470" column="20" selection-start-line="470" selection-start-column="20" selection-end-line="470" selection-end-column="20" />
-              <folding>
-                <element signature="e#30#15716#0" />
-                <element signature="n#!!block;n#recalculatePrice#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/css/common.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="67" column="15" lean-forward="true" selection-start-line="67" selection-start-column="15" selection-end-line="67" selection-end-column="15" />
+            <state relative-caret-position="176">
+              <caret line="80" column="18" selection-start-line="80" selection-start-column="18" selection-end-line="80" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -110,56 +63,79 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/functions.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="204" column="142" lean-forward="true" selection-start-line="204" selection-start-column="142" selection-end-line="204" selection-end-column="142" />
+            <state relative-caret-position="142">
+              <caret line="2843" selection-start-line="2843" selection-end-line="2848" selection-end-column="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="true" current-in-tab="false">
+        <entry file="remoteDeploymentFS://&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/functions.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="423">
+              <caret line="2652" column="41" selection-start-line="2652" selection-start-column="21" selection-end-line="2652" selection-end-column="41" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="349" column="27" selection-start-line="349" selection-start-column="27" selection-end-line="349" selection-end-column="27" />
-              <folding>
-                <element signature="e#1663#2746#0#HTML" />
-                <element signature="e#3039#3406#0#HTML" />
-                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="e#20149#22096#0#PHP" />
-                <element signature="e#22413#23528#0#HTML" />
-                <element signature="e#23591#26322#0#HTML" />
-                <element signature="e#26520#28064#0#HTML" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/common.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="59">
-              <caret line="145" column="18" selection-start-line="145" selection-start-column="8" selection-end-line="145" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/header.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="33" column="44" selection-start-line="33" selection-start-column="44" selection-end-line="33" selection-end-column="44" />
-            </state>
-          </provider>
+        <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.js">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/page-home.php">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="79">
-              <caret line="43" column="31" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="31" />
+            <state relative-caret-position="447">
+              <caret line="171" lean-forward="true" selection-start-line="171" selection-end-line="171" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/archive-product.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="367">
+              <caret line="55" column="81" lean-forward="true" selection-start-line="55" selection-start-column="20" selection-end-line="55" selection-end-column="81" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="true" current-in-tab="false">
+        <entry file="remoteDeploymentFS://&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/woocommerce/archive-product.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="42" column="38" lean-forward="true" selection-start-line="42" selection-start-column="38" selection-end-line="42" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="true" current-in-tab="false">
+        <entry file="remoteDeploymentFS://&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/assets/js/custom.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="328">
+              <caret line="498" column="7" selection-start-line="498" selection-start-column="7" selection-end-line="498" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="502" column="4" lean-forward="true" selection-start-line="502" selection-start-column="4" selection-end-line="505" selection-end-column="7" />
               <folding>
-                <element signature="e#1615#1674#0#HTML" expanded="true" />
+                <element signature="n#!!block;n#recalculatePrice#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.htaccess">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3120">
+              <caret line="156" selection-start-line="156" selection-end-line="156" />
             </state>
           </provider>
         </entry>
@@ -168,17 +144,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>post_meta</find>
-      <find>acf_add_local_field_group</find>
-      <find>group_5f51bc7b64f9a</find>
-      <find>5f51bc8bd34d0</find>
-      <find>products-section</find>
-      <find>&lt;img</find>
-      <find>form</find>
-      <find>field_5f51bc8bd34d0</find>
-      <find>acf_update_value</find>
-      <find>Roboto Condense</find>
-      <find>media</find>
       <find>image</find>
       <find>place</find>
       <find>mechanism_price_type_2</find>
@@ -192,20 +157,32 @@
       <find>font-face</find>
       <find>show_not_standard_sizes</find>
       <find>font-family</find>
-      <find>goog</find>
       <find>google</find>
       <find>.slick</find>
-      <find>ome-slider__description</find>
       <find>prwhitebtn-open-popup</find>
       <find>home-slider</find>
+      <find>slick</find>
+      <find>$('.home-slider').slick({</find>
+      <find>ome-slider__description</find>
+      <find>&lt;img</find>
+      <find>js</find>
+      <find>each</find>
+      <find>goog</find>
+      <find>productbox__pic</find>
+      <find>product_slug</find>
+      <find>/product/</find>
+      <find>blog</find>
+      <find>generat</find>
+      <find>require get_template_directory() . '/inc/lang.php';</find>
     </findStrings>
     <dirStrings>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins</dir>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\woocommerce</dir>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\plugins\woocommerce</dir>
-      <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo</dir>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\assets</dir>
       <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\assets\js</dir>
+      <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo</dir>
+      <dir>D:\PROGRAMS\OpenServer\domains\rollo.me\wp-content\themes\rollo\woocommerce\single-product</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -223,13 +200,28 @@
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/filter.svg" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/checkout/review-order.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product/add_to_cart_popup.php" />
-        <option value="$PROJECT_DIR$/wp-content/themes/rollo/footer.php" />
-        <option value="$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/content-product.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/404.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/functions.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product.php" />
         <option value="$PROJECT_DIR$/wp-content/themes/rollo/assets/css/common.css" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/.htaccess" />
+        <option value="$PROJECT_DIR$/.htaccess" />
+        <option value="$PROJECT_DIR$/wp-content/themes/rollo/footer.php" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/footer.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/page-home.php" />
+        <option value="$PROJECT_DIR$/wp-content/themes/rollo/page-home.php" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/woocommerce/checkout/review-order.php" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/woocommerce/single-product/add_to_cart_popup.php" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/woocommerce/single-product.php" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/header_with_pidcat.php" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/header copy.php" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/header.php" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/woocommerce/archive-product.php" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/assets/js/custom.js" />
+        <option value="&lt;f58be216-dc00-4799-b75c-39598ba5b960&gt;/rollo.net.ua/www/wp-content/themes/rollo/functions.php" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.blade.php" />
       </list>
     </option>
   </component>
@@ -278,6 +270,15 @@
               <item name="themes" type="462c0819:PsiDirectoryNode" />
               <item name="rollo" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="rollo.me" type="b2602c69:ProjectViewProjectNode" />
+              <item name="rollo.me" type="462c0819:PsiDirectoryNode" />
+              <item name="wp-content" type="462c0819:PsiDirectoryNode" />
+              <item name="themes" type="462c0819:PsiDirectoryNode" />
+              <item name="rollo" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="rollo.me" type="b2602c69:ProjectViewProjectNode" />
@@ -395,17 +396,19 @@
       <workItem from="1598990994480" duration="596000" />
       <workItem from="1599052849822" duration="90000" />
       <workItem from="1599163409723" duration="12918000" />
-      <workItem from="1599248148420" duration="7627000" />
+      <workItem from="1599248148420" duration="13043000" />
+      <workItem from="1599420908575" duration="4383000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32559000" />
+    <option name="totallyTimeSpent" value="42358000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49839228" visible="true" weight="0.21104388" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49839228" visible="true" weight="0.21406959" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.24962178" />
       <window_info id="npm" order="2" sideWeight="0.5016077" side_tool="true" weight="0.24659607" />
       <window_info id="Favorites" order="3" sideWeight="0.5016077" side_tool="true" weight="0.24659607" />
@@ -463,15 +466,6 @@
     <state x="676" y="291" width="620" height="522" key="find.popup/53.27.1867.1053@53.27.1867.1053" timestamp="1599052879757" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/minus-acc.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/pencil.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/pencil-white.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/pin.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -535,20 +529,6 @@
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/filter.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/checkout/review-order.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="33" column="93" selection-start-line="33" selection-start-column="84" selection-end-line="33" selection-end-column="93" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product/add_to_cart_popup.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2240">
-          <caret line="126" column="101" selection-start-line="126" selection-start-column="101" selection-end-line="126" selection-end-column="101" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/exchange-filter.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -569,13 +549,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
           <caret line="9" column="17" selection-start-line="9" selection-start-column="8" selection-end-line="9" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/footer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="16" column="11" lean-forward="true" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -647,13 +620,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/archive-product.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="820">
-          <caret line="55" column="47" selection-start-line="55" selection-start-column="47" selection-end-line="55" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/plugins/advanced-custom-fields-pro/includes/acf-value-functions.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4500">
@@ -672,17 +638,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1660">
           <caret line="89" selection-start-line="89" selection-end-line="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="470" column="20" selection-start-line="470" selection-start-column="20" selection-end-line="470" selection-end-column="20" />
-          <folding>
-            <element signature="e#30#15716#0" />
-            <element signature="n#!!block;n#recalculatePrice#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -709,34 +664,86 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-241">
+          <caret line="145" column="26" selection-start-line="145" selection-start-column="26" selection-end-line="145" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/footer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="91" column="88" selection-start-line="91" selection-start-column="88" selection-end-line="91" selection-end-column="88" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/header.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
+        <state relative-caret-position="500">
           <caret line="33" column="44" selection-start-line="33" selection-start-column="44" selection-end-line="33" selection-end-column="44" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/functions.php">
+    <entry file="file://$PROJECT_DIR$/.htaccess">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="204" column="142" lean-forward="true" selection-start-line="204" selection-start-column="142" selection-end-line="204" selection-end-column="142" />
+        <state relative-caret-position="3120">
+          <caret line="156" selection-start-line="156" selection-end-line="156" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/common.js">
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/checkout/review-order.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="145" column="18" selection-start-line="145" selection-start-column="8" selection-end-line="145" selection-end-column="18" />
+        <state relative-caret-position="208">
+          <caret line="34" column="108" lean-forward="true" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="108" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product/add_to_cart_popup.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="120" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/page-home.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="79">
-          <caret line="43" column="31" selection-start-line="43" selection-start-column="20" selection-end-line="43" selection-end-column="31" />
+        <state relative-caret-position="176">
+          <caret line="80" column="18" selection-start-line="80" selection-start-column="18" selection-end-line="80" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/archive-product.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="55" column="81" lean-forward="true" selection-start-line="55" selection-start-column="20" selection-end-line="55" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/js/custom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="502" column="4" lean-forward="true" selection-start-line="502" selection-start-column="4" selection-end-line="505" selection-end-column="7" />
           <folding>
-            <element signature="e#1615#1674#0#HTML" expanded="true" />
+            <element signature="n#!!block;n#recalculatePrice#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/functions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="142">
+          <caret line="2843" selection-start-line="2843" selection-end-line="2848" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="171" lean-forward="true" selection-start-line="171" selection-end-line="171" />
         </state>
       </provider>
     </entry>

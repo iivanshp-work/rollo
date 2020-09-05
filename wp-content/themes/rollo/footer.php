@@ -90,34 +90,9 @@ $main_page_id = pll_get_post(2, pll_current_language('slug'));
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/lightzoom.min.js"></script>
 
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/common.js"></script>
+<script>var home_slider_next_btn_text = '<?php pll_e("наступний"); ?>';</script>
 <script src="<? echo get_template_directory_uri() . '/assets/' ?>js/custom.js"></script>
 
-<script>
-    // home slider
-    $('.home-slider').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        nextArrow: '<button type="button" class="slick-next"><?php pll_e("наступний"); ?></button>',
-        prevArrow: false,
-        dots: true,
-    });
-    // home slider - END
-
-    $('li.woocommerce-MyAccount-navigation-link.is-active').addClass('active');
-    $('.socials-list').addClass('signforms__btnsbox');
-    $('.ywsl-social.ywsl-google').addClass('google-btn');
-    $('.ywsl-social.ywsl-facebook').addClass('facebook-btn');
-
-    $('.google-btn').append('<span>google</span>');
-    $('.facebook-btn').append('<span>facebook</span>');
-
-    $('.google-btn > img').attr("src", "/wp-content/themes/rollo/assets/image/icon/google-plus.svg");
-    $('.facebook-btn > img').attr("src", "/wp-content/themes/rollo/assets/image/icon/fb.svg");
-
-    if ($('body.logged-in').length) {
-        $('body.logged-in header').addClass('login');
-    }
-</script>
 
 <? global $post;
 if ($post->post_name == 'kontakty') { ?>
