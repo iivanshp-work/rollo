@@ -150,54 +150,95 @@ get_header( '' ); ?>
                                   <div style="font-size:14px" class="ld ld-ring ld-cycle"></div>
                               </button>
                           </div>
+                          <?php
+                          $standardSizes = get_field('standard_sizes', $product->get_id());
+                          $showNotStandardSizes = get_field('show_not_standard_sizes', $product->get_id());
+                          $notStandardSizes = get_field('not_standard_sizes', $product->get_id());
+                          ?>
+                          <?php if (empty($standardSizes)): ?>
+                              <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6">
+                                  <?php if ($showNotStandardSizes && !empty($notStandardSizes)): ?>
+                                      <span class="prwhitebtn prwhitebtn-open-popup">
+                                          <span>
+                                              <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shape-size-interface-symbol.svg" alt="icon">
+                                              <?php echo pll__('Вкажіть розмір вікон');?>
+                                          </span>
+                                      </span>
+                                  <?php endif; ?>
+                              </div>
+                          <?php endif;?>
+
                       </div>
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-xl-6 col-lg-7 col-md-6 col-sm-6">
-                  <input data-product_attribute="width" type="hidden" name="product_attribute[width]" value="">
-                  <input class="recalculate_price" data-product_attribute="height" type="hidden" name="product_attribute[height]" value="">
+              <?php
+              if (!isset($standardSizes)) {
+                  $standardSizes = get_field('standard_sizes', $product->get_id());
+              }
+              ?>
+                <?php if (!empty($standardSizes)): ?>
+                    <div class="col-xl-6 col-lg-7 col-md-6 col-sm-6">
+                      <input data-product_attribute="width" type="hidden" name="product_attribute[width]" value="">
+                      <input class="recalculate_price" data-product_attribute="height" type="hidden" name="product_attribute[height]" value="">
 
-                  <div class="settblock new-size">
-                    <p class="title"><?php echo pll__('Обраний розмір');?></p>
-                    <div class="sizelist__boxnew">
-                      <div class="sizelist__row active">
-                        <span class="newswidth"><text>00</text> мм</span><img
-                                src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/x.svg" alt="x"><span
-                                class="newsheight"><text>00</text>
-                                                    мм</span>
-                        <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/cancel.svg" alt="delete" class="delete-size">
-                      </div>
+                      <div class="settblock new-size">
+                        <p class="title"><?php echo pll__('Обраний розмір');?></p>
+                        <div class="sizelist__boxnew">
+                          <div class="sizelist__row active">
+                            <span class="newswidth"><text>00</text> мм</span><img
+                                    src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/x.svg" alt="x"><span
+                                    class="newsheight"><text>00</text>
+                                                        мм</span>
+                            <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/cancel.svg" alt="delete" class="delete-size">
+                          </div>
 
-                    </div>
-                  </div>
-                    <?php
-                    $standardSizes = get_field('standard_sizes', $product->get_id());
-                    ?>
-                    <?php if (!empty($standardSizes)): ?>
-                      <div class="settblock">
-                        <p class="title"><?php echo pll__('Стандартні розміри');?></p>
-                        <div class="sizelist">
-                          <div class="sizelist__title">
-                            <span><?php echo pll__('Ширина');?></span><span><?php echo pll__('Висота');?></span>
-                          </div>
-                          <div class="sizelist__box">
-                              <?php foreach ($standardSizes as $standardSize): ?>
-                                  <?php if (isset($standardSize['width']) && isset($standardSize['height']) && $standardSize['width'] && $standardSize['height']): ?>
-                                  <div class="sizelist__row" data-product-standard-sizes="" data-width="<?php echo $standardSize['width']; ?>" data-height="<?php echo $standardSize['height']; ?>">
-                                    <span><?php echo $standardSize['width']; ?> мм</span>
-                                    <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/x.svg" alt="x">
-                                    <span><?php echo $standardSize['height']; ?> мм</span>
-                                  </div>
-                                  <?php endif; ?>
-                              <?php endforeach; ?>
-                          </div>
                         </div>
                       </div>
-                    <?php endif; ?>
-                </div>
+
+                        <?php if (!empty($standardSizes)): ?>
+                          <div class="settblock">
+                            <p class="title"><?php echo pll__('Стандартні розміри');?></p>
+                            <div class="sizelist">
+                              <div class="sizelist__title">
+                                <span><?php echo pll__('Ширина');?></span><span><?php echo pll__('Висота');?></span>
+                              </div>
+                              <div class="sizelist__box">
+                                  <?php foreach ($standardSizes as $standardSize): ?>
+                                      <?php if (isset($standardSize['width']) && isset($standardSize['height']) && $standardSize['width'] && $standardSize['height']): ?>
+                                      <div class="sizelist__row" data-product-standard-sizes="" data-width="<?php echo $standardSize['width']; ?>" data-height="<?php echo $standardSize['height']; ?>">
+                                        <span><?php echo $standardSize['width']; ?> мм</span>
+                                        <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/x.svg" alt="x">
+                                        <span><?php echo $standardSize['height']; ?> мм</span>
+                                      </div>
+                                      <?php endif; ?>
+                                  <?php endforeach; ?>
+                              </div>
+                            </div>
+                          </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endif;?>
                 <div class="col-xl-6 col-lg-5 col-md-6 col-sm-6">
+                    <?php if (empty($standardSizes)): ?>
+                        <input data-product_attribute="width" type="hidden" name="product_attribute[width]" value="">
+                        <input class="recalculate_price" data-product_attribute="height" type="hidden" name="product_attribute[height]" value="">
+
+                        <div class="settblock new-size">
+                            <p class="title"><?php echo pll__('Обраний розмір');?></p>
+                            <div class="sizelist__boxnew">
+                                <div class="sizelist__row active">
+                                    <span class="newswidth"><text>00</text> мм</span><img
+                                            src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/x.svg" alt="x"><span
+                                            class="newsheight"><text>00</text>
+                                                            мм</span>
+                                    <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/cancel.svg" alt="delete" class="delete-size">
+                                </div>
+
+                            </div>
+                        </div>
+                    <?php endif;?>
                     <?php
                     $availableManSidesIDS = isset($productAttributes['pa_storona-upravlinnya']) ? $productAttributes['pa_storona-upravlinnya']->get_options() : null;
                     $availableManSides = [];
@@ -296,19 +337,28 @@ get_header( '' ); ?>
                         <span class="price" id="price"><?php echo wc_price(calculate_product_price($product->get_id())); ?></span>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <?php
-                    $notStandardSizes = get_field('not_standard_sizes', $product->get_id());
-                    ?>
-                    <?php if (!empty($standardSizes) && !empty($notStandardSizes)): ?>
-                      <span class="prwhitebtn prwhitebtn-open-popup">
-                          <span>
-                              <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shape-size-interface-symbol.svg" alt="icon">
-                              <?php echo pll__('Інший розмір вікон');?>
+
+                <div class="col-12"></div>
+                <?php
+                    if (!isset($showNotStandardSizes)) {
+                        $showNotStandardSizes = get_field('show_not_standard_sizes', $product->get_id());
+                    }
+                    if (!isset($notStandardSizes)) {
+                        $notStandardSizes = get_field('not_standard_sizes', $product->get_id());
+                    }
+                ?>
+                <?php if (!empty($standardSizes)): ?>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <?php if ($showNotStandardSizes && !empty($notStandardSizes)): ?>
+                            <span class="prwhitebtn prwhitebtn-open-popup">
+                              <span>
+                                  <img src="<? echo get_template_directory_uri() . '/assets/' ?>image/icon/shape-size-interface-symbol.svg" alt="icon">
+                                  <?php echo pll__('Інший розмір вікон');?>
+                              </span>
                           </span>
-                      </span>
-                    <?php endif; ?>
-                </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endif;?>
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <?php if ($product->is_in_stock()): ?>
                       <a href="#" class="prblackbtn" data-add-to-cart="" >
@@ -484,7 +534,7 @@ if (!isset($notStandardSizes)) {
         </div>
     </div>
 <?php endif; ?>
-<?php if (!empty($standardSizes) && !empty($notStandardSizes)): ?>
+<?php if (!empty($notStandardSizes)): ?>
   <div class="modal-section modal-section-diff-sizes">
     <div class="align-block">
       <div class="modal-sizeset">

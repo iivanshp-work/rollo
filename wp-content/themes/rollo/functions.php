@@ -2205,13 +2205,41 @@ if( function_exists('acf_add_local_field_group') ):
                 ),
             ),
             array(
+                'key' => 'field_5f529ff1aed3b',
+                'label' => 'Дозволено нестандартні розміри',
+                'name' => 'show_not_standard_sizes',
+                'type' => 'true_false',
+                'instructions' => '',
+                'required' => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array(
+                    'width' => '',
+                    'class' => '',
+                    'id' => '',
+                ),
+                'message' => '',
+                'default_value' => 0,
+                'ui' => 0,
+                'ui_on_text' => '',
+                'ui_off_text' => '',
+            ),
+            array(
                 'key' => 'field_5e19cbcb8a858',
                 'label' => 'Нестандартні розміри',
                 'name' => 'not_standard_sizes',
                 'type' => 'group',
                 'instructions' => '',
                 'required' => 0,
-                'conditional_logic' => 0,
+                //'conditional_logic' => 0,
+                'conditional_logic' => array(
+                    array(
+                        array(
+                            'field' => 'field_5f529ff1aed3b',
+                            'operator' => '==',
+                            'value' => '1',
+                        ),
+                    ),
+                ),
                 'wrapper' => array(
                     'width' => '',
                     'class' => '',
@@ -2818,6 +2846,7 @@ pll_register_string("Знижка", "Знижка");
 pll_register_string("еххх...знову в нас тут виникли помилки", "еххх...знову в нас тут виникли помилки");
 pll_register_string("Пошук…", "Пошук…");
 pll_register_string("Шукати", "Шукати");
+pll_register_string("Вкажіть розмір вікон", "Вкажіть розмір вікон");
 
 // fix for checkout update localization
 add_filter('woocommerce_ajax_get_endpoint',  function ($result, $request){
@@ -2904,6 +2933,35 @@ function add_sale_discount_to_all_records() {
     }
 }
 //add_action('admin_init', 'add_sale_discount_to_all_records');
+
+function add_show_not_standard_sizes_to_all_records() {
+    $args = array(
+        'numberposts'      => -1,
+        'category'         => 0,
+        'orderby'          => 'date',
+        'order'            => 'DESC',
+        'include'          => array(),
+        'exclude'          => array(),
+        'meta_key'         => '',
+        'meta_value'       => '',
+        'post_type'        => 'product',
+        'suppress_filters' => true,
+    );
+    $records = get_posts($args);
+    if ($records) {
+
+        foreach ($records as $record) {
+            $post_id = $record->ID;
+            $field_key = 'field_5f529ff1aed3b';
+            $standard_sizes = get_field('standard_sizes', $post_id);
+            $value = !empty($standard_sizes) ? 1 : 0;
+            update_post_meta($post_id, 'show_not_standard_sizes', $value);
+            update_post_meta($post_id, '_show_not_standard_sizes', $field_key);
+        }
+
+    }
+}
+//add_action('admin_init', 'add_show_not_standard_sizes_to_all_records');
 // sendgrid api key - new
 //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
 
