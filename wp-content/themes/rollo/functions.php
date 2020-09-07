@@ -2967,3 +2967,100 @@ function add_show_not_standard_sizes_to_all_records() {
 
 // sendgrid api key - old
 //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
+
+add_filter('autoptimize_filter_imgopt_lazyloaded_img',  function ($tag){
+    //parse
+    //wp-content/uploads-webpc/uploads/
+    //return esc_url_raw( add_query_arg( 'wc-ajax', $request, remove_query_arg( array( 'remove_item', 'add-to-cart', 'added-to-cart' ) ) ) );
+}, 10, 1);
+
+add_filter('autoptimize_filter_imgopt_lazyloaded_img',  function ($tag){
+    $replaceWebp = false;
+    if ($_SERVER["REMOTE_ADDR"] == '93.175.195.69') {
+        $replaceWebp = true;
+    }
+    if ($replaceWebp) {
+        $src = '';
+        // if not support browser
+        if (!(strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') || strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') || strpos($_SERVER['HTTP_USER_AGENT'], 'OPR/') || strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') && !strpos($_SERVER['HTTP_USER_AGENT'], 'Edge'))) {
+            //return $tag;
+        }
+        if ( preg_match_all( '#<img[^>]*src[^>]*>#Usmi', $tag, $matches ) ) {
+            foreach ($matches[0] as $tagMatch) {
+                if ($tag) {
+                    preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $tagMatch, $result);
+                    $tmpSrc = array_pop($result);
+                    if ($tmpSrc) {
+                        $src = $tmpSrc;
+                        break;
+                    }
+                }
+            }
+        }
+        $srcNew = $src;
+        if ($srcNew) {
+            $ext = pathinfo($srcNew, PATHINFO_EXTENSION);
+            $allowExt = ['png', 'jpg', 'jpeg'];
+            if (!in_array($ext, $allowExt)) {
+                return $tag;
+            }
+            if (strpos($src, 'wp-content/uploads') !== false) {
+                $srcNew = str_replace('/wp-content/uploads/', '/wp-content/uploads-webpc/uploads/', $src);
+                $srcNew .= '.webp';
+            }
+            $srcPath = $srcNew;
+            $srcPath = str_replace(['https://' . $_SERVER["SERVER_NAME"], 'http://' . $_SERVER["SERVER_NAME"]], $_SERVER["DOCUMENT_ROOT"], $srcPath);
+            if (@file_exists($srcPath)) {
+                $tag = str_replace($src, $srcNew, $tag);
+            }
+        }
+        return $tag;
+    } else {
+        return $tag;
+    }
+}, 20);
+
+/*
+function test_tag() {
+    $tag = '<noscript><img src="https://rollo.net.ua/wp-content/themes/rollo/assets/image/icon/search.svg" alt="search"></noscript><img class="lazyload" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20210%20140%22%3E%3C/svg%3E" data-src="https://rollo.net.ua/wp-content/themes/rollo/assets/image/icon/search.svg" alt="search">';
+    $tag = '<noscript><img src="https://rollo.net.ua/wp-content/uploads/2020/02/tkan_logo.png" alt="product"></noscript><img class="lazyload" src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20210%20140%22%3E%3C/svg%3E" data-src="https://rollo.net.ua/wp-content/uploads/2020/02/tkan_logo.png" alt="product">';
+    $src = '';
+    // if not support browser
+    if (!(strpos($_SERVER['HTTP_USER_AGENT'], 'Opera') || strpos($_SERVER['HTTP_USER_AGENT'], 'OPR/') || strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') && !strpos($_SERVER['HTTP_USER_AGENT'], 'Edge'))) {
+         return $tag;
+    }
+    if ( preg_match_all( '#<img[^>]*src[^>]*>#Usmi', $tag, $matches ) ) {
+        foreach ($matches[0] as $tagMatch) {
+            if ($tag) {
+                preg_match('/<img(.*)src(.*)=(.*)"(.*)"/U', $tagMatch, $result);
+                $tmpSrc = array_pop($result);
+                if ($tmpSrc) {
+                    $src = $tmpSrc;
+                    break;
+                }
+            }
+        }
+    }
+    $srcNew = $src;
+    if ($srcNew) {
+        $ext = pathinfo($srcNew, PATHINFO_EXTENSION);
+        $allowExt = ['png', 'jpg', 'jpeg'];
+        if (!in_array($ext, $allowExt)) {
+            return $tag;
+        }
+        if (strpos($src, 'wp-content/uploads') !== false) {
+            $srcNew = str_replace('/wp-content/uploads/', '/wp-content/uploads-webpc/uploads/', $src);
+            $srcNew .= '.webp';
+        }
+        $srcPath = $srcNew;
+        $_SERVER["SERVER_NAME"] = 'rollo.net.ua';
+        $srcPath = str_replace(['https://' . $_SERVER["SERVER_NAME"], 'http://' . $_SERVER["SERVER_NAME"]], $_SERVER["DOCUMENT_ROOT"], $srcPath);
+        if (1 || @file_exists($srcPath)) {
+            $tag = str_replace($src, $srcNew, $tag);
+        }
+    }
+    return $tag;
+}
+add_action('init', 'test_tag');*/
+
+
