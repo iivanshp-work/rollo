@@ -1579,7 +1579,7 @@ function save_variation_settings_fields( $variation_id, $i ) {
         }
     }
     $variation_post_title = $variant->get_name();
-    $variation_post_title .= ' s';
+    $variation_post_title .= '';
 
     wp_update_post( [
         'ID' => $variation_id,
@@ -1628,7 +1628,7 @@ function load_variation_settings_fields( $variations ) {
 }
 add_filter( 'woocommerce_available_variation', 'load_variation_settings_fields' );
 
-function the_posts_variations( $posts, $query = false ) {
+function the_posts_variations_main_color( $posts, $query = false ) {
     $koloryModeli = isset($_REQUEST['filter_kolory-modeli-main']) ? trim($_REQUEST['filter_kolory-modeli-main']) : null;
     if ($koloryModeli && $posts) {
         $koloryModeli = explode(',', $koloryModeli);
@@ -1650,6 +1650,34 @@ function the_posts_variations( $posts, $query = false ) {
                             $postsNew[] = $variant;
                         }
                     }
+                }
+            }
+            if (!$variant) {
+                $postsNew[] = $post;
+            }
+        }
+        $posts = $postsNew;
+    }
+    return $posts;
+}
+function the_posts_variations( $posts, $query = false ) {
+    $koloryModeli = isset($_REQUEST['filter_kolory-modeli']) ? trim($_REQUEST['filter_kolory-modeli']) : null;
+    if ($koloryModeli && $posts) {
+        $koloryModeli = explode(',', $koloryModeli);
+        $postsNew = [];
+        foreach ($posts as $post) {
+            if ($post->post_type != 'product') continue;
+            $variant = null;
+            foreach($koloryModeli as $kolorModeli) {
+                $attributes = [];
+                $attributes['attribute_pa_kolory-modeli'] = $kolorModeli;
+                /*$var =  (new \WC_Product_Data_Store_CPT())->find_matching_product_variation( new \WC_Product($product_id), $attributes);*/
+                $varID = custom_find_matching_product_variation(new \WC_Product($post->ID), $attributes);
+                if ($varID) {
+                    //if exist variant used it
+                    //$variant = wc_get_product($varID);
+                    $variant = get_post($varID);
+                    $postsNew[] = $variant;
                 }
             }
             if (!$variant) {
@@ -2962,19 +2990,10 @@ function add_show_not_standard_sizes_to_all_records() {
     }
 }
 //add_action('admin_init', 'add_show_not_standard_sizes_to_all_records');
-// sendgrid api key - new
-//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
 
-// sendgrid api key - old
-//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
 
 add_filter('autoptimize_filter_imgopt_lazyloaded_img',  function ($tag){
-    //parse
-    //wp-content/uploads-webpc/uploads/
-    //return esc_url_raw( add_query_arg( 'wc-ajax', $request, remove_query_arg( array( 'remove_item', 'add-to-cart', 'added-to-cart' ) ) ) );
-}, 10, 1);
-
-add_filter('autoptimize_filter_imgopt_lazyloaded_img',  function ($tag){
+    return $tag;
     $replaceWebp = false;
     if ($_SERVER["REMOTE_ADDR"] == '93.175.195.69') {
         $replaceWebp = true;

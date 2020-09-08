@@ -525,11 +525,15 @@ $(document).ready(function () {
 
     if($('.home-slider [data-bg]').length){
         $('.home-slider [data-bg]').each(function(key, item){
-            var bg = $(item).data('bg');
-            if(bg){
-                $(item).css('background-image', 'url("' + bg + '")');
-            }
-            $(item).removeAttr('data-bg');
+            var timeout = key * 1000;
+            if (key == 0) timeout = 1000;
+            setTimeout(function(){
+                var bg = $(item).data('bg');
+                if(bg){
+                    $(item).css('background-image', 'url("' + bg + '")');
+                }
+                $(item).removeAttr('data-bg');
+            }, timeout);
         });
     }
 });
