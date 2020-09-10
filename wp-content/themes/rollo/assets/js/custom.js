@@ -468,7 +468,7 @@ function recalculatePrice() {
 function zoomImage(){
     $('.product-topsect__pic .prmainpic img').lightzoom({
         glassSize: 200,
-        zoomPower: 8
+        zoomPower: 6
     });
 }
 
@@ -506,48 +506,4 @@ $(document).ready(function () {
     });
 
     zoomImage();
-
-    $('li.woocommerce-MyAccount-navigation-link.is-active').addClass('active');
-    $('.socials-list').addClass('signforms__btnsbox');
-    $('.ywsl-social.ywsl-google').addClass('google-btn');
-    $('.ywsl-social.ywsl-facebook').addClass('facebook-btn');
-
-    $('.google-btn').append('<span>google</span>');
-    $('.facebook-btn').append('<span>facebook</span>');
-
-    $('.google-btn > img').attr("src", "/wp-content/themes/rollo/assets/image/icon/google-plus.svg");
-    $('.facebook-btn > img').attr("src", "/wp-content/themes/rollo/assets/image/icon/fb.svg");
-
-    if ($('body.logged-in').length) {
-        $('body.logged-in header').addClass('login');
-    }
-
-
-    if($('.home-slider [data-bg]').length){
-        $('.home-slider [data-bg]').each(function(key, item){
-            var timeout = key * 1000;
-            if (key == 0) timeout = 1000;
-            setTimeout(function(){
-                var bg = $(item).data('bg');
-                if(bg){
-                    $(item).css('background-image', 'url("' + bg + '")');
-                }
-                $(item).removeAttr('data-bg');
-            }, timeout);
-        });
-    }
 });
-
-
-// home slider
-if ($('.home-slider').length){
-    $('.home-slider').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        nextArrow: '<button type="button" class="slick-next">' + home_slider_next_btn_text + '</button>',
-        prevArrow: false,
-        dots: true,
-        lazyLoad: 'ondemand',
-    });
-}
-// home slider - END
