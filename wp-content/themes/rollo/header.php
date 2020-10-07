@@ -94,7 +94,8 @@
 
                                                                 <?
                                                                 } else {
-                                                                    $id_tovara = url_to_postid($link['url']);
+                                                                    $urlTovara = strpos($link['url'], '/product') ? $link['url'] : str_replace("rollo.net.ua/", "rollo.net.ua/product/", $link['url']);
+                                                                    $id_tovara = url_to_postid($urlTovara);
                                                                 ?>
                                                                     <li><a href="<? echo $link['url'] ?>" data-imghov="<? echo get_the_post_thumbnail_url($id_tovara, 'menium'); ?>" data-texthov="<? echo $link['title'] ?>">
                                                                             <? echo $link['title'] ?></a></li>
@@ -135,7 +136,8 @@
 
                                                                 <?
                                                                 } else {
-                                                                    $id_tovara = url_to_postid($link['url']);
+                                                                    $urlTovara = strpos($link['url'], '/product') ? $link['url'] : str_replace("rollo.net.ua/", "rollo.net.ua/product/", $link['url']);
+                                                                    $id_tovara = url_to_postid($urlTovara);
                                                                 ?>
                                                                     <li><a href="<? echo $link['url'] ?>" data-imghov="<? echo get_the_post_thumbnail_url($id_tovara, 'menium'); ?>" data-texthov="<? echo $link['title'] ?>">
                                                                             <? echo $link['title'] ?></a></li>
@@ -176,7 +178,8 @@
 
                                                         <?
                                                         } else {
-                                                            $id_tovara = url_to_postid($link['url']);
+                                                            $urlTovara = strpos($link['url'], '/product') ? $link['url'] : str_replace("rollo.net.ua/", "rollo.net.ua/product/", $link['url']);
+                                                            $id_tovara = url_to_postid($urlTovara);
                                                         ?>
                                                             <li><a href="<? echo $link['url'] ?>" data-imghov="<? echo get_the_post_thumbnail_url($id_tovara, 'menium'); ?>" data-texthov="<? echo $link['title'] ?>">
                                                                     <? echo $link['title'] ?></a></li>
