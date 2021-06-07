@@ -83,7 +83,7 @@ get_header( '' ); ?>
                 <div class="colors-slidersect">
                     <?php
                     $availableColorsIDS = isset($productAttributes['pa_kolory-modeli']) ? $productAttributes['pa_kolory-modeli']->get_options() : null;
-                    $availableVariations = $product->get_available_variations();
+                    $availableVariations = $product->get_type() == 'variable' ? $product->get_available_variations() : null;
                     if (!empty($availableVariations)) {
                         $availableColorsIDSNew = [];
                         foreach($availableVariations as $availableVariation) {
@@ -97,8 +97,6 @@ get_header( '' ); ?>
                         }
                         $availableColorsIDS = !empty($availableColorsIDSNew) ? $availableColorsIDSNew : null;
                     }
-
-                    //test($product->get_available_variations());
 
                     $availableColors = [];
                     if ($availableColorsIDS) {

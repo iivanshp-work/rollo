@@ -2,65 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ea36600-2844-4646-a129-4b583d7c24db" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic1.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic2.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic2.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic3.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic3.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic4.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic4.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic5.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic5.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic6.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/accic6.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/basket-catblack.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/basket-catblack.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/basket-catwhite.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/basket-catwhite.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/cancel.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/cancel.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/chat.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/chat.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/close.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/close.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/email.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/email.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/exchange-filter.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/exchange-filter.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/fabric-icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/fabric-icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/facebook-footer.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/facebook-footer.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/facebook-icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/facebook-icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/fb.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/fb.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/google-plus.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/google-plus.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/gps.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/gps.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/green-arrow.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/green-arrow.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/instagram-footer.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/instagram-footer.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/instagram-icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/instagram-icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/logout-hover.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/logout-hover.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/logout.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/logout.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/maps-and-flags.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/maps-and-flags.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/marker-map.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/marker-map.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/mastercard.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/mastercard.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/measuring-tape.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/measuring-tape.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/menu-button.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/menu-button.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/minus-acc.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/minus-acc.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/minus.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/minus.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/pencil-white.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/pencil-white.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/pencil.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/pencil.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/pin.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/pin.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/plus-acc.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/plus-acc.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/plus.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/plus.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/remove-icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/remove-icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/reply-hover.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/reply-hover.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/reply.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/reply.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/search-green.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/search-green.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/search.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/search.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/shape-size-interface-symbol.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/shape-size-interface-symbol.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/shopping-basket.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/shopping-basket.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/shopping-basketpr.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/shopping-basketpr.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/slider-arrleft-white.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/slider-arrleft-white.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/slider-arrleft.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/slider-arrleft.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/slider-arrright-white.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/slider-arrright-white.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/slider-arrright.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/slider-arrright.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/smartphone.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/smartphone.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/user.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/user.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/visa.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/visa.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/wrench.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/wrench.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/x.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/x.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/youtube-footer.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/youtube-footer.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/youtube-icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/youtube-icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/logtrig1.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/logtrig1.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/logtrig2.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/logtrig2.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/product-arrow-white.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/product-arrow-white.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/search-cat.svg" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/assets/image/search-cat.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product/add_to_cart_popup.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-content/themes/rollo/woocommerce/single-product/add_to_cart_popup.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -378,12 +323,6 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="676" y="291" width="620" height="522" key="find.popup" timestamp="1599052879757">
-      <screen x="53" y="27" width="1867" height="1053" />
-    </state>
-    <state x="676" y="291" width="620" height="522" key="find.popup/53.27.1867.1053@53.27.1867.1053" timestamp="1599052879757" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/wp-content/themes/rollo/assets/image/icon/remove-icon.svg">

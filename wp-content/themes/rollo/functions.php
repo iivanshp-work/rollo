@@ -1143,58 +1143,64 @@ function ajax_add_to_cart() {
     $product_attributes = isset($_POST['product_attribute']) ? $_POST['product_attribute'] : [];
     $attributes = [];
     if ($product_id) {
-        if (isset($product_attributes['pa_kolory-modeli']) && $product_attributes['pa_kolory-modeli']) {
-            $attributes['attribute_pa_kolory-modeli'] = $product_attributes['pa_kolory-modeli'];
-        }
-        if (!isset($attributes['attribute_pa_kolory-modeli'])) {
-            echo json_encode([
-                'has_error' => true,
-                'error_message' => pll__('Виберіть колір моделі'),
-                'show_select_color_popup' => true,
-            ]);
-            wp_die();
-        }
-        /*$var =  (new \WC_Product_Data_Store_CPT())->find_matching_product_variation( new \WC_Product($product_id), $attributes);*/
-        $variation_id = custom_find_matching_product_variation(new \WC_Product($product_id), $attributes);
-
-        if ($variation_id) {
-            //if exist variant used it
-            $variant = wc_get_product($variation_id);
-            $product = wc_get_product($product_id);
-        } else {
-            //if not exist variant then used original troduct
-            $variant = wc_get_product($product_id);
-            $product = wc_get_product($product_id);
-        }
-
-        $width = isset($product_attributes['width']) ? $product_attributes['width'] : 0;
-        $height = isset($product_attributes['height']) ? $product_attributes['height'] : 0;
-        if ($width && $height) {
-            $basePrice = $variant->get_price();
-        } else {
-            $basePrice = calculate_product_price($variant->get_id());
-        }
-
-        $sizesData = [
-            'not_standard_sizes' => get_field('not_standard_sizes', $product->get_id()),
-            'standard_sizes' => get_field('standard_sizes', $product->get_id()),
-        ];
-        $product_attributes['sizes'] = $sizesData;
-        $product_attributes['calculate_price_type'] = get_field('calculate_price_type', $product->get_id());
-        $product_attributes['box_price'] = get_field('box_price', $product->get_id());
-        $product_attributes['mechanism_price_type_1'] = get_field('mechanism_price_type_1', $product->get_id());
-        $product_attributes['mechanism_price_type_2'] = get_field('mechanism_price_type_2', $product->get_id());
-
-        $hasAdditionalPriceAttributes = false;
-        $additinalPriceAttributes = ['pa_kolory-systemy'];
-        foreach ($additinalPriceAttributes as $additinalPriceAttribute) {
-            if (isset($product_attributes[$additinalPriceAttribute])) {
-                $hasAdditionalPriceAttributes = true;
+        $product = wc_get_product($product_id);
+        if ($product->get_type() == 'variable') {
+            if (isset($product_attributes['pa_kolory-modeli']) && $product_attributes['pa_kolory-modeli']) {
+                $attributes['attribute_pa_kolory-modeli'] = $product_attributes['pa_kolory-modeli'];
             }
-        }
-        if (($width && $height) || $hasAdditionalPriceAttributes) {
-            $price = calculatePrice($basePrice, $product_attributes);
-        } else {
+            if (!isset($attributes['attribute_pa_kolory-modeli'])) {
+                echo json_encode([
+                    'has_error' => true,
+                    'error_message' => pll__('Виберіть колір моделі'),
+                    'show_select_color_popup' => true,
+                ]);
+                wp_die();
+            }
+            /*$var =  (new \WC_Product_Data_Store_CPT())->find_matching_product_variation( new \WC_Product($product_id), $attributes);*/
+            $variation_id = custom_find_matching_product_variation(new \WC_Product($product_id), $attributes);
+
+            if ($variation_id) {
+                //if exist variant used it
+                $variant = wc_get_product($variation_id);
+                $product = wc_get_product($product_id);
+            } else {
+                //if not exist variant then used original troduct
+                $variant = wc_get_product($product_id);
+                $product = wc_get_product($product_id);
+            }
+
+            $width = isset($product_attributes['width']) ? $product_attributes['width'] : 0;
+            $height = isset($product_attributes['height']) ? $product_attributes['height'] : 0;
+            if ($width && $height) {
+                $basePrice = $variant->get_price();
+            } else {
+                $basePrice = calculate_product_price($variant->get_id());
+            }
+
+            $sizesData = [
+                'not_standard_sizes' => get_field('not_standard_sizes', $product->get_id()),
+                'standard_sizes' => get_field('standard_sizes', $product->get_id()),
+            ];
+            $product_attributes['sizes'] = $sizesData;
+            $product_attributes['calculate_price_type'] = get_field('calculate_price_type', $product->get_id());
+            $product_attributes['box_price'] = get_field('box_price', $product->get_id());
+            $product_attributes['mechanism_price_type_1'] = get_field('mechanism_price_type_1', $product->get_id());
+            $product_attributes['mechanism_price_type_2'] = get_field('mechanism_price_type_2', $product->get_id());
+
+            $hasAdditionalPriceAttributes = false;
+            $additinalPriceAttributes = ['pa_kolory-systemy'];
+            foreach ($additinalPriceAttributes as $additinalPriceAttribute) {
+                if (isset($product_attributes[$additinalPriceAttribute])) {
+                    $hasAdditionalPriceAttributes = true;
+                }
+            }
+            if (($width && $height) || $hasAdditionalPriceAttributes) {
+                $price = calculatePrice($basePrice, $product_attributes);
+            } else {
+                $price = $basePrice;
+            }
+        } else if ($product->get_type() == 'simple') {
+            $basePrice = calculate_product_price($product->get_id());
             $price = $basePrice;
         }
     } else {

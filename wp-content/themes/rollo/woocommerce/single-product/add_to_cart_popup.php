@@ -25,13 +25,23 @@ defined( 'ABSPATH' ) || exit;
                 <div class="shop_table woocommerce-checkout-review-order-table">
                   <?php
                   foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ):
-                    if (!(isset($prod_id) && $prod_id && isset($var_id) && $var_id &&
-                        isset($cart_item['product_id']) && isset($cart_item['variation_id']) &&
-                        $prod_id == $cart_item['product_id'] && $var_id == $cart_item['variation_id'])) {
-                      continue;
-                    }
-    
-                    $_product     = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
+
+                      if ($prod_id && !$var_id) {
+                          if (!(isset($prod_id) && $prod_id &&
+                              isset($cart_item['product_id']) && isset($cart_item['variation_id']) &&
+                              $prod_id == $cart_item['product_id'])) {
+                              continue;
+                          }
+                      } else {
+                          if (!(isset($prod_id) && $prod_id && isset($var_id) && $var_id &&
+                              isset($cart_item['product_id']) && isset($cart_item['variation_id']) &&
+                              $prod_id == $cart_item['product_id'] && $var_id == $cart_item['variation_id'])) {
+                              continue;
+                          }
+                      }
+
+
+                      $_product     = apply_filters( 'woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key );
     
                     $product_slug = '#';
                     if ($_product) {
