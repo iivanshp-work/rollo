@@ -1044,7 +1044,7 @@ function calculatePriceFunctionType6($price, $width, $height, $attributes = []) 
     return $price;
 }
 
-function calculate_product_price($product_id = null) {
+function calculate_product_price($product_id = null, $onlyBasePrice = false) {
 
     $price = 0;
     $product = wc_get_product($product_id);
@@ -1068,7 +1068,11 @@ function calculate_product_price($product_id = null) {
             }
         }
     }
-    if ($hasStandardSize && $standardPrice) {
+    $priceType = get_field('calculate_price_type', $product->get_id());
+    if (!$onlyBasePrice && $priceType && $priceType == 'type4') {
+        $price = $product->get_price();
+        $price = calculatePriceFunctionType4($price, 500, 1000);
+    } else if ($hasStandardSize && $standardPrice) {
         $price = $standardPrice;
     } else {
         $price = $product->get_price();
