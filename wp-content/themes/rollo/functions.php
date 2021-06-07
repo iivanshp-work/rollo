@@ -287,14 +287,13 @@ class Kama_Breadcrumbs {
         // tax_tag выведет: 'тип_записи из "название_таксы" по тегу: имя_термина'.
         // Если нужны отдельные холдеры, например только имя термина, пишем так: 'записи по тегу: %3$s'
     );
-
     // Параметры по умолчанию
     static $args = array(
         'on_front_page'   => true,  // выводить крошки на главной странице
         'show_post_title' => true,  // показывать ли название записи в конце (последний элемент). Для записей, страниц, вложений
         'show_term_title' => true,  // показывать ли название элемента таксономии в конце (последний элемент). Для меток, рубрик и других такс
-        'title_patt'      => '<li>%s</li>', // шаблон для последнего заголовка. Если включено: show_post_title или show_term_title
-        'last_sep'        => false,  // показывать последний разделитель, когда заголовок в конце не отображается
+        'title_patt'      => '<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><link itemprop="item" href="%s"><span itemprop="name">%s</span><meta itemprop="position" content="$d" /></li>', // шаблон для последнего заголовка. Если включено: show_post_title или show_term_title
+        'last_sep'        => true,  // показывать последний разделитель, когда заголовок в конце не отображается
         'markup'          => 'schema.org', // 'markup' - микроразметка. Может быть: 'rdf.data-vocabulary.org', 'schema.org', '' - без микроразметки
         // или можно указать свой массив разметки:
         // array( 'wrappatt'=>'<div class="kama_breadcrumbs">%s</div>', 'linkpatt'=>'<a href="%s">%s</a>', 'sep_after'=>'', )
@@ -346,7 +345,7 @@ class Kama_Breadcrumbs {
             elseif( $mark === 'schema.org' )
 				{$mark = array(
                 'wrappatt'   => '%s',
-                'linkpatt'   => '<li><a href="%s" itemprop="item"><span itemprop="name">%s</span><meta itemprop="position" content="$d"></a></li>',
+                'linkpatt'   => '<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a itemprop="item" href="%s"><span itemprop="name">%s</span></a><meta itemprop="position" content="$d" /></li>',
                 'sep_after'  => '',
             );
 
@@ -561,7 +560,7 @@ class Kama_Breadcrumbs {
 
                 // первая страница архива типа записи
                 if( is_post_type_archive() && ! $paged_num )
-                    $home_after = sprintf( $this->arg->title_patt, $pt_title );
+                    $home_after = sprintf( $this->arg->title_patt, get_post_type_archive_link($ptype->name), $pt_title );
                 // singular, paged post_type_archive, tax
                 else{
                     $home_after = sprintf( $linkpatt, get_post_type_archive_link($ptype->name), $pt_title );
@@ -621,22 +620,22 @@ class Kama_Breadcrumbs {
         $arg = & $this->arg; // упростим...
         $title = $term_title ? $term_title : esc_html($obj->post_title); // $term_title чиститься отдельно, теги моугт быть...
         $show_title = $term_title ? $arg->show_term_title : $arg->show_post_title;
-
+		 $link = $term_title ? get_term_link($obj) : get_permalink($obj);
         // пагинация
         if( $arg->pg_end ){
-            $link = $term_title ? get_term_link($obj) : get_permalink($obj);
+           
             $add_to .= ($add_to ? $arg->sep : '') . sprintf( $arg->linkpatt, $link, $title ) . $arg->pg_end;
         }
         // дополняем - ставим sep
         elseif( $add_to ){
             if( $show_title )
-                $add_to .= $arg->sep . sprintf( $arg->title_patt, $title );
+                $add_to .= $arg->sep . sprintf( $arg->title_patt, $link, $title );
             elseif( $arg->last_sep )
                 $add_to .= $arg->sep;
         }
         // sep будет потом...
         elseif( $show_title )
-            $add_to = sprintf( $arg->title_patt, $title );
+            $add_to = sprintf( $arg->title_patt,$link, $title );
 
         return $add_to;
     }
@@ -991,10 +990,13 @@ function calculatePriceFunctionType3($price, $width, $height, $attributes = []) 
 */
 function calculatePriceFunctionType4($price, $width, $height, $attributes = []) {
     $area = ($width / 1000) * ($height / 1000);
-    if ($area < 0.7) {
-        $area = 0.7;
+    if ($area < 0.5) {
+        $area = 0.5;
     }
-    $price = $price * $area;
+    if ($width < 500) {
+        $width1 = 500;
+    }else { $width1 = $width; }
+    $price = ($price * $area) + (($width1 * 0.359) + 179);
     return $price;
 }
 /*
@@ -1688,7 +1690,7 @@ function the_posts_variations( $posts, $query = false ) {
     }
     return $posts;
 }
-add_action( 'the_posts', 'the_posts_variations', 15, 2 );
+add_action( 'the_posts', 'the_posts_variations_main_color', 15, 2 );
 
 
 /*Export orders to xlsx start */
@@ -2362,11 +2364,11 @@ if( function_exists('acf_add_local_field_group') ):
                                     'class' => '',
                                     'id' => '',
                                 ),
-                                'default_value' => 1000,
+                                'default_value' => 200,
                                 'placeholder' => '',
                                 'prepend' => '',
                                 'append' => '',
-                                'min' => 1000,
+                                'min' => 200,
                                 'max' => 2800,
                                 'step' => 1,
                             ),
@@ -2387,7 +2389,7 @@ if( function_exists('acf_add_local_field_group') ):
                                 'placeholder' => '',
                                 'prepend' => '',
                                 'append' => '',
-                                'min' => 1000,
+                                'min' => 200,
                                 'max' => 2800,
                                 'step' => 1,
                             ),
@@ -2855,6 +2857,7 @@ pll_register_string("<strong>Телефон</strong> - обов'язкове п�
 pll_register_string("<strong>Ім’я та прізвище</strong> - обов'язкове поле.", "<strong>Ім’я та прізвище</strong> - обов'язкове поле.");
 pll_register_string("<strong>Email</strong> - обов'язкове поле.", "<strong>Email</strong> - обов'язкове поле.");
 pll_register_string("Дякуємо. Ваше замовлення було отримано.", "Дякуємо. Ваше замовлення було отримано.");
+pll_register_string("Дякуємо, очікуйте дзвінок менеджера.", "Дякуємо, очікуйте дзвінок менеджера.");
 pll_register_string("Моя корзина", "Моя корзина");
 pll_register_string("Продовжити покупки", "Продовжити покупки");
 pll_register_string("Додатково", "Додатково");
@@ -2990,7 +2993,11 @@ function add_show_not_standard_sizes_to_all_records() {
     }
 }
 //add_action('admin_init', 'add_show_not_standard_sizes_to_all_records');
+// sendgrid api key - new
+//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
 
+// sendgrid api key - old
+//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
 
 add_filter('autoptimize_filter_imgopt_lazyloaded_img',  function ($tag){
     return $tag;

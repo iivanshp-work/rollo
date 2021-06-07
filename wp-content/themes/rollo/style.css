@@ -385,3 +385,18 @@ template {
 [hidden] {
 	display: none;
 }
+
+@media (min-width:991px) and (max-width:1200px){
+	.header__menu>ul{
+		flex-wrap:wrap;
+		align-items: center;
+		justify-content:flex-end;
+	}
+	.header__menu>ul > li{
+		margin:0 5px !important;
+	}
+	 .header__menu>ul > li > a,
+	 .header__menu>ul > li > span{
+		 height:auto !important;
+	 }
+}

@@ -34,10 +34,10 @@ h4 {
 }
 
 h5 {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 140%;
     color: #6F6F6F;
-    font-weight: normal;
+    font-weight: lighter;
 }
 
 a:hover,
@@ -143,7 +143,7 @@ header.header {
 .header__menu>ul li a,
 .header__menu>ul li span {
     text-decoration: none;
-    font-size: 18px;
+    font-size: 15px;
     line-height: 21px;
     letter-spacing: 0.04em;
     color: #182328;
@@ -253,11 +253,11 @@ header.header {
 }
 
 .header__login ul li:nth-child(1) {
-    padding-right: 14px;
+    padding-right: 5px;
 }
 
 .header__login ul li:nth-child(2) {
-    padding-left: 14px;
+    padding-left: 5px;
 }
 
 .header__login ul li:nth-child(1) a {
@@ -659,6 +659,7 @@ header.header .submenu li a:hover:after,
     font-size: 18px;
     line-height: 21px;
     letter-spacing: 0.04em;
+    margin-left: 5px;
 }
 
 .header__lang ul li a:hover,
@@ -1056,6 +1057,7 @@ header.header .submenu li a:hover:after,
     align-items: center;
     justify-content: center;
     text-align: center;
+    border-radius: 15px;
 }
 
 .buy-section__box .h4 {
@@ -1108,6 +1110,7 @@ header.header .submenu li a:hover:after,
     width: 100%;
     position: relative;
     z-index: 2;
+    border-radius: 15px;
 }
 
 .whywe__pic p {
@@ -1174,7 +1177,7 @@ footer.footer {
 
 footer.footer .footfig {
     background: url(../image/footer-figure.png) no-repeat 100% 100%;
-    width: 186px;
+    width: 265px;
     height: 265px;
     position: absolute;
     right: 58px;
@@ -1578,7 +1581,7 @@ footer.footer .footfig {
 
 .catalog-productbox__text {
     position: relative;
-    padding: 12px 58px 16px 8px;
+    padding: 12px 80px 16px 8px;
 }
 
 .catalog-productbox__text .title {
@@ -2380,6 +2383,10 @@ footer.footer .footfig {
     max-width: 100%;
     margin: 0 auto 40px;
     display: block;
+}
+
+.blogopen__content a {
+    font-weight: bold;
 }
 
 .blogopen__content p {
@@ -3252,7 +3259,7 @@ footer.footer .footfig {
     text-decoration: none;
     width: auto;
     display: inline-flex;
-    margin-top: 32px;
+
 }
 
 .product-block.product-text img {
@@ -3332,6 +3339,7 @@ footer.footer .footfig {
 .review-form {
     padding: 48px 100px 46px 100px;
     background-color: #F6F8F7;
+    border-radius: 15px;
 }
 
 .review-form .title {
@@ -4898,15 +4906,15 @@ a.ywsl-social {
 }
 .catalog-productbox__pic__sale_discount {
     display: block;
-    background: #182328;
+    background: #188288;
     color: #fff;
     position: absolute;
     bottom: 0;
     right: 0;
     text-align: right;
     text-transform: uppercase;
-    font-size: 16px;
-    padding: 15px 5px 5px 10px;
+    font-size: 40px;
+    padding: 30px 5px 10px 15px;
     border-radius: 100% 0 0 0;
 }
 .catalog-productbox__pic__sale_discount span{

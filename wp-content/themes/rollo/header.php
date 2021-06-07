@@ -21,6 +21,7 @@
 
     <?php wp_head();
     $main_page_id = pll_get_post(2, pll_current_language('slug'));
+	$ln=(pll_current_language()=='ru')?"ru/":"";
     ?>
 </head>
 
@@ -86,6 +87,7 @@
                                                                 $link_cat =  $link2['punkt_cat'];
                                                                 $thumbnail_id = get_woocommerce_term_meta($link_cat, 'thumbnail_id', true);
                                                                 $image = wp_get_attachment_url($thumbnail_id);
+                                                                //test([$link2, $link_cat], 0);
                                                                 if ($link_cat) {
 
                                                         ?>
@@ -94,10 +96,10 @@
 
                                                                 <?
                                                                 } else {
-                                                                    $urlTovara = strpos($link['url'], '/product') ? $link['url'] : str_replace("rollo.net.ua/", "rollo.net.ua/product/", $link['url']);
+         $urlTovara = strpos($link['url'], '/product') ? $link['url'] : str_replace("rollo.net.ua/".$ln, "rollo.net.ua/".$ln."product/", $link['url']);
                                                                     $id_tovara = url_to_postid($urlTovara);
                                                                 ?>
-                                                                    <li><a href="<? echo $link['url'] ?>" data-imghov="<? echo get_the_post_thumbnail_url($id_tovara, 'menium'); ?>" data-texthov="<? echo $link['title'] ?>">
+                                                                    <li><a href="<? echo $link['url'] ?>" data-imghov="<? echo get_the_post_thumbnail_url($id_tovara, 'medium'); ?>" data-texthov="<? echo $link['title'] ?>">
                                                                             <? echo $link['title'] ?></a></li>
 
 
@@ -136,10 +138,11 @@
 
                                                                 <?
                                                                 } else {
-                                                                    $urlTovara = strpos($link['url'], '/product') ? $link['url'] : str_replace("rollo.net.ua/", "rollo.net.ua/product/", $link['url']);
+
+$urlTovara = strpos($link['url'], '/product') ? $link['url'] : str_replace("rollo.net.ua/".$ln, "rollo.net.ua/".$ln."product/", $link['url']);
                                                                     $id_tovara = url_to_postid($urlTovara);
                                                                 ?>
-                                                                    <li><a href="<? echo $link['url'] ?>" data-imghov="<? echo get_the_post_thumbnail_url($id_tovara, 'menium'); ?>" data-texthov="<? echo $link['title'] ?>">
+                                                                    <li><a href="<? echo $link['url'] ?>" data-imghov="<? echo get_the_post_thumbnail_url($id_tovara, 'medium'); ?>" data-texthov="<? echo $link['title'] ?>">
                                                                             <? echo $link['title'] ?></a></li>
 
 
@@ -178,10 +181,11 @@
 
                                                         <?
                                                         } else {
-                                                            $urlTovara = strpos($link['url'], '/product') ? $link['url'] : str_replace("rollo.net.ua/", "rollo.net.ua/product/", $link['url']);
+															
+$urlTovara = strpos($link['url'], '/product') ? $link['url'] : str_replace("rollo.net.ua/".$ln, "rollo.net.ua/".$ln."product/", $link['url']);
                                                             $id_tovara = url_to_postid($urlTovara);
                                                         ?>
-                                                            <li><a href="<? echo $link['url'] ?>" data-imghov="<? echo get_the_post_thumbnail_url($id_tovara, 'menium'); ?>" data-texthov="<? echo $link['title'] ?>">
+                                                            <li><a  href="<? echo $link['url'] ?>" data-imghov="<? echo get_the_post_thumbnail_url($id_tovara, 'medium'); ?>" data-texthov="<? echo $link['title'] ?>">
                                                                     <? echo $link['title'] ?></a></li>
 
 
@@ -198,7 +202,7 @@
                                                 <div class="header__categorypic">
                                                     <figure>
                                                         <div>
-                                                            <img src="" alt="">
+                                                            <img src="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20210%20140%22%3E%3C/svg%3E" alt="" class="no-lazy">
                                                         </div>
                                                         <p class="category-name"></p>
                                                     </figure>
@@ -218,7 +222,7 @@
                                     <? endwhile;    ?>
                                 </ul>
                             </li>
-                            <li><a href="<?php echo esc_url(home_url('/')); ?>blog/">Блог</a></li>
+                            <?php /*<li><a href="<?php echo esc_url(home_url('/')); ?>blog/">Блог</a></li>
                             <li>
                                 <span><?php pll_e("Про нас"); ?></span>
                                 <ul class="submenu sub_about">
@@ -227,7 +231,11 @@
                                         <li><a href="<? echo $link['url']; ?>"><? echo $link['title'] ?></a></li>
                                     <? endwhile; ?>
                                 </ul>
-                            </li>
+                            </li>*/?>
+							<? while (have_rows('menyu_about', $main_page_id)) : the_row();
+                                        $link = get_sub_field('item'); ?>
+                                        <li><a href="<? echo $link['url']; ?>"><? echo $link['title'] ?></a></li>
+                           <? endwhile; ?>
                             <li>
                                 <a class="header_phone" href="tel:<? the_field('telefon', $main_page_id); ?>">
                                     <? the_field('telefon', $main_page_id); ?></a>

@@ -1,11 +1,11 @@
 <nav>
-                <ul class="nostyle-list">
+                <ul class="nostyle-list" itemscope itemtype="https://schema.org/BreadcrumbList">
 
                     <?php if( function_exists('kama_breadcrumbs') ){
                         if (get_locale() == 'ru_RU') {
 						 $myl10n = array(
                             'home'       => 'Главная',
-                            'paged'      => 'Page %d',
+                            'paged'      => '<li>Страница %d</li>',
                             '_404'       => 'Error 404',
                             'search'     => '<li>Результаты поиска - <b>%s</b></li>',
                             'author'     => 'Author archve: <b>%s</b>',
@@ -21,7 +21,7 @@
 						} else {
                         $myl10n = array(
                             'home'       => 'Головна',
-                            'paged'      => 'Page %d',
+                            'paged'      => '<li>Сторінка %d</li>',
                             '_404'       => 'Error 404',
                             'search'     => '<li>Результати пошуку - <b>%s</b></li>',
                             'author'     => 'Author archve: <b>%s</b>',

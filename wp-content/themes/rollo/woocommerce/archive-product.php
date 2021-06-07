@@ -8,7 +8,7 @@
 		* (the theme developer) will need to copy the new files to your theme to
 		* maintain compatibility. We try to do this as little as possible, but it does
 		* happen. When this occurs the version of the template file will be bumped and
-		* the readme will list any important changes.
+		* the readme wilffiltercatl list any important changes.
 		*
 		* @see https://docs.woocommerce.com/document/template-structure/
 		* @package WooCommerce/Templates
@@ -40,8 +40,8 @@
 		<div class="container">
 			<div>
 				<div class="filtercat">
-					<select name="" id="" onchange="window.location.href=this.options[this.selectedIndex].value">
-						<option><?php pll_e("Сортування"); ?></option>
+					<select name="" id="" data-placeholder="<?php pll_e("Сортування"); ?>" onchange="window.location.href=this.options[this.selectedIndex].value">
+					<option></option>
 						<?php dynamic_sidebar( 'prod-sort' ); ?>
 					</select>
 				</div>
@@ -154,13 +154,13 @@
 					</div>
 				</div>
 			</div>
-            <?php if ($category && $category->description) : ?>
-                <div class="row">
+			<p><?php if ($category && $category->description) : ?></p>
+                 <div class="row">
                     <div class="blogopen__content">
-                        <p><?php echo $category->description; ?></p>
-                    </div>
+						<p><?php echo $category->description; ?></p>
+					 </div>
                 </div>
-            <?php endif; ?>
+			<?php endif; ?>
 		</div>
 	</section>
 </main>
@@ -169,4 +169,3 @@
 
 	//get_footer( 'shop' );
 	get_footer();
-
