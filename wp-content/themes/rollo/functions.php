@@ -1069,11 +1069,11 @@ function calculate_product_price($product_id = null, $onlyBasePrice = false) {
         }
     }
     $priceType = get_field('calculate_price_type', $product->get_id());
-    if (!$onlyBasePrice && $priceType && $priceType == 'type4') {
+    if ($hasStandardSize && $standardPrice) {
+        $price = $standardPrice;
+    } else if (!$onlyBasePrice && $priceType && $priceType == 'type4') {
         $price = $product->get_price();
         $price = calculatePriceFunctionType4($price, 500, 1000);
-    } else if ($hasStandardSize && $standardPrice) {
-        $price = $standardPrice;
     } else {
         $price = $product->get_price();
     }
